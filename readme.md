@@ -57,19 +57,13 @@ Beschreibe hier, wo die Reise nach deinem Praxisprojekt hin geht. Was möchtest 
 
 Mit WhatsIn erhältst du beim Scannen eines Produkts sofort Klarheit über Inhaltsstoffe, Allergene, Zuckeranteil – und sogar über den Konzern, zu dem die Marke gehört. So triffst du informierte Entscheidungen beim Einkaufen.
 
----
-
 ## 💡 Was bietet die App?
 
 WhatsIn richtet sich an gesundheitsbewusste Menschen, Allergiker, Veganer – und alle, die wissen möchten, **was genau in einem Produkt steckt** und **wer dahintersteht**. Die App hilft dabei, Zutaten transparent zu machen und zu erkennen, ob ein Produkt z. B. Zucker, Gluten, Milchprodukte oder Palmöl enthält und ob es zu einem Konzern wie Nestlé oder Unilever gehört.
 
----
-
 ## 🎨 Design
 
 *Screenshots*
-
----
 
 ## ✅ Features
 
@@ -103,7 +97,6 @@ Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichte
 -  [OpenBeautyFacts API](https://world.openbeautyfacts.org/)
 → Liefert Inhaltsstoffe, Labels und Zusatzinformationen zu gescannten Produkten (Lebensmittel & Kosmetik)
 
-
 ### 3rd-Party Libraries
 
 - Retrofit - API-Anbindung
@@ -111,8 +104,6 @@ Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichte
 - Room - lokale Datenbank
 - Koin - Dependency Injection
 - Jetpack Compose - moderne UI
-
----
 
 ## 🚀 Geplante Features
 
