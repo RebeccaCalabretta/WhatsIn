@@ -49,3 +49,76 @@ Beschreibe hier, wo die Reise nach deinem Praxisprojekt hin geht. Was möchtest 
 - [ ] Geplantes Feature 1
 - [ ] Geplantes Feature 2
 - [ ] ...
+
+
+
+# WhatsIn  
+**Scanne. Erkenne. Entscheide bewusst.**
+
+Mit WhatsIn erhältst du beim Scannen eines Produkts sofort Klarheit über Inhaltsstoffe, Allergene, Zuckeranteil – und sogar über den Konzern, zu dem die Marke gehört. So triffst du informierte Entscheidungen beim Einkaufen.
+
+---
+
+## 💡 Was bietet die App?
+
+WhatsIn richtet sich an gesundheitsbewusste Menschen, Allergiker, Veganer – und alle, die wissen möchten, **was genau in einem Produkt steckt** und **wer dahintersteht**. Die App hilft dabei, Zutaten transparent zu machen und zu erkennen, ob ein Produkt z. B. Zucker, Gluten, Milchprodukte oder Palmöl enthält und ob es zu einem Konzern wie Nestlé oder Unilever gehört.
+
+---
+
+## 🎨 Design
+
+*Screenshots*
+
+---
+
+## ✅ Features
+
+• 📷 Produkt per Barcode scannen
+• ℹ️ Detaillierte Produktinfos (Zutaten, Allergene, Labels, etc.) auf einen Blick
+• ⚠️ Warnung nach dem Scannen bei Abweichung von benutzerdefinierten Filtern
+• 📌 Verlauf und Favoriten speichern
+• 🔍 Suchfunktion für gespeicherte Produkte
+• 🔁 Offline-Zugriff nach erstem Scan
+
+
+## 🧱 Technischer Aufbau
+
+### Projektstruktur
+
+Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichten:
+
+- `Model` → DTOs und Room-Entities
+- `View` → Jetpack Compose-Screens
+- `ViewModel` → Logik, Scans und Datenverarbeitung
+- `Repository` → Verknüpft API, Room-Datenbank und Konzern-Mapping
+
+### Datenspeicherung
+
+- 📦 **Room-Datenbank** zur lokalen Speicherung gescannter Produkte und Favoriten
+- 📁 **Lokale JSON-Datei** mit Zuordnung: Marke → Konzern; wird bei App-Start von Dropbox geladen und lokal gespeichert
+
+### API Calls
+
+-  [OpenFoodFacts API](https://world.openfoodfacts.org/)
+-  [OpenBeautyFacts API](https://world.openbeautyfacts.org/)
+→ Liefert Inhaltsstoffe, Labels und Zusatzinformationen zu gescannten Produkten (Lebensmittel & Kosmetik)
+
+
+### 3rd-Party Libraries
+
+- Retrofit - API-Anbindung
+- Moshi - JSON-Parsing
+- Room - lokale Datenbank
+- Koin - Dependency Injection
+- Jetpack Compose - moderne UI
+
+---
+
+## 🚀 Geplante Features
+
+- Erweiterung auf Haushalts- und Reinigungsprodukt (OpenProductsFactsApi)
+- Standortabhängige Produktempfehlungen
+- Kartenansicht für gescannte Produkte (um zu sehen, wo welches Produkt gescannt wurde)
+- Empfehlung von Alternativen auf Basis der gewählten Filter
+- Mehrsprachigkeit
+- Eigene Notizen („hat uns geschmeckt“, „komische Konsistenz“, etc.)
