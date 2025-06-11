@@ -67,12 +67,12 @@ WhatsIn richtet sich an gesundheitsbewusste Menschen, Allergiker, Veganer – un
 
 ## ✅ Features
 
-• 📷 Produkt per Barcode scannen
-• ℹ️ Detaillierte Produktinfos (Zutaten, Allergene, Labels, etc.) auf einen Blick
-• ⚠️ Warnung nach dem Scannen bei Abweichung von benutzerdefinierten Filtern
-• 📌 Verlauf und Favoriten speichern
-• 🔍 Suchfunktion für gespeicherte Produkte
-• 🔁 Offline-Zugriff nach erstem Scan
+- 📷 Produkt per Barcode scannen
+- ℹ️ Detaillierte Produktinfos (Zutaten, Allergene, Labels, etc.) auf einen Blick
+- ⚠️ Warnung nach dem Scannen bei Abweichung von benutzerdefinierten Filtern
+- 📌 Verlauf und Favoriten speichern
+- 🔍 Suchfunktion für gespeicherte Produkte
+- 🔁 Offline-Zugriff nach erstem Scan
 
 
 ## 🧱 Technischer Aufbau
