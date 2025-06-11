@@ -95,6 +95,7 @@ Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichte
 
 -  [OpenFoodFacts API](https://world.openfoodfacts.org/)
 -  [OpenBeautyFacts API](https://world.openbeautyfacts.org/)
+  
 → Liefert Inhaltsstoffe, Labels und Zusatzinformationen zu gescannten Produkten (Lebensmittel & Kosmetik)
 
 ### 3rd-Party Libraries
