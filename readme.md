@@ -1,65 +1,13 @@
-# Name der App
-
-**Füge hier einen kurzen, knackigen Slogan ein, um deine App zu bewerben.**
-
-Beschreibe hier in ein paar Sätzen, was deine App bietet.
-
-Für wen ist sie geeignet? Welches Problem löst sie? Was macht deine App anders/besser als andere Apps?
-Vermeide es, hier allzusehr in technische Details zu gehen.
-
-
-## Design
-Füge hier am Ende die Screenshots deiner App ein.
-
-<p>
-  <img src="./img/screen1.png" width="200">
-  <img src="./img/screen2.png" width="200">
-  <img src="./img/screen3.png" width="200">
-</p>
-
-
-## Features
-Hier kommen alle Features rein, welche deine App bietet.
-
-**Tipp: Du kannst diese Punkte mit der Zeit abhaken, sodass am Ende eine vollständige Liste entsteht.**
-
-- [x] Feature 1
-- [x] Feature 2
-- [ ] ...
-
-
-## Technischer Aufbau
-
-#### Projektaufbau
-Eine kurze Beschreibung deiner Ordnerstruktur und Architektur (MVVM, Repositories) um Außenstehenden zu helfen, sich in deinem Projekt zurecht zu finden.
-
-#### Datenspeicherung
-Welche Daten speicherst du? Wo und wie (Firebase, Core Data)? Erkläre hier auch, warum du den jeweiligen Dienst nutzt (offline-first, Sync usw.).
-
-#### API Calls
-Welche APIs verwendest du?
-
-#### 3rd-Party Frameworks
-Verwendest du Frameworks/Libraries, die nicht von dir stammen?
-
-
-## Ausblick
-Beschreibe hier, wo die Reise nach deinem Praxisprojekt hin geht. Was möchtest du in Zukunft noch ergänzen?
-
-- [ ] Geplantes Feature 1
-- [ ] Geplantes Feature 2
-- [ ] ...
 
 
 
 # WhatsIn  
 **Scanne. Erkenne. Entscheide bewusst.**
 
-Mit WhatsIn erhältst du beim Scannen eines Produkts sofort Klarheit über Inhaltsstoffe, Allergene, Zuckeranteil – und sogar über den Konzern, zu dem die Marke gehört. So triffst du informierte Entscheidungen beim Einkaufen.
-
-## 💡 Was bietet die App?
-
-WhatsIn richtet sich an gesundheitsbewusste Menschen, Allergiker, Veganer – und alle, die wissen möchten, **was genau in einem Produkt steckt** und **wer dahintersteht**. Die App hilft dabei, Zutaten transparent zu machen und zu erkennen, ob ein Produkt z. B. Zucker, Gluten, Milchprodukte oder Palmöl enthält und ob es zu einem Konzern wie Nestlé oder Unilever gehört.
+*WhatsIn* ist eine App, mit der per einfachem Barcode-Scan sofort erkennbar wird, was wirklich in Lebensmitteln und Kosmetikprodukten steckt – von Inhaltsstoffen über Allergene bis hin zur Konzernzugehörigkeit.
+Sie ist für alle gedacht, die beim Einkaufen genauer hinsehen – ob aus gesundheitlichen Gründen, aufgrund ihrer Ernährungsweise oder aus Überzeugung.
+Anders als viele andere Apps prüft WhatsIn benutzerdefinierte Filter automatisch beim Scannen und warnt unmittelbar, wenn ein Produkt nicht den festgelegten Kriterien entspricht.
+So hilft die App, informierte Entscheidungen direkt vor Ort zu treffen – schnell, transparent und individuell anpassbar.
 
 ## 🎨 Design
 
@@ -81,10 +29,10 @@ WhatsIn richtet sich an gesundheitsbewusste Menschen, Allergiker, Veganer – un
 
 Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichten:
 
-- `Model` → DTOs und Room-Entities
-- `View` → Jetpack Compose-Screens
-- `ViewModel` → Logik, Scans und Datenverarbeitung
-- `Repository` → Verknüpft API, Room-Datenbank und Konzern-Mapping
+- **Model** → DTOs und Room-Entities
+- **View** → Jetpack Compose-Screens
+- **ViewModel** → Logik, Scans und Datenverarbeitung
+- **Repository** → Verknüpft API, Room-Datenbank und Konzern-Mapping
 
 ### Datenspeicherung
 
@@ -96,7 +44,7 @@ Die App verwendet eine **saubere MVVM-Architektur** mit klar getrennten Schichte
 -  [OpenFoodFacts API](https://world.openfoodfacts.org/)
 -  [OpenBeautyFacts API](https://world.openbeautyfacts.org/)
   
-→ Liefert Inhaltsstoffe, Labels und Zusatzinformationen zu gescannten Produkten (Lebensmittel & Kosmetik)
+→ Liefern Inhaltsstoffe, Labels und Zusatzinformationen zu gescannten Produkten (Lebensmittel & Kosmetik)
 
 ### 3rd-Party Libraries
 
