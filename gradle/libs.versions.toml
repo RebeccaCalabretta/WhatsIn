@@ -1,6 +1,6 @@
 [versions]
-agp = "8.8.2"
-kotlin = "2.1.20"
+agp = "8.10.1"
+kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -12,12 +12,13 @@ navigationCompose = "2.9.0"
 kotlinSerialization = "1.7.3"
 moshiVersion = "1.15.0"
 retrofitVersion = "2.11.0"
-coilCompose = "3.0.0-rc02"
+koinBom = "4.1.0-Beta4"
 datastorePreferences = "1.1.7"
 roomRuntime = "2.7.1"
 kspVersion = "2.0.21-1.0.27"
+coilCompose = "2.6.0"
 cameraX = "1.4.2"
-mlkit = "18.11.0"
+mlkit = "17.2.0"
 loggingInterceptor = "4.9.3"
 
 [libraries]
@@ -41,12 +42,15 @@ kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-seria
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
 converterMoshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofitVersion" }
-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coilCompose" }
-coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coilCompose" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomRuntime" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomRuntime" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraX" }
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraX" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX" }
@@ -60,6 +64,6 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
-

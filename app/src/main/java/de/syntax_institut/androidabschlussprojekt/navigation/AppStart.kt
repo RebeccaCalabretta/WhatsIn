@@ -28,7 +28,11 @@ fun AppStart() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable<ScanRoute>{
-                ScanScreen()
+                ScanScreen(
+                    onNavigateToDetail = { barcode ->
+                    navController.navigate(DetailRoute(barcode))
+                    }
+                )
             }
             composable<FoodListRoute>{
                 FoodListScreen()
