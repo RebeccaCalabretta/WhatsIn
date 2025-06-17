@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +13,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
+import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
 
 @Composable
 fun AppStart() {
@@ -28,9 +30,12 @@ fun AppStart() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable<ScanRoute>{
+                val productViewModel: ProductViewModel = viewModel()
+
                 ScanScreen(
+                    productViewModel = productViewModel,
                     onNavigateToDetail = { barcode ->
-                    navController.navigate(DetailRoute(barcode))
+                        navController.navigate(DetailRoute(barcode))
                     }
                 )
             }
