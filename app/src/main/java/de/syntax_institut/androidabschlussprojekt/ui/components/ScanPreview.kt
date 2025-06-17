@@ -17,10 +17,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
 
 @OptIn(ExperimentalGetImage::class)
 @Composable
-fun ScanPreview(modifier: Modifier = Modifier) {
+fun ScanPreview(
+    modifier: Modifier = Modifier,
+    productViewModel: ProductViewModel,
+    onNavigateToDetail: (String) -> Unit
+) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
@@ -60,10 +65,10 @@ fun ScanPreview(modifier: Modifier = Modifier) {
 
                     barcodeScanner.process(inputImage)
                         .addOnSuccessListener { barcodes ->
-                            barcodes.forEach { barcode ->
-                                barcode.rawValue?.let {
-                                    Log.d("Barcode", "Erkannt: $it")
-                                }
+                            barcodes.firstOrNull()?.rawValue?.also { ean ->
+                                Log.d("Barcode", "Erkannt: $ean")
+                                productViewModel.startScan(ean)
+                                onNavigateToDetail(ean)
                             }
                         }
                         .addOnFailureListener { e ->
@@ -89,7 +94,6 @@ fun ScanPreview(modifier: Modifier = Modifier) {
             } catch (e: Exception) {
                 Log.e("ScanPreview", "Kameraverbindung fehlgeschlagen", e)
             }
-
         }, ContextCompat.getMainExecutor(context))
     }
 }
