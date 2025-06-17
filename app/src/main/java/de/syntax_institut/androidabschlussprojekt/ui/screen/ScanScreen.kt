@@ -14,9 +14,11 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.ScanPreview
+import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
 
 @Composable
 fun ScanScreen(
+    productViewModel: ProductViewModel,
     onNavigateToDetail: (String) -> Unit
 ) {
     Column(
@@ -28,6 +30,8 @@ fun ScanScreen(
         Spacer(Modifier.height(40.dp))
 
         ScanPreview(
+            productViewModel = productViewModel,
+            onNavigateToDetail = onNavigateToDetail,
             modifier = Modifier
                 .size(300.dp)
                 .clipToBounds()
