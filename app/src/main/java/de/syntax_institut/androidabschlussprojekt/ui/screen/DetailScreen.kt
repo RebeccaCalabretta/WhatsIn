@@ -15,9 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
+import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DetailScreen(barcode: String) {
+fun DetailScreen(
+    productViewModel: ProductViewModel = koinViewModel(),
+    barcode: String
+) {
     val product = dummyProduct
 
     Column(

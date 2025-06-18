@@ -18,12 +18,13 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalGetImage::class)
 @Composable
 fun ScanPreview(
     modifier: Modifier = Modifier,
-    productViewModel: ProductViewModel,
+    productViewModel: ProductViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
     val context = LocalContext.current
