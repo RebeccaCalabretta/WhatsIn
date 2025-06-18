@@ -2,7 +2,7 @@ package de.syntax_institut.androidabschlussprojekt.data.remote.model
 
 import com.squareup.moshi.Json
 
-data class Product(
+data class ProductDto(
     @Json(name = "code") val barcode: String,
     @Json(name = "product_name") val name: String?,
     @Json(name = "brands") val brand: String?,

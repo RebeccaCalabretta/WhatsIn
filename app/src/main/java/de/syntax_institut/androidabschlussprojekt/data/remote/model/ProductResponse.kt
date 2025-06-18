@@ -1,5 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.data.remote.model
 
+import com.squareup.moshi.Json
+
 data class ProductResponse(
-    val product: Product?
+    @Json(name = "product") val product: ProductDto?
 )

@@ -56,10 +56,10 @@ fun DetailScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-            Text("Name: ${product.productName}")
+            Text("Name: ${product.name}")
             Text("Marke: ${product.brand}")
             Text("Barcode: ${product.barcode}")
-            Text("Zutaten: ${product.ingredients.joinToString(", ")}")
+            Text("Zutaten: ${product.ingredients}")
         }
     }
 }
