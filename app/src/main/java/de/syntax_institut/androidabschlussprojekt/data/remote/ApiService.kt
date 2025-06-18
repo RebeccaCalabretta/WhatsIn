@@ -24,3 +24,8 @@ interface ApiService  {
     suspend fun getProductByBarcode(@Path("barcode") barcode: String): ProductResponse
 }
 
+object WhatsInAPI {
+    val retrofitService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
