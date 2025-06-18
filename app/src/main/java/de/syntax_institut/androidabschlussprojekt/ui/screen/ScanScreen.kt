@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,8 @@ fun ScanScreen(
     productViewModel: ProductViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
+    Log.d("ScreenSpy", "ScanScreen geladen")
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

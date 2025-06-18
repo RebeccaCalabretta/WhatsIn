@@ -4,8 +4,13 @@ import com.squareup.moshi.Json
 
 data class ProductDto(
     @Json(name = "code") val barcode: String,
+    @Json(name = "product_name_de") val productNameDe: String?,
+    @Json(name = "product_name_en") val productNameEn: String?,
     @Json(name = "product_name") val name: String?,
     @Json(name = "brands") val brand: String?,
     @Json(name = "image_front_url") val imageUrl: String?,
-    @Json(name = "ingredients_text") val ingredients: String?
+    @Json(name = "ingredients_text_de") val ingredientsTextDe: String?,
+    @Json(name = "ingredients_text_en") val ingredientsTextEn: String?,
+    @Json(name = "ingredients_text") val ingredientsText: String?,
+    @Json(name = "nutriments") val nutriments: NutrimentsDto?
 )
