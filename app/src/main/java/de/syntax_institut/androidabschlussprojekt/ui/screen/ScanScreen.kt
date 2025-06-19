@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
-import de.syntax_institut.androidabschlussprojekt.ui.components.ScanPreview
+import de.syntax_institut.androidabschlussprojekt.ui.components.Scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
