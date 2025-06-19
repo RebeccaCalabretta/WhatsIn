@@ -32,9 +32,11 @@ fun ScanScreen(
     val product by productViewModel.selectedProduct.collectAsState()
     val productError by productViewModel.productError.collectAsState()
 
-    LaunchedEffect(product) {
-        product?.let {
-            onNavigateToDetail(it.barcode)
+    LaunchedEffect(product, productError) {
+        val currentProduct = product
+
+        if (currentProduct != null && productError == null) {
+            onNavigateToDetail(currentProduct.barcode)
         }
     }
 
