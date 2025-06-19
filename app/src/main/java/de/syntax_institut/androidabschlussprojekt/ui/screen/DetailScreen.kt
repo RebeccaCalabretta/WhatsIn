@@ -30,7 +30,7 @@ fun DetailScreen(
     productViewModel: ProductViewModel = koinViewModel(),
     barcode: String
 ) {
-    Log.d("ScreenSpy", "DetailScreen geladen mit Barcode $barcode")
+    Log.d("AppFlow", "DetailScreen geladen mit Barcode $barcode")
 
     LaunchedEffect(barcode) {
         productViewModel.getProductByBarcode(barcode)

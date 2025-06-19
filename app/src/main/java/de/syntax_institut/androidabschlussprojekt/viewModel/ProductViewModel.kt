@@ -33,7 +33,7 @@ class ProductViewModel(
     fun startScan(barcode: String) {
         _scannedBarcode.value = barcode
         Log.d("ProductViewModel", "Scan gestartet mit Barcode: $barcode")
-
+        getProductByBarcode(barcode)
     }
 
     fun clearProductError() {
@@ -57,6 +57,4 @@ class ProductViewModel(
             }
         }
     }
-
-
 }

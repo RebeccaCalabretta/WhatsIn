@@ -25,7 +25,6 @@ import org.koin.androidx.compose.koinViewModel
 fun ScanPreview(
     modifier: Modifier = Modifier,
     productViewModel: ProductViewModel = koinViewModel(),
-    onNavigateToDetail: (String) -> Unit
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -35,7 +34,7 @@ fun ScanPreview(
         factory = { previewView },
         modifier = modifier
     ) {
-        Log.d("ScanPreview", "ScanPreview gestartet")
+        Log.d("AppFlow", "ScanPreview gestartet")
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
@@ -66,10 +65,9 @@ fun ScanPreview(
 
                     barcodeScanner.process(inputImage)
                         .addOnSuccessListener { barcodes ->
-                            barcodes.firstOrNull()?.rawValue?.also { ean ->
-                                Log.d("Barcode", "Erkannt: $ean")
-                                productViewModel.startScan(ean)
-                                onNavigateToDetail(ean)
+                            barcodes.firstOrNull()?.rawValue?.also { barcode ->
+                                Log.d("Barcode", "Barcode erkannt: $barcode")
+                                productViewModel.startScan(barcode)
                             }
                         }
                         .addOnFailureListener { e ->
