@@ -9,7 +9,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.Modifier
@@ -29,6 +31,8 @@ fun ScanPreview(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
+
+    val currentViewModel by rememberUpdatedState(productViewModel)
 
     AndroidView(
         factory = { previewView },
@@ -67,7 +71,7 @@ fun ScanPreview(
                         .addOnSuccessListener { barcodes ->
                             barcodes.firstOrNull()?.rawValue?.also { barcode ->
                                 Log.d("Barcode", "Barcode erkannt: $barcode")
-                                productViewModel.startScan(barcode)
+                                currentViewModel.startScan(barcode)
                             }
                         }
                         .addOnFailureListener { e ->
