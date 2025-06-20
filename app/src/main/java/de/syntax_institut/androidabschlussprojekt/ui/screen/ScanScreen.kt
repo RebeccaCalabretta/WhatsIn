@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.Scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
@@ -87,11 +89,9 @@ fun ScanScreen(
             Text("Kamera-Berechtigung erforderlich")
         }
 
-        Spacer(Modifier.height(40.dp))
-
         Text(
             text = "Halte den Barcode vor die Kamera",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,11 +99,13 @@ fun ScanScreen(
                 .wrapContentWidth(Alignment.CenterHorizontally)
         )
 
-       /* Button(onClick = {
+        Spacer(Modifier.height(20.dp))
+
+        Button(onClick = {
             onNavigateToDetail(dummyProduct.barcode)
         }) {
             Text("Scannen")
-        }*/
+        }
 
         if (productError != null) {
             ErrorDialog(

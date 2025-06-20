@@ -4,23 +4,23 @@ import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.model.Product
 
 val dummyProduct = Product(
-    barcode = "4058172786112",
-    name = "dmBio Beeren Crunchy Müsli",
+    barcode = "4058172333378",
+    name = "dmBio Klare Gemüsebrühe",
     brand = "dmBio",
     imageUrl = "",
     ingredients = """
-        Haferflocken 66%, Reissirup, Rapsöl, Zuckerrüben (Zucker),
-        Dinkel-Wheat puffed, Cranberry-Konzentrat 2%,
-        Gefriertrocknete Beeren 1,5%, Zitronensaftkonzentrat, Meersalz
+        Meersalz, Maisstärke*, Gemüse* 13,5 % (Zwiebel*, Karotten*, Sellerie*, Lauch*, Petersilie*),
+        Hefeeextrakt*, Sonnenblumenöl*, Kurkuma*, Muskatnuss*, Liebstöckel*, schwarzer Pfeffer*.
+        *aus biologischer Landwirtschaft
     """.trimIndent(),
     nutriments = Nutriments(
-        energyKcal = 411.0,
-        fat = 14.0,
-        saturatedFat = 1.7,
-        carbohydrates = 58.0,
-        fiber = 7.1,
-        proteins = 9.4,
-        salt = 0.2,
-        sugars = 16.0
+        energyKcal = 214.0,
+        fat = 2.3,
+        saturatedFat = 0.5,
+        carbohydrates = 34.0,
+        fiber = 1.2,
+        proteins = 10.2,
+        salt = 42.0,
+        sugars = 9.8
     )
 )

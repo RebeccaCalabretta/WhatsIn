@@ -16,7 +16,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
 
 @Composable
 fun AppStart() {
-    Log.d("ScreenSpy", "AppStart geladen")
+    Log.d("AppFlow", "AppStart geladen")
 
     val navController = rememberNavController()
 
