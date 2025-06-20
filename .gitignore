@@ -101,3 +101,6 @@ crashlytics-build.properties
 fabric.properties
 ### AndroidStudio Patch ###
 !/gradle/wrapper/gradle-wrapper.jar
+
+.idea/deploymentTargetSelector.xml
+.idea/other.xml

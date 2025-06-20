@@ -31,6 +31,10 @@ class ProductViewModel(
     }
 
     fun startScan(barcode: String) {
+        if (barcode.isBlank()) {
+            Log.d("ProductViewModel", "Ungültiger Barcode")
+            return
+        }
         _scannedBarcode.value = barcode
         Log.d("ProductViewModel", "Scan gestartet mit Barcode: $barcode")
         getProductByBarcode(barcode)
@@ -46,15 +50,27 @@ class ProductViewModel(
         viewModelScope.launch {
             try {
                 val product = repository.fetchProductByBarcode(barcode)
+
+                if (product == null) {
+                    Log.d("ProductViewModel", "Kein Produkt gefunden für Barcode: $barcode")
+                    _selectedProduct.value = null
+                    _productError.value = ProductError.NOT_FOUND
+                    return@launch
+                }
+
                 _selectedProduct.value = product
                 clearProductError()
-                Log.d("ProductViewModel", "Produkt geladen: ${product?.name}")
+                Log.d("ProductViewModel", "Produkt geladen: ${product.name}")
 
             } catch (e: ProductException) {
                 _selectedProduct.value = null
-                _productError.value = e.error
-                Log.e("ProductViewModel", "Fehler beim Laden des Produkts: ${e.message}")
+                handleError(e.error, e.message ?: "Fehler beim Laden des Produkts")
             }
         }
+    }
+
+    private fun handleError(error: ProductError, message: String) {
+        _productError.value = error
+        Log.e("ProductViewModel", message)
     }
 }

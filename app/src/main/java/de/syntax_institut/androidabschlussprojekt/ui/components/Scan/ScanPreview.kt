@@ -26,12 +26,11 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ScanPreview(
     modifier: Modifier = Modifier,
-    productViewModel: ProductViewModel = koinViewModel(),
+    productViewModel: ProductViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
-
     val currentViewModel by rememberUpdatedState(productViewModel)
 
     AndroidView(
@@ -45,10 +44,9 @@ fun ScanPreview(
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
 
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(previewView.surfaceProvider)
-                Log.d("ScanPreview", "Preview erstellt")
-            }
+            val preview = Preview.Builder().build()
+            preview.setSurfaceProvider(previewView.surfaceProvider)
+            Log.d("ScanPreview", "Preview erstellt und SurfaceProvider gesetzt")
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             Log.d("ScanPreview", "Rückkamera ausgewählt")
@@ -61,6 +59,7 @@ fun ScanPreview(
 
             imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(context)) { imageProxy ->
                 val mediaImage = imageProxy.image
+
                 if (mediaImage != null) {
                     val inputImage = InputImage.fromMediaImage(
                         mediaImage,
@@ -69,9 +68,14 @@ fun ScanPreview(
 
                     barcodeScanner.process(inputImage)
                         .addOnSuccessListener { barcodes ->
-                            barcodes.firstOrNull()?.rawValue?.also { barcode ->
-                                Log.d("Barcode", "Barcode erkannt: $barcode")
-                                currentViewModel.startScan(barcode)
+                            val firstBarcode = barcodes.firstOrNull()
+                            val rawValue = firstBarcode?.rawValue
+
+                            if (!rawValue.isNullOrBlank()) {
+                                Log.d("Barcode", "Barcode erkannt: $rawValue")
+                                currentViewModel.startScan(rawValue)
+                            } else {
+                                Log.d("Barcode", "Kein gültiger Barcode erkannt")
                             }
                         }
                         .addOnFailureListener { e ->
