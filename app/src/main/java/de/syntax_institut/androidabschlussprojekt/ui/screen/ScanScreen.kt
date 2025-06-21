@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +30,7 @@ import androidx.core.content.ContextCompat
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.Scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -101,11 +101,12 @@ fun ScanScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        Button(onClick = {
-            onNavigateToDetail(dummyProduct.barcode)
-        }) {
-            Text("Scannen")
-        }
+        GeneralButton(
+            text = "Scannen",
+            onClick = {
+                onNavigateToDetail(dummyProduct.barcode)
+            }
+        )
 
         if (productError != null) {
             ErrorDialog(

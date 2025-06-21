@@ -1,11 +1,14 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.general
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import de.syntax_institut.androidabschlussprojekt.navigation.TabItem
 
@@ -14,21 +17,31 @@ fun BottomNavigationBar(
     selectedTabItem: TabItem,
     onSelectedTabItem: (TabItem) -> Unit
 ) {
-    NavigationBar {
-        TabItem.entries.forEach { item ->
-            NavigationBarItem(
-                selected = selectedTabItem == item,
-                onClick = { onSelectedTabItem(item) },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = item.iconResId),
-                        contentDescription = item.label
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.primaryContainer
+    ) {
+        TabItem.entries
+            .filter { it != TabItem.Scan }
+            .forEach { item ->
+                NavigationBarItem(
+                    selected = selectedTabItem == item,
+                    onClick = { onSelectedTabItem(item) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = item.iconResId),
+                            contentDescription = item.label
+                        )
+                    },
+                    label = { Text(item.label) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary,
+                        selectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedTextColor = MaterialTheme.colorScheme.primary,
+                        indicatorColor = MaterialTheme.colorScheme.secondaryContainer
                     )
-                },
-                label = { Text(text = item.label) },
-                alwaysShowLabel = true,
-                colors = NavigationBarItemDefaults.colors()
-            )
-        }
+                )
+            }
     }
 }

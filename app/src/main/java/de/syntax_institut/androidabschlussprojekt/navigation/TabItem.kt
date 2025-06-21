@@ -8,8 +8,7 @@ enum class TabItem(
     val label: String,
     @DrawableRes val iconResId: Int
 ) {
-    Scan(ScanRoute, "Scan", R.drawable.ic_crop_free),
     Food(FoodListRoute, "Food", R.drawable.ic_fastfood),
-    Beauty(BeautyListRoute, "Beauty", R.drawable.ic_face),
-    Settings(SettingsRoute, "Settings", R.drawable.ic_settings)
+    Scan(ScanRoute, "Scan", R.drawable.ic_crop_free),
+    Beauty(BeautyListRoute, "Beauty", R.drawable.ic_face)
 }
