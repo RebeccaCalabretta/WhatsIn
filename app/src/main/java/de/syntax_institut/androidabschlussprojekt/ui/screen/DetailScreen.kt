@@ -103,7 +103,10 @@ fun DetailScreen(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Nährwerte (pro 100g):", style = MaterialTheme.typography.titleMedium)
-                    Text(product.nutriments.formatNutriments(), style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        product.nutriments.formatNutriments(),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
         }

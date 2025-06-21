@@ -12,4 +12,7 @@ object FoodListRoute
 object BeautyListRoute
 
 @Serializable
+object SettingsRoute
+
+@Serializable
 data class DetailRoute(val barcode: String)
