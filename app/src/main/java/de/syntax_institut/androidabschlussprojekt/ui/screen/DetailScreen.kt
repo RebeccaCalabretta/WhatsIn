@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import de.syntax_institut.androidabschlussprojekt.utils.formatNutriments
-import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -97,7 +97,10 @@ fun DetailScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text("Zutaten:", style = MaterialTheme.typography.titleMedium)
-                        Text(product.ingredients, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            product.ingredientsText ?: "Keine Zutaten verfügbar",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                 }
 

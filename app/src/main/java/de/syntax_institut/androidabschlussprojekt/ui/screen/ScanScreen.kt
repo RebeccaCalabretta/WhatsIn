@@ -31,7 +31,7 @@ import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.Scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
-import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

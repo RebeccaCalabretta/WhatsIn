@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.viewModel
+package de.syntax_institut.androidabschlussprojekt.viewmodel
 
 
 import android.util.Log

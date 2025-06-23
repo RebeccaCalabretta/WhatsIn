@@ -19,7 +19,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import de.syntax_institut.androidabschlussprojekt.viewModel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalGetImage::class)
