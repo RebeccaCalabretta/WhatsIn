@@ -19,6 +19,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
+import de.syntax_institut.androidabschlussprojekt.ui.screen.SettingsScreen
 
 @Composable
 fun AppStart() {
@@ -72,6 +73,9 @@ fun AppStart() {
                 composable<DetailRoute> {
                     val route = it.toRoute<DetailRoute>()
                     DetailScreen(barcode = route.barcode)
+                }
+                composable<SettingsRoute> {
+                    SettingsScreen()
                 }
             }
         }
