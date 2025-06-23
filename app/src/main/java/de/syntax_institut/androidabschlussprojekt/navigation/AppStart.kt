@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.BottomNavigationBar
@@ -27,18 +28,24 @@ fun AppStart() {
     val navController = rememberNavController()
     var selectedTab by rememberSaveable { mutableStateOf(TabItem.Scan) }
 
-    val showFab = selectedTab != TabItem.Scan
+    val currentEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = currentEntry?.destination?.route
+
+    val showBottomBar = currentDestination != FilterRoute::class.qualifiedName
+    val showFab = selectedTab != TabItem.Scan && showBottomBar
 
     Scaffold(
         topBar = { },
         bottomBar = {
-            BottomNavigationBar(
-                selectedTabItem = selectedTab,
-                onSelectedTabItem = {
-                    selectedTab = it
-                    navController.navigate(it.route)
-                }
-            )
+            if (showBottomBar) {
+                BottomNavigationBar(
+                    selectedTabItem = selectedTab,
+                    onSelectedTabItem = {
+                        selectedTab = it
+                        navController.navigate(it.route)
+                    }
+                )
+            }
         },
         floatingActionButton = {
             if (showFab) {
