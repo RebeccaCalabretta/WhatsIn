@@ -9,7 +9,7 @@ fun ProductDto.toProduct(): Product {
         name = productNameDe ?: productNameEn ?: name ?: "Kein Name verfügbar",
         brand = brand ?: "Keine Marke verfügbar",
         imageUrl = imageUrl,
-        ingredients = ingredientsTextDe ?: ingredientsTextEn ?: ingredientsText ?: "Keine Zutaten verfügbar",
+        ingredientsText = ingredientsTextDe ?: ingredientsTextEn ?: ingredientsText ?: "Keine Zutaten verfügbar",
         nutriments = nutriments?.toNutriments() ?: Nutriments(null, null, null, null, null, null, null, null)
     )
 }

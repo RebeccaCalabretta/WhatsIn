@@ -8,7 +8,7 @@ val dummyProduct = Product(
     name = "dmBio Klare Gemüsebrühe",
     brand = "dmBio",
     imageUrl = "",
-    ingredients = """
+    ingredientsText = """
         Meersalz, Maisstärke*, Gemüse* 13,5 % (Zwiebel*, Karotten*, Sellerie*, Lauch*, Petersilie*),
         Hefeeextrakt*, Sonnenblumenöl*, Kurkuma*, Muskatnuss*, Liebstöckel*, schwarzer Pfeffer*.
         *aus biologischer Landwirtschaft

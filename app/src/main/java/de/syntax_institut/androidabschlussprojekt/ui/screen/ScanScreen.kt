@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
-import de.syntax_institut.androidabschlussprojekt.ui.components.Scan.ScanPreview
+import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel

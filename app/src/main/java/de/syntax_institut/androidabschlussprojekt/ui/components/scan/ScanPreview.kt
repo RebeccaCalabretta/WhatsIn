@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.ui.components.Scan
+package de.syntax_institut.androidabschlussprojekt.ui.components.scan
 
 import android.util.Log
 import androidx.annotation.OptIn
