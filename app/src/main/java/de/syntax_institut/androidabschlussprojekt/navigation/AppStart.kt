@@ -76,7 +76,7 @@ fun AppStart() {
                     DetailScreen(barcode = route.barcode)
                 }
                 composable<SettingsRoute> {
-                    SettingsScreen()
+                    SettingsScreen(navController = navController)
                 }
                 composable<FilterRoute> {
                     FilterScreen()
