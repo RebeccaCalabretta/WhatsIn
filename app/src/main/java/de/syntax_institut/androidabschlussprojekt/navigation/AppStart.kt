@@ -17,6 +17,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.general.BottomNa
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GradientFab
 import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
+import de.syntax_institut.androidabschlussprojekt.ui.screen.FilterScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.SettingsScreen
@@ -76,6 +77,9 @@ fun AppStart() {
                 }
                 composable<SettingsRoute> {
                     SettingsScreen()
+                }
+                composable<FilterRoute> {
+                    FilterScreen()
                 }
             }
         }
