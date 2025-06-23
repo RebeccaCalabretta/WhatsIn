@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.BottomNavigationBar
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GradientFab
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.TopBar
 import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyListScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FilterScreen
@@ -35,7 +36,9 @@ fun AppStart() {
     val showFab = selectedTab != TabItem.Scan && showBottomBar
 
     Scaffold(
-        topBar = { },
+        topBar = {
+            TopBar(navController)
+        },
         bottomBar = {
             if (showBottomBar) {
                 BottomNavigationBar(
