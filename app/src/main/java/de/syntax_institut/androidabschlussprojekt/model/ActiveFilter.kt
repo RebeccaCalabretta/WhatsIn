@@ -1,5 +1,8 @@
 package de.syntax_institut.androidabschlussprojekt.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ActiveFilter(
     val allowedLabels: List<String> = emptyList(),
     val allowedNutriScore: List<String> = emptyList(),
