@@ -17,12 +17,12 @@ fun FilterScreen(
 ) {
     val activeFilter = settingsViewModel.activeFilter.collectAsState()
 
-    val availableIngredients = listOf("Palmöl", "Zucker", "Soja")
-    val availableAllergens = listOf("Gluten", "Laktose", "Erdnuss")
+    val availableIngredients = listOf("Palm Oil", "Sugar", "Soy")
+    val availableAllergens = listOf("Gluten", "Lactose", "Peanut")
     val availableAdditives = listOf("E102", "E202", "E330")
-    val availableLabels = listOf("Vegan", "Bio", "Fairtrade")
+    val availableLabels = listOf("Vegan", "Organic", "Fairtrade")
     val availableNutriScores = listOf("A", "B", "C", "D", "E")
-    val availableCountries = listOf("Deutschland", "Österreich", "Schweiz")
+    val availableCountries = listOf("Germany", "Austria", "Suisse")
     val availableBrands = listOf("Nestlé", "Coca-Cola", "Dr. Oetker")
     val availableCorporations = listOf("Nestlé", "Unilever", "PepsiCo")
 
