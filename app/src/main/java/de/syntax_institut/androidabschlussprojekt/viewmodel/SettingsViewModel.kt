@@ -3,32 +3,34 @@ package de.syntax_institut.androidabschlussprojekt.viewmodel
 import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
 class SettingsViewModel(
-    private val context: Context
+    context: Context
 ) : ViewModel() {
+
+    private val dataStore = context.dataStore
 
     private val _activeFilter = MutableStateFlow(ActiveFilter())
     val activeFilter: StateFlow<ActiveFilter> = _activeFilter
 
     private val json = Json {
-        ignoreUnknownKeys = true   // Verhindert Abstürze, wenn das gespeicherte JSON Felder enthält, die ActiveFilter nicht kennt
-        encodeDefaults = true      // Speichert Standardwerte (z.B. leere Listen)
+        ignoreUnknownKeys = true   // Verhindert Abstürze, wenn zusätzliche Felder im gespeicherten JSON auftauchen
+        encodeDefaults = true      // Speichert auch Standardwerte wie leere Listen mit
     }
 
     companion object {
@@ -44,7 +46,7 @@ class SettingsViewModel(
 
     private suspend fun loadFilterFromDataStore() {
         try {
-            val prefs = context.dataStore.data.first()
+            val prefs = dataStore.data.first()
             val jsonString = prefs[ACTIVE_FILTER_KEY]
             val filter = if (jsonString != null) {
                 json.decodeFromString<ActiveFilter>(jsonString)
@@ -62,7 +64,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             try {
                 val jsonString = json.encodeToString(newFilter)
-                context.dataStore.edit { prefs ->
+                dataStore.edit { prefs ->
                     prefs[ACTIVE_FILTER_KEY] = jsonString
                 }
                 _activeFilter.value = newFilter
@@ -71,5 +73,10 @@ class SettingsViewModel(
                 Log.e("SettingsViewModel", "Fehler beim Speichern des Filters", e)
             }
         }
+    }
+
+    fun updateFilter(newFilter: ActiveFilter) {
+        _activeFilter.value = newFilter
+        saveFilterToDataStore(newFilter)
     }
 }

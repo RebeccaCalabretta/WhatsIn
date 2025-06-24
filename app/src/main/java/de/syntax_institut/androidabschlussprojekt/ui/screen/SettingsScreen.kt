@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,9 @@ fun SettingsScreen(
         Row(
             modifier =  Modifier
                 .fillMaxWidth()
+                .background(
+                    color = MaterialTheme.colorScheme.primaryContainer
+                )
                 .clickable { navController.navigate(FilterRoute) }
                 .padding(8.dp)
         ) {
