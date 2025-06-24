@@ -9,6 +9,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
+import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
+import de.syntax_institut.androidabschlussprojekt.helper.FilterType
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +23,8 @@ import kotlinx.serialization.json.Json
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
 class SettingsViewModel(
-    context: Context
+    context: Context,
+    private val filterRepository: FilterRepository
 ) : ViewModel() {
 
     private val dataStore = context.dataStore
@@ -28,8 +32,12 @@ class SettingsViewModel(
     private val _activeFilter = MutableStateFlow(ActiveFilter())
     val activeFilter: StateFlow<ActiveFilter> = _activeFilter
 
+    private val _availableFilters = MutableStateFlow<Map<FilterType, List<FilterItem>>>(emptyMap())
+    val availableFilters: StateFlow<Map<FilterType, List<FilterItem>>> = _availableFilters
+
     private val json = Json {
-        ignoreUnknownKeys = true   // Verhindert Abstürze, wenn zusätzliche Felder im gespeicherten JSON auftauchen
+        ignoreUnknownKeys =
+            true   // Verhindert Abstürze, wenn zusätzliche Felder im gespeicherten JSON auftauchen
         encodeDefaults = true      // Speichert auch Standardwerte wie leere Listen mit
     }
 
@@ -41,6 +49,27 @@ class SettingsViewModel(
         Log.d("SettingsViewModel", "SettingsViewModel gestartet – Filter wird vorbereitet")
         viewModelScope.launch {
             loadFilterFromDataStore()
+            loadAvailableFilters()
+        }
+    }
+
+    private suspend fun loadAvailableFilters() {
+        try {
+            val ingredients = filterRepository.fetchIngredients()
+            val allergens = filterRepository.fetchAllergens()
+            val additives = filterRepository.fetchAdditives()
+            val labels = filterRepository.fetchLabels()
+
+            _availableFilters.value = mapOf(
+                FilterType.INGREDIENTS to ingredients,
+                FilterType.ALLERGENS to allergens,
+                FilterType.ADDITIVES to additives,
+                FilterType.LABELS to labels
+            )
+            Log.d("SettingsViewModel", "Filterwerte erfolgreich geladen")
+
+        } catch (e: Exception) {
+            Log.e("SettingsViewModel", "Fehler beim Laden der Filterwerte", e)
         }
     }
 

@@ -27,7 +27,7 @@ fun FilterScreen(
     val availableCorporations = listOf("Nestlé", "Unilever", "PepsiCo")
 
     val configs = listOf(
-        FilterConfig("Inhaltsstoffe", availableIngredients, activeFilter.value.excludedIngredients) {
+        FilterConfig("Ingredients", availableIngredients, activeFilter.value.excludedIngredients) {
             settingsViewModel.updateFilter(activeFilter.value.copy(excludedIngredients = it))
         },
         FilterConfig("Allergene", availableAllergens, activeFilter.value.excludedAllergens) {
