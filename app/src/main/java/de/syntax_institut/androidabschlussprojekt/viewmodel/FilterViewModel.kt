@@ -13,6 +13,7 @@ import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.helper.FilterType
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
+import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -22,7 +23,7 @@ import kotlinx.serialization.json.Json
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
-class SettingsViewModel(
+class FilterViewModel(
     context: Context,
     private val filterRepository: FilterRepository
 ) : ViewModel() {
@@ -55,16 +56,18 @@ class SettingsViewModel(
 
     private suspend fun loadAvailableFilters() {
         try {
-            val ingredients = filterRepository.fetchIngredients()
             val allergens = filterRepository.fetchAllergens()
             val additives = filterRepository.fetchAdditives()
             val labels = filterRepository.fetchLabels()
+            val countries = filterRepository.fetchCountries()
+            val brands = filterRepository.fetchBrands()
 
             _availableFilters.value = mapOf(
-                FilterType.INGREDIENTS to ingredients,
                 FilterType.ALLERGENS to allergens,
                 FilterType.ADDITIVES to additives,
-                FilterType.LABELS to labels
+                FilterType.LABELS to labels,
+                FilterType.COUNTRIES to countries,
+                FilterType.BRANDS to brands
             )
             Log.d("SettingsViewModel", "Filterwerte erfolgreich geladen")
 
@@ -107,5 +110,43 @@ class SettingsViewModel(
     fun updateFilter(newFilter: ActiveFilter) {
         _activeFilter.value = newFilter
         saveFilterToDataStore(newFilter)
+    }
+
+    fun buildFilterConfigs(): List<FilterConfig> {
+        val active = activeFilter.value
+        val available = availableFilters.value
+
+        return listOf(
+            FilterConfig(
+                title = "Allergens",
+                items = available[FilterType.ALLERGENS]?.map { it.name } ?: emptyList(),
+                selectedItems = active.excludedAllergens,
+                onUpdate = { updateFilter(active.copy(excludedAllergens = it)) }
+            ),
+            FilterConfig(
+                title = "Additives",
+                items = available[FilterType.ADDITIVES]?.map { it.name } ?: emptyList(),
+                selectedItems = active.excludedAdditives,
+                onUpdate = { updateFilter(active.copy(excludedAdditives = it)) }
+            ),
+            FilterConfig(
+                title = "Labels",
+                items = available[FilterType.LABELS]?.map { it.name } ?: emptyList(),
+                selectedItems = active.allowedLabels,
+                onUpdate = { updateFilter(active.copy(allowedLabels = it)) }
+            ),
+            FilterConfig(
+                title = "Available in",
+                items = available[FilterType.COUNTRIES]?.map { it.name } ?: emptyList(),
+                selectedItems = active.allowedCountry,
+                onUpdate = { updateFilter(active.copy(allowedCountry = it)) }
+            ),
+            FilterConfig(
+                title = "Brands",
+                items = available[FilterType.BRANDS]?.map { it.name } ?: emptyList(),
+                selectedItems = active.excludedBrands,
+                onUpdate = { updateFilter(active.copy(excludedBrands = it)) }
+            )
+        )
     }
 }

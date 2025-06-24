@@ -6,7 +6,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProduct
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
-import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -25,5 +25,5 @@ val appModule = module {
     }
 
     viewModelOf(::ProductViewModel)
-    viewModelOf(::SettingsViewModel)
+    viewModelOf(::FilterViewModel)
 }

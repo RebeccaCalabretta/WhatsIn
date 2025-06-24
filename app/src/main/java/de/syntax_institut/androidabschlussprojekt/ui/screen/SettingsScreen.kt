@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
-import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
-    settingsViewModel: SettingsViewModel = koinViewModel(),
+    filterViewModel: FilterViewModel = koinViewModel(),
     navController: NavController
 ) {
     Column(

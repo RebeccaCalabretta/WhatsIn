@@ -3,85 +3,46 @@ package de.syntax_institut.androidabschlussprojekt.ui.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
-import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FilterScreen(
-    settingsViewModel: SettingsViewModel = koinViewModel()
+    filterViewModel: FilterViewModel = koinViewModel()
 ) {
-    val activeFilter = settingsViewModel.activeFilter.collectAsState()
+    val configs = filterViewModel.buildFilterConfigs()
 
-    val availableIngredients = listOf("Palm Oil", "Sugar", "Soy")
-    val availableAllergens = listOf("Gluten", "Lactose", "Peanut")
-    val availableAdditives = listOf("E102", "E202", "E330")
-    val availableLabels = listOf("Vegan", "Organic", "Fairtrade")
-    val availableNutriScores = listOf("A", "B", "C", "D", "E")
-    val availableCountries = listOf("Germany", "Austria", "Suisse")
-    val availableBrands = listOf("Nestlé", "Coca-Cola", "Dr. Oetker")
-    val availableCorporations = listOf("Nestlé", "Unilever", "PepsiCo")
+    if (configs.isEmpty()) {
+        CircularProgressIndicator()
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            configs.forEach { config ->
+                FilterSection(
+                    title = config.title,
+                    items = config.items,
+                    selectedItems = config.selectedItems,
+                    onToggleItem = { item ->
+                        val updated = if (item in config.selectedItems) {
+                            config.selectedItems - item
+                        } else {
+                            config.selectedItems + item
+                        }
+                            .distinct()
+                            .filter { it.isNotBlank() }
 
-    val configs = listOf(
-        FilterConfig("Ingredients", availableIngredients, activeFilter.value.excludedIngredients) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(excludedIngredients = it))
-        },
-        FilterConfig("Allergene", availableAllergens, activeFilter.value.excludedAllergens) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(excludedAllergens = it))
-        },
-        FilterConfig("Additives", availableAdditives, activeFilter.value.excludedAdditives) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(excludedAdditives = it))
-        },
-        FilterConfig("Labels", availableLabels, activeFilter.value.allowedLabels) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(allowedLabels = it))
-        },
-        FilterConfig("Nutri-Score", availableNutriScores, activeFilter.value.allowedNutriScore) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(allowedNutriScore = it))
-        },
-        FilterConfig("Available in", availableCountries, activeFilter.value.allowedCountry) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(allowedCountry = it))
-        },
-        FilterConfig("brands", availableBrands, activeFilter.value.excludedBrands) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(excludedBrands = it))
-        },
-        FilterConfig("Konzerne", availableCorporations, activeFilter.value.excludedCorporations) {
-            settingsViewModel.updateFilter(activeFilter.value.copy(excludedCorporations = it))
-        }
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        configs.forEach { config ->
-            FilterSection(
-                title = config.title,
-                items = config.items,
-                selectedItems = config.selectedItems,
-                onToggleItem = { item ->
-                    val updated = if (item in config.selectedItems) {
-                        config.selectedItems - item
-                    } else {
-                        config.selectedItems + item
+                        config.onUpdate(updated)
                     }
-                        .distinct()
-                        .filter { it.isNotBlank() }
-
-                    config.onUpdate(updated)
-                }
-            )
+                )
+            }
         }
     }
 }
-
-data class FilterConfig(
-    val title: String,
-    val items: List<String>,
-    val selectedItems: List<String>,
-    val onUpdate: (List<String>) -> Unit
-)

@@ -33,8 +33,11 @@ interface ApiService {
     @GET("allergens.json")
     suspend fun getAllergens(): FilterListResponse
 
-    @GET("ingredients.json")
-    suspend fun getIngredients(): FilterListResponse
+    @GET("countries.json")
+    suspend fun getCountries(): FilterListResponse
+
+    @GET("brands.json")
+    suspend fun getBrands(): FilterListResponse
 }
 
 object WhatsInAPI {
