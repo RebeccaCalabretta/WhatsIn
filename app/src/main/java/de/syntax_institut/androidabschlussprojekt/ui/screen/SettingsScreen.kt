@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
@@ -35,10 +36,11 @@ fun SettingsScreen(
             modifier =  Modifier
                 .fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.primaryContainer
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .clickable { navController.navigate(FilterRoute) }
-                .padding(8.dp)
+                .padding(12.dp)
         ) {
             Text("Filter Options", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
