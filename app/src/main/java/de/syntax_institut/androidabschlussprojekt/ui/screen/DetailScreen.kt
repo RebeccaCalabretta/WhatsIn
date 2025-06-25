@@ -52,6 +52,12 @@ fun DetailScreen(
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
 
+    LaunchedEffect(product) {
+        if (product != null) {
+            filterViewModel.validateProduct(product)
+        }
+    }
+
     if (product == null) {
         Box(
             modifier = Modifier.fillMaxSize(),
