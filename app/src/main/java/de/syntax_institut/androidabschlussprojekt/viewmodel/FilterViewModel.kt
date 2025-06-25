@@ -34,6 +34,9 @@ class FilterViewModel(
     private val _availableFilters = MutableStateFlow<Map<FilterType, List<FilterItem>>>(emptyMap())
     val availableFilters: StateFlow<Map<FilterType, List<FilterItem>>> = _availableFilters
 
+    private val _filterViolations = MutableStateFlow<List<String>>(emptyList())
+    val filterViolations: StateFlow<List<String>> = _filterViolations
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
@@ -188,5 +191,10 @@ class FilterViewModel(
         }
 
         return violations
+    }
+
+    fun validateProduct(product: Product) {
+        val filter = _activeFilter.value
+        _filterViolations.value = checkFilter(product, filter)
     }
 }
