@@ -9,6 +9,7 @@ import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.helper.FilterType
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
+import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
 import de.syntax_institut.androidabschlussprojekt.utils.filter.loadFilterFromDataStore
 import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareGenericItems
@@ -22,11 +23,10 @@ import kotlinx.serialization.json.Json
 
 
 class FilterViewModel(
-    appContext: Context,
+    private val context: Context,
     private val filterRepository: FilterRepository
 ) : ViewModel() {
 
-    private val context = appContext.applicationContext
 
     private val _activeFilter = MutableStateFlow(ActiveFilter())
     val activeFilter: StateFlow<ActiveFilter> = _activeFilter
@@ -139,5 +139,54 @@ class FilterViewModel(
                 corporationsToggle
             )
         )
+    }
+
+    fun checkFilter(product: Product, filter: ActiveFilter): List<String> {
+        val violations = mutableListOf<String>()
+
+        val matchedAllergens = product.allergensTags.intersect(filter.excludedAllergens.toSet())
+        if (matchedAllergens.isNotEmpty()) {
+            violations.add("Contains excluded allergen(s): ${matchedAllergens.joinToString()}")
+        }
+
+        val matchedAdditives = product.additivesTags.intersect(filter.excludedAdditives.toSet())
+        if (matchedAdditives.isNotEmpty()) {
+            violations.add("Contains excluded additive(s): ${matchedAdditives.joinToString()}")
+        }
+
+        val matchedIngredients = product.ingredientsTags.intersect(filter.excludedIngredients.toSet())
+        if (matchedIngredients.isNotEmpty()) {
+            violations.add("Contains excluded ingredient(s): ${matchedIngredients.joinToString()}")
+        }
+
+        if (!product.brand.isNullOrBlank() && product.brand in filter.excludedBrands) {
+            violations.add("Brand is excluded: ${product.brand}")
+        }
+
+        if (!product.corporation.isNullOrBlank() && product.corporation in filter.excludedCorporations) {
+            violations.add("Corporation is excluded: ${product.corporation}")
+        }
+
+        if (filter.allowedLabels.isNotEmpty()) {
+            val matchedLabels = product.labelsTags.intersect(filter.allowedLabels.toSet())
+            if (matchedLabels.isEmpty()) {
+                violations.add("Required label(s) missing")
+            }
+        }
+
+        if (filter.allowedNutriScore.isNotEmpty()) {
+            if (product.nutriScore?.lowercase() !in filter.allowedNutriScore.map { it.lowercase() }) {
+                violations.add("Nutri-Score is not allowed: ${product.nutriScore}")
+            }
+        }
+
+        if (filter.allowedCountry.isNotEmpty()) {
+            val matchedCountries = product.countriesTags.intersect(filter.allowedCountry.toSet())
+            if (matchedCountries.isEmpty()) {
+                violations.add("Not available in selected countries")
+            }
+        }
+
+        return violations
     }
 }
