@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.ui.components.filter
+package de.syntax_institut.androidabschlussprojekt.utils.filter
 
 data class FilterConfig(
     val title: String,
