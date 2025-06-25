@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.syntax_institut.androidabschlussprojekt.data.filter.StaticFilterValues
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.helper.FilterType
@@ -36,10 +37,12 @@ class FilterViewModel(
     private val _availableFilters = MutableStateFlow<Map<FilterType, List<FilterItem>>>(emptyMap())
     val availableFilters: StateFlow<Map<FilterType, List<FilterItem>>> = _availableFilters
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private val json = Json {
-        ignoreUnknownKeys =
-            true   // Verhindert Abstürze, wenn zusätzliche Felder im gespeicherten JSON auftauchen
-        encodeDefaults = true      // Speichert auch Standardwerte wie leere Listen mit
+        ignoreUnknownKeys = true
+        encodeDefaults = true
     }
 
     companion object {
@@ -47,7 +50,7 @@ class FilterViewModel(
     }
 
     init {
-        Log.d("SettingsViewModel", "SettingsViewModel gestartet – Filter wird vorbereitet")
+        Log.d("FilterViewModel", "FilterViewModel gestartet – Filter wird vorbereitet")
         viewModelScope.launch {
             loadFilterFromDataStore()
             loadAvailableFilters()
@@ -55,24 +58,35 @@ class FilterViewModel(
     }
 
     private suspend fun loadAvailableFilters() {
+        _isLoading.value = true
         try {
             val allergens = filterRepository.fetchAllergens()
+            Log.d("FilterViewModel", "fetchAllergens() erfolgreich")
+
             val additives = filterRepository.fetchAdditives()
-            val labels = filterRepository.fetchLabels()
+            Log.d("FilterViewModel", "fetchAdditives() erfolgreich")
+
             val countries = filterRepository.fetchCountries()
+            Log.d("FilterViewModel", "fetchCountries() erfolgreich")
+
             val brands = filterRepository.fetchBrands()
+            Log.d("FilterViewModel", "fetchBrands() erfolgreich")
 
             _availableFilters.value = mapOf(
                 FilterType.ALLERGENS to allergens,
                 FilterType.ADDITIVES to additives,
-                FilterType.LABELS to labels,
                 FilterType.COUNTRIES to countries,
                 FilterType.BRANDS to brands
             )
-            Log.d("SettingsViewModel", "Filterwerte erfolgreich geladen")
+
+            availableFilters.value.forEach { (type, items) ->
+                Log.d("FilterViewModel", "Loaded $type items: ${items.take(3)}")
+            }
 
         } catch (e: Exception) {
-            Log.e("SettingsViewModel", "Fehler beim Laden der Filterwerte", e)
+            Log.e("FilterViewModel", "Fehler beim Laden der Filterwerte", e)
+        } finally {
+            _isLoading.value = false
         }
     }
 
@@ -86,9 +100,9 @@ class FilterViewModel(
                 ActiveFilter()
             }
             _activeFilter.value = filter
-            Log.d("SettingsViewModel", "Filter erfolgreich geladen: $filter")
+            Log.d("FilterViewModel", "Filter erfolgreich geladen: $filter")
         } catch (e: Exception) {
-            Log.e("SettingsViewModel", "Fehler beim Laden des Filters", e)
+            Log.e("FilterViewModel", "Fehler beim Laden des Filters", e)
         }
     }
 
@@ -100,9 +114,9 @@ class FilterViewModel(
                     prefs[ACTIVE_FILTER_KEY] = jsonString
                 }
                 _activeFilter.value = newFilter
-                Log.d("SettingsViewModel", "Filter erfolgreich gespeichert: $newFilter")
+                Log.d("FilterViewModel", "Filter erfolgreich gespeichert: $newFilter")
             } catch (e: Exception) {
-                Log.e("SettingsViewModel", "Fehler beim Speichern des Filters", e)
+                Log.e("FilterViewModel", "Fehler beim Speichern des Filters", e)
             }
         }
     }
@@ -116,37 +130,128 @@ class FilterViewModel(
         val active = activeFilter.value
         val available = availableFilters.value
 
+        fun prepareItemsWithAll(
+            rawItems: List<String>,
+            selected: List<String>,
+            allLabel: String
+        ): Pair<List<String>, (String) -> Unit> {
+            val cleaned = rawItems
+                .filter { it.isNotBlank() && it.firstOrNull()?.isUpperCase() == true }
+                .distinct()
+
+            val selectedSet = selected.toSet()
+            val (selectedItems, unselectedItems) = cleaned.partition { it in selectedSet }
+
+            val sorted = buildList {
+                add(allLabel)
+                addAll(selectedItems.sorted())
+                addAll(unselectedItems.sorted())
+            }
+
+            val toggle: (String) -> Unit = { item ->
+                val current = selected.toMutableList()
+                when {
+                    item == allLabel && allLabel !in current -> {
+                        current.clear()
+                        current.add(allLabel)
+                        current.addAll(cleaned)
+                    }
+                    item == allLabel -> {
+                        current.clear()
+                    }
+                    item in current -> {
+                        current.remove(item)
+                        current.remove(allLabel)
+                    }
+                    else -> {
+                        current.add(item)
+                        current.remove(allLabel)
+                    }
+                }
+                updateFilter(
+                    when (allLabel) {
+                        "All Allergens" -> active.copy(excludedAllergens = current)
+                        "All Additives" -> active.copy(excludedAdditives = current)
+                        else -> active
+                    }
+                )
+            }
+
+            return sorted to toggle
+        }
+
+        fun prepareGenericItems(
+            rawItems: List<String>,
+            selected: List<String>,
+            onUpdate: (List<String>) -> Unit
+        ): Pair<List<String>, (String) -> Unit> {
+            val cleaned = rawItems
+                .filter { it.isNotBlank() && it.firstOrNull()?.isUpperCase() == true }
+                .distinct()
+
+            val (selectedItems, unselectedItems) = cleaned.partition { it in selected }
+
+            val sorted = selectedItems.sorted() + unselectedItems.sorted()
+
+            val toggle: (String) -> Unit = { item ->
+                val updated = if (item in selected) selected - item else selected + item
+                onUpdate(updated)
+            }
+
+            return sorted to toggle
+        }
+
+        val (ingredientsItems, ingredientsToggle) = prepareGenericItems(
+            StaticFilterValues.ingredients,
+            active.excludedIngredients
+        ) { updateFilter(active.copy(excludedIngredients = it)) }
+
+        val (allergensItems, allergensToggle) = prepareItemsWithAll(
+            available[FilterType.ALLERGENS]?.mapNotNull { it.name } ?: emptyList(),
+            active.excludedAllergens,
+            "All Allergens"
+        )
+
+        val (additivesItems, additivesToggle) = prepareItemsWithAll(
+            available[FilterType.ADDITIVES]?.mapNotNull { it.name } ?: emptyList(),
+            active.excludedAdditives,
+            "All Additives"
+        )
+
+        val (labelsItems, labelsToggle) = prepareGenericItems(
+            StaticFilterValues.labels,
+            active.allowedLabels
+        ) { updateFilter(active.copy(allowedLabels = it)) }
+
+        val (countriesItems, countriesToggle) = prepareGenericItems(
+            available[FilterType.COUNTRIES]?.mapNotNull { it.name } ?: emptyList(),
+            active.allowedCountry
+        ) { updateFilter(active.copy(allowedCountry = it)) }
+
+        val (brandsItems, brandsToggle) = prepareGenericItems(
+            available[FilterType.BRANDS]?.mapNotNull { it.name } ?: emptyList(),
+            active.excludedBrands
+        ) { updateFilter(active.copy(excludedBrands = it)) }
+
+        val (nutriScoreItems, nutriScoreToggle) = prepareGenericItems(
+            StaticFilterValues.nutriScore,
+            active.allowedNutriScore
+        ) { updateFilter(active.copy(allowedNutriScore = it)) }
+
+        val (corporationsItems, corporationsToggle) = prepareGenericItems(
+            StaticFilterValues.corporations,
+            active.excludedCorporations
+        ) { updateFilter(active.copy(excludedCorporations = it)) }
+
         return listOf(
-            FilterConfig(
-                title = "Allergens",
-                items = available[FilterType.ALLERGENS]?.map { it.name } ?: emptyList(),
-                selectedItems = active.excludedAllergens,
-                onUpdate = { updateFilter(active.copy(excludedAllergens = it)) }
-            ),
-            FilterConfig(
-                title = "Additives",
-                items = available[FilterType.ADDITIVES]?.map { it.name } ?: emptyList(),
-                selectedItems = active.excludedAdditives,
-                onUpdate = { updateFilter(active.copy(excludedAdditives = it)) }
-            ),
-            FilterConfig(
-                title = "Labels",
-                items = available[FilterType.LABELS]?.map { it.name } ?: emptyList(),
-                selectedItems = active.allowedLabels,
-                onUpdate = { updateFilter(active.copy(allowedLabels = it)) }
-            ),
-            FilterConfig(
-                title = "Available in",
-                items = available[FilterType.COUNTRIES]?.map { it.name } ?: emptyList(),
-                selectedItems = active.allowedCountry,
-                onUpdate = { updateFilter(active.copy(allowedCountry = it)) }
-            ),
-            FilterConfig(
-                title = "Brands",
-                items = available[FilterType.BRANDS]?.map { it.name } ?: emptyList(),
-                selectedItems = active.excludedBrands,
-                onUpdate = { updateFilter(active.copy(excludedBrands = it)) }
-            )
+            FilterConfig("Avoid Ingredients", ingredientsItems, active.excludedIngredients, ingredientsToggle),
+            FilterConfig("Avoid Allergens", allergensItems, active.excludedAllergens, allergensToggle),
+            FilterConfig("Avoid Additives", additivesItems, active.excludedAdditives, additivesToggle),
+            FilterConfig("Select Labels", labelsItems, active.allowedLabels, labelsToggle),
+            FilterConfig("Available in", countriesItems, active.allowedCountry, countriesToggle),
+            FilterConfig("Avoid Brands", brandsItems, active.excludedBrands, brandsToggle),
+            FilterConfig("Nutri-Score", nutriScoreItems, active.allowedNutriScore, nutriScoreToggle),
+            FilterConfig("Avoid Corporations", corporationsItems, active.excludedCorporations, corporationsToggle)
         )
     }
 }

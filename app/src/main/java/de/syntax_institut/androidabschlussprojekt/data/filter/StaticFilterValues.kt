@@ -1,0 +1,98 @@
+package de.syntax_institut.androidabschlussprojekt.data.filter
+
+object StaticFilterValues {
+
+    val labels = listOf(
+        "No Added Sugar",
+        "Low Sugar",
+        "Low Carb",
+        "Low Fat",
+        "Low Salt",
+        "Gluten-Free",
+        "Lactose-Free",
+        "Dairy-Free",
+        "Soy-Free",
+        "Nut-Free",
+        "Vegan",
+        "Vegetarian",
+        "Kosher",
+        "Halal",
+        "Cruelty-Free",
+        "Organic",
+        "EU Organic",
+        "Biodynamic",
+        "Non-GMO",
+        "No Palm Oil",
+        "Carbon Neutral",
+        "Plastic-Free",
+        "BPA-Free",
+        "Eco-Friendly",
+        "Rainforest Alliance",
+        "Sustainably Sourced",
+        "Preservative-Free",
+        "Colorant-Free",
+        "Artificial Flavor-Free",
+        "Sulphite-Free",
+        "MSG-Free",
+        "No Artificial Sweeteners"
+    )
+
+    val ingredients = listOf(
+        "Sugar",
+        "Palm oil",
+        "Milk",
+        "Eggs",
+        "Gluten",
+        "Wheat",
+        "Lactose",
+        "Soy",
+        "Peanuts",
+        "Hazelnuts",
+        "Almonds",
+        "Cashews",
+        "Walnuts",
+        "Pistachios",
+        "Corn",
+        "Gelatin",
+        "Artificial sweeteners",
+        "Coloring",
+        "Preservatives",
+        "Flavor enhancers",
+        "MSG",
+        "Fructose",
+        "Maltodextrin",
+        "Aspartame",
+        "Sucralose",
+        "Sorbitol",
+        "Xylitol",
+        "Acesulfame K",
+        "Erythritol",
+        "Carrageenan",
+        "Glucose syrup",
+        "High fructose corn syrup",
+        "Coconut",
+        "Shellfish",
+        "Crustaceans",
+        "Fish",
+        "Mustard",
+        "Celery",
+        "Sesame",
+        "Lupin",
+        "Sulphur dioxide",
+        "Caffeine",
+        "Alcohol"
+    )
+
+    val nutriScore = listOf("A", "B", "C", "D", "E")
+
+    val corporations = listOf(
+        "Nestlé",
+        "Unilever",
+        "PepsiCo",
+        "Coca-Cola",
+        "Mondelez",
+        "Danone",
+        "Mars",
+        "Kellogg's"
+    )
+}
