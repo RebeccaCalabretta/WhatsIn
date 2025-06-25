@@ -1,6 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
-import de.syntax_institut.androidabschlussprojekt.data.remote.ApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
@@ -8,7 +8,7 @@ import de.syntax_institut.androidabschlussprojekt.model.Product
 import retrofit2.HttpException
 
 class DefaultProductRepository(
-    private val api: ApiService
+    private val api: ProductApiService
 ) : ProductRepository {
 
     override suspend fun fetchProductByBarcode(barcode: String): Product {
