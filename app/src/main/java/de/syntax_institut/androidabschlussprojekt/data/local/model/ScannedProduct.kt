@@ -2,6 +2,8 @@ package de.syntax_institut.androidabschlussprojekt.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import de.syntax_institut.androidabschlussprojekt.model.Nutriments
+import de.syntax_institut.androidabschlussprojekt.model.Product
 
 @Entity
 data class ScannedProduct(
@@ -15,3 +17,26 @@ data class ScannedProduct(
     val additives: String? = null,
     val labels: String? = null
 )
+
+fun ScannedProduct.toProduct(): Product {
+    return Product(
+        barcode = barcode,
+        name = name,
+        imageUrl = imageUrl,
+        productType = productType,
+
+        ingredientsTags = ingredients?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        allergensTags = allergens?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        additivesTags = additives?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        labelsTags = labels?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+
+        brand = null,
+        corporation = null,
+        ingredientsText = null,
+        additivesText = null,
+        allergensText = null,
+        nutriScore = null,
+        nutriments = Nutriments(),
+        countriesTags = emptyList()
+    )
+}
