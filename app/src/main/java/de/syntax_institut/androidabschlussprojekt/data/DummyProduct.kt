@@ -5,9 +5,9 @@ import de.syntax_institut.androidabschlussprojekt.model.Product
 
 val dummyProduct = Product(
     barcode = "4058172333378",
-    name = "dmBio Klare Gemüsebrühe",
+    name = "Gemüsebrühe",
     brand = "dmBio",
-    imageUrl = "",
+    imageUrl = "https://images.openfoodfacts.org/images/products/405/817/233/3378/front_de.37.400.jpg",
     ingredientsText = """
         Meersalz, Maisstärke*, Gemüse* 13,5 % (Zwiebel*, Karotten*, Sellerie*, Lauch*, Petersilie*),
         Hefeeextrakt*, Sonnenblumenöl*, Kurkuma*, Muskatnuss*, Liebstöckel*, schwarzer Pfeffer*.
