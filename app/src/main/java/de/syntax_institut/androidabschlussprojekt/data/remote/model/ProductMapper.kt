@@ -10,6 +10,11 @@ fun ProductDto.toProduct(): Product {
         brand = brand ?: "Keine Marke verfügbar",
         imageUrl = imageUrl,
         ingredientsText = ingredientsTextDe ?: ingredientsTextEn ?: ingredientsText ?: "Keine Zutaten verfügbar",
-        nutriments = nutriments?.toNutriments() ?: Nutriments(null, null, null, null, null, null, null, null)
-    )
+        nutriScore = nutritionGrades ?: "Unbekannt",
+        nutriments = nutriments?.toNutriments() ?: Nutriments(),
+
+        labelsTags = labelsTags.orEmpty(),
+        additivesTags = additivesTags.orEmpty(),
+        allergensTags = allergensTags.orEmpty(),
+        countriesTags = countriesTags.orEmpty()    )
 }

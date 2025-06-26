@@ -12,5 +12,11 @@ data class ProductDto(
     @Json(name = "ingredients_text_de") val ingredientsTextDe: String?,
     @Json(name = "ingredients_text_en") val ingredientsTextEn: String?,
     @Json(name = "ingredients_text") val ingredientsText: String?,
-    @Json(name = "nutriments") val nutriments: NutrimentsDto?
+    @Json(name = "nutriments") val nutriments: NutrimentsDto?,
+    @Json(name = "labels_tags") val labelsTags: List<String>?,
+    @Json(name = "additives_tags") val additivesTags: List<String>?,
+    @Json(name = "allergens_tags") val allergensTags: List<String>?,
+    @Json(name = "nutrition_grades") val nutritionGrades: String?,
+    @Json(name = "countries_tags") val countriesTags: List<String>?
+
 )

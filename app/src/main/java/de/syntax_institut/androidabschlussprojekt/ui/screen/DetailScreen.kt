@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductLabelSection
 import de.syntax_institut.androidabschlussprojekt.utils.formatNutriments
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
@@ -48,29 +49,21 @@ fun DetailScreen(
         productViewModel.getProductByBarcode(barcode)
     }
 
-    val filterViolations by filterViewModel.filterViolations.collectAsState()
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
+    val filterViolations by filterViewModel.filterViolations.collectAsState()
 
     LaunchedEffect(product) {
-        if (product != null) {
-            filterViewModel.validateProduct(product)
-        }
+        product?.let { filterViewModel.validateProduct(it) }
     }
 
     if (product == null) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+
             if (!product.imageUrl.isNullOrBlank()) {
                 AsyncImage(
                     model = product.imageUrl,
@@ -81,9 +74,11 @@ fun DetailScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
             if (filterViolations.isEmpty()) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
                         contentDescription = "Kriterien erfüllt",
@@ -93,12 +88,12 @@ fun DetailScreen(
                     Text("Kriterien erfüllt", style = MaterialTheme.typography.bodyMedium)
                 }
             } else {
-                Column {
+                Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = "Kriterien nicht erfüllt",
-                            tint = Color(0xFFFF9800)
+                            tint = Color(0xFFF44336)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text("Kriterien nicht erfüllt", style = MaterialTheme.typography.bodyMedium)
@@ -110,36 +105,30 @@ fun DetailScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Text(product.name ?: "Unbekannt", style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(product.brand ?: "Keine Marke", style = MaterialTheme.typography.bodyMedium)
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            ProductLabelSection(product.labelsTags)
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    )
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("Name: ${product.name}")
-                        Text("Marke: ${product.brand}")
-                    }
-                }
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text("Zutaten:", style = MaterialTheme.typography.titleMedium)
                         Text(
-                            product.ingredientsText ?: "Keine Zutaten verfügbar",
+                            product.ingredientsText ?: "Keine Angaben",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -147,9 +136,7 @@ fun DetailScreen(
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text("Nährwerte (pro 100g):", style = MaterialTheme.typography.titleMedium)
@@ -157,6 +144,29 @@ fun DetailScreen(
                             product.nutriments.formatNutriments(),
                             style = MaterialTheme.typography.bodyMedium
                         )
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text("Zusatzstoffe: ${product.additivesTags.ifEmpty { listOf("Keine") }.joinToString()}")
+                        Text("Allergene: ${product.allergensTags.ifEmpty { listOf("Keine") }.joinToString()}")
+                        Text("Nutri-Score: ${product.nutriScore ?: "Unbekannt"}")
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text("Konzern: ${product.corporation ?: "Nicht zugeordnet"}")
                     }
                 }
             }

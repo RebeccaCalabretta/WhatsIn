@@ -12,7 +12,7 @@ val Orange20 = Color(0xFFFBECDE)
 val Orange10 = Color(0xFFFFF3E0)
 
 val OrangeContainerDark = Orange90
-val SecondaryContainerDark = Color(0xFF2A2A2A)
+val SecondaryContainerDark = Color(0xFF5F3107)
 
 // Textfarben auf Cards
 val OnOrangeContainerLight = Color(0xFF3B2200)
