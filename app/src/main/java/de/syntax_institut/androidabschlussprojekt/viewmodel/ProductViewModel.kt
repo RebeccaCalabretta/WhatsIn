@@ -62,6 +62,9 @@ class ProductViewModel(
                 clearProductError()
                 Log.d("ProductViewModel", "Produkt geladen: ${product.name}")
 
+                repository.saveScannedProduct(product)
+                Log.d("ProductViewModel", "Produkt wurde gespeichert: ${product.name}")
+
             } catch (e: ProductException) {
                 _selectedProduct.value = null
                 handleError(e.error, e.message ?: "Fehler beim Laden des Produkts")
