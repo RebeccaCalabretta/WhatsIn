@@ -1,5 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.model
 
+import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
+
 data class Product(
     val barcode: String,
     val name: String? = null,
@@ -17,5 +19,21 @@ data class Product(
     val additivesTags: List<String> = emptyList(),
     val allergensTags: List<String> = emptyList(),
     val labelsTags: List<String> = emptyList(),
-    val countriesTags: List<String> = emptyList()
+    val countriesTags: List<String> = emptyList(),
+
+    val productType: String = "food"
 )
+
+fun Product.toScannedProduct(): ScannedProduct {
+    return ScannedProduct(
+        barcode = barcode,
+        name = name ?: "Unbekannt",
+        imageUrl = imageUrl,
+        timestamp = System.currentTimeMillis(),
+        productType = productType,
+        ingredients = ingredientsTags.joinToString(";"),
+        allergens = allergensTags.joinToString(";"),
+        additives = additivesTags.joinToString(";"),
+        labels = labelsTags.joinToString(";")
+    )
+}

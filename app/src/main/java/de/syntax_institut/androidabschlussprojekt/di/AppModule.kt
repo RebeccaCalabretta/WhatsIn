@@ -1,5 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.di
 
+import de.syntax_institut.androidabschlussprojekt.data.local.AppDatabase
+import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
 import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApi
@@ -10,6 +12,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.FilterReposito
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -23,8 +26,20 @@ val appModule = module {
         FilterApi.service
     }
 
+
+    single<AppDatabase> {
+        AppDatabase.getDatabase(androidContext())
+    }
+
+    single<ScannedProductDao> {
+        get<AppDatabase>().scannedProductDao()
+    }
+
     single<ProductRepository> {
-        DefaultProductRepository(api = get())
+        DefaultProductRepository(
+            api = get(),
+            scannedProductDao = get()
+        )
     }
 
     single<FilterRepository> {
