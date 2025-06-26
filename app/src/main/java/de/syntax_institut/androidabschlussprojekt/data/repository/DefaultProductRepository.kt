@@ -1,6 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
 import android.util.Log
+import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
 import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.toProduct
@@ -8,6 +9,7 @@ import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 
@@ -55,5 +57,9 @@ class DefaultProductRepository(
             Log.e("ProductRepository", "Fehler beim Speichern: ${e.message}")
             throw ProductException(ProductError.DATABASE)
         }
+    }
+
+    override suspend fun getScannedProducts(): Flow<List<ScannedProduct>> {
+        return scannedProductDao.getAll()
     }
 }
