@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,10 +30,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
+import de.syntax_institut.androidabschlussprojekt.ui.components.ProductCard
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,6 +44,7 @@ fun ScanScreen(
     onNavigateToDetail: (String) -> Unit
 ) {
     val context = LocalContext.current
+    val scannedProducts by productViewModel.scannedProducts.collectAsState()
 
     var hasCameraPermission by remember {
         mutableStateOf(
@@ -113,6 +118,29 @@ fun ScanScreen(
                 message = productError!!.message,
                 onDismiss = { productViewModel.clearProductError() }
             )
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            item {
+                Text(
+                    "Verlauf",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            items(items = scannedProducts) { scannedProduct ->
+                ProductCard(
+                    product = scannedProduct.toProduct(),
+                    isFilterMatch = true,
+                    onClick = { onNavigateToDetail(scannedProduct.barcode) }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }
