@@ -4,11 +4,13 @@ package de.syntax_institut.androidabschlussprojekt.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -22,8 +24,25 @@ class ProductViewModel(
     private val _scannedBarcode = MutableStateFlow<String?>(null)
     val scannedBarcode = _scannedBarcode.asStateFlow()
 
+    private val _scannedProducts = MutableStateFlow<List<ScannedProduct>>(emptyList())
+    val scannedProducts: StateFlow<List<ScannedProduct>> = _scannedProducts
+
     private val _productError = MutableStateFlow<ProductError?>(null)
     val productError = _productError.asStateFlow()
+
+    init {
+        loadScannedProducts()
+    }
+
+    private fun loadScannedProducts() {
+        viewModelScope.launch {
+            repository.getScannedProducts()
+                .collect { products ->
+                    _scannedProducts.value = products
+                    Log.d("ProductViewModel", "Scanned products geladen (${products.size})")
+                }
+        }
+    }
 
     fun selectProduct(product: Product) {
         _selectedProduct.value = product
