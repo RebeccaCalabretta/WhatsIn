@@ -16,16 +16,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,9 +57,13 @@ fun DetailScreen(
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
     val filterViolations by filterViewModel.filterViolations.collectAsState()
+    var showFilterDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(product) {
-        product?.let { filterViewModel.validateProduct(it) }
+        product?.let {
+            filterViewModel.validateProduct(it)
+            showFilterDialog = filterViewModel.filterViolations.value.isNotEmpty()
+        }
     }
 
     if (product == null) {
@@ -62,6 +71,18 @@ fun DetailScreen(
             CircularProgressIndicator()
         }
     } else {
+        if (showFilterDialog) {
+            AlertDialog(
+                onDismissRequest = { showFilterDialog = false },
+                confirmButton = {
+                    TextButton(onClick = { showFilterDialog = false }) {
+                        Text("OK")
+                    }
+                },
+                title = { Text("Achtung") },
+                text = { Text("Dieses Produkt entspricht nicht deinen Filterkriterien.") }
+            )
+        }
         Column(modifier = Modifier.fillMaxSize()) {
 
             if (!product.imageUrl.isNullOrBlank()) {
@@ -155,8 +176,16 @@ fun DetailScreen(
                         modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Text("Zusatzstoffe: ${product.additivesTags.ifEmpty { listOf("Keine") }.joinToString()}")
-                        Text("Allergene: ${product.allergensTags.ifEmpty { listOf("Keine") }.joinToString()}")
+                        Text(
+                            "Zusatzstoffe: ${
+                                product.additivesTags.ifEmpty { listOf("Keine") }.joinToString()
+                            }"
+                        )
+                        Text(
+                            "Allergene: ${
+                                product.allergensTags.ifEmpty { listOf("Keine") }.joinToString()
+                            }"
+                        )
                         Text("Nutri-Score: ${product.nutriScore ?: "Unbekannt"}")
                     }
                 }
@@ -165,7 +194,10 @@ fun DetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
-                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Text("Konzern: ${product.corporation ?: "Nicht zugeordnet"}")
                     }
                 }
