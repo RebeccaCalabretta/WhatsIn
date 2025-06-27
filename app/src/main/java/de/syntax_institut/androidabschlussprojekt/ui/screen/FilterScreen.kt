@@ -22,9 +22,8 @@ fun FilterScreen(
 ) {
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
-    val availableFilters by filterViewModel.availableFilters.collectAsState()
 
-    val configs = remember(activeFilter, availableFilters) {
+    val configs = remember(activeFilter) {
         filterViewModel.buildFilterConfigs()
     }
 

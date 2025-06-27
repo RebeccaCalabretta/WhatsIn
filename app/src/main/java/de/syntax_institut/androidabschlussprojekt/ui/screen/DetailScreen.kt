@@ -36,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductLabelSection
 import de.syntax_institut.androidabschlussprojekt.utils.formatNutriments
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
@@ -83,6 +85,7 @@ fun DetailScreen(
                 text = { Text("Dieses Produkt entspricht nicht deinen Filterkriterien.") }
             )
         }
+
         Column(modifier = Modifier.fillMaxSize()) {
 
             if (!product.imageUrl.isNullOrBlank()) {
@@ -121,7 +124,7 @@ fun DetailScreen(
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     filterViolations.forEach {
-                        Text("• $it", style = MaterialTheme.typography.bodySmall)
+                        Text("\u2022 $it", style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
@@ -130,6 +133,10 @@ fun DetailScreen(
                 Text(product.name ?: "Unbekannt", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(product.brand ?: "Keine Marke", style = MaterialTheme.typography.bodyMedium)
+                if (!product.corporation.isNullOrBlank()) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text("Konzern: ${product.corporation}", style = MaterialTheme.typography.bodyMedium)
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -147,9 +154,52 @@ fun DetailScreen(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text("Zutaten:", style = MaterialTheme.typography.titleMedium)
+                        Text("Zutaten", style = MaterialTheme.typography.titleMedium)
+                        Spacer(Modifier.height(8.dp))
+                        Text(product.ingredientsText ?: "Keine Angaben", style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Nährwerte (pro 100g)", style = MaterialTheme.typography.titleMedium)
+                        Spacer(Modifier.height(8.dp))
+                        Text(product.nutriments.formatNutriments(), style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Text("Zusatzstoffe", style = MaterialTheme.typography.titleMedium)
                         Text(
-                            product.ingredientsText ?: "Keine Angaben",
+                            product.additivesTags
+                                .takeUnless { it.isEmpty() }
+                                ?.joinToString { AdditiveMapper.map(it) }
+                                ?: "Keine",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text("Allergene", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            product.allergensTags
+                                .takeUnless { it.isEmpty() }
+                                ?.joinToString { AllergenMapper.map(it) }
+                                ?: "Keine",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text("Nutri-Score", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            product.nutriScore?.trim()?.uppercase() ?: "Unbekannt",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -160,45 +210,9 @@ fun DetailScreen(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text("Nährwerte (pro 100g):", style = MaterialTheme.typography.titleMedium)
-                        Text(
-                            product.nutriments.formatNutriments(),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(
-                            "Zusatzstoffe: ${
-                                product.additivesTags.ifEmpty { listOf("Keine") }.joinToString()
-                            }"
-                        )
-                        Text(
-                            "Allergene: ${
-                                product.allergensTags.ifEmpty { listOf("Keine") }.joinToString()
-                            }"
-                        )
-                        Text("Nutri-Score: ${product.nutriScore ?: "Unbekannt"}")
-                    }
-                }
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text("Konzern: ${product.corporation ?: "Nicht zugeordnet"}")
+                        Text("Konzern", style = MaterialTheme.typography.titleMedium)
+                        Spacer(Modifier.height(8.dp))
+                        Text(product.corporation ?: "Nicht zugeordnet", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }

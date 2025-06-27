@@ -91,4 +91,7 @@ object IngredientMapper {
     )
 
     fun map(tag: String): String? = ingredientMap[tag]
+
+    fun allGermanValues(): List<String> = ingredientMap.values.sorted()
+
 }

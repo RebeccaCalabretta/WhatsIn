@@ -1,65 +1,50 @@
 package de.syntax_institut.androidabschlussprojekt.utils.filter
 
-
-fun List<String>.cleanAndDistinct(): List<String> =
-    this.filter { it.isNotBlank() && it.firstOrNull()?.isUpperCase() == true }
-        .distinct()
-
-fun prepareItemsWithAll(
+fun prepareFilterItems(
     rawItems: List<String>,
     selected: List<String>,
-    allLabel: String,
-    update: (List<String>) -> Unit
+    update: (List<String>) -> Unit,
+    allLabel: String? = null,
+    map: (String) -> String = { it }
 ): Pair<List<String>, (String) -> Unit> {
-    val cleaned = rawItems.cleanAndDistinct()
-    val (selectedItems, unselectedItems) = cleaned.partition { it in selected }
 
-    val sorted = buildList {
-        add(allLabel)
-        addAll(selectedItems.sorted())
-        addAll(unselectedItems.sorted())
+    val cleanItems = rawItems.filter { it.isNotBlank() }.distinct()
+
+    val sortedItems = buildList {
+        allLabel?.let { add(it) }
+        addAll(selected.intersect(cleanItems).sorted())
+        addAll(cleanItems.minus(selected).sorted())
     }
 
-    val toggle: (String) -> Unit = { item ->
+    val visibleItems = sortedItems.map { map(it) }
+
+    val onToggle: (String) -> Unit = { clicked ->
+        val tag = cleanItems.find { map(it) == clicked } ?: clicked
         val current = selected.toMutableList()
+
         when {
-            item == allLabel && allLabel !in current -> {
-                current.clear()
-                current.add(allLabel)
-                current.addAll(cleaned)
+            clicked == allLabel -> {
+                if (allLabel !in current) {
+                    current.clear()
+                    current.add(allLabel)
+                    current.addAll(cleanItems)
+                } else {
+                    current.clear()
+                }
             }
-
-            item == allLabel -> current.clear()
-            item in current -> {
-                current.remove(item)
-                current.remove(allLabel)
+            tag in current -> {
+                current.remove(tag)
+                allLabel?.let { current.remove(it) }
             }
-
             else -> {
-                current.add(item)
-                current.remove(allLabel)
+                current.add(tag)
+                allLabel?.let { current.remove(it) }
             }
         }
+
         update(current)
     }
 
-    return sorted to toggle
+    return visibleItems to onToggle
 }
 
-fun prepareGenericItems(
-    rawItems: List<String>,
-    selected: List<String>,
-    update: (List<String>) -> Unit
-): Pair<List<String>, (String) -> Unit> {
-    val cleaned = rawItems.cleanAndDistinct()
-    val (selectedItems, unselectedItems) = cleaned.partition { it in selected }
-
-    val sorted = selectedItems.sorted() + unselectedItems.sorted()
-
-    val toggle: (String) -> Unit = { item ->
-        val updated = if (item in selected) selected - item else selected + item
-        update(updated)
-    }
-
-    return sorted to toggle
-}
