@@ -103,4 +103,6 @@ object AdditiveMapper {
     )
 
     fun map(tag: String): String = additiveMap[tag] ?: tag.removePrefix("en:")
+
+    fun allGermanValues(): List<String> = additiveMap.values.sorted()
 }

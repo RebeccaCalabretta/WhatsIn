@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
+
 object LabelMapper {
     private val labelMap = mapOf(
         "en:no-added-sugar" to "Ohne Zuckerzusatz",
@@ -30,4 +31,8 @@ object LabelMapper {
     )
 
     fun map(tag: String): String? = labelMap[tag]
+
+    fun allGermanValues(): List<String> = labelMap.values.sorted()
+
+    fun reverseMap(label: String): String? = labelMap.entries.find { it.value == label }?.key
 }

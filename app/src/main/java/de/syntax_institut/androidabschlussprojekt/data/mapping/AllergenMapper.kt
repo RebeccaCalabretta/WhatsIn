@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
+
 object AllergenMapper {
 
     private val allergenMap = mapOf(
@@ -93,4 +94,5 @@ object AllergenMapper {
     )
 
     fun map(tag: String): String = allergenMap[tag] ?: tag.removePrefix("en:")
+    fun allGermanValues(): List<String> = allergenMap.values.sorted()
 }

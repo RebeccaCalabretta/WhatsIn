@@ -134,4 +134,5 @@ object BrandMapper {
     )
 
     fun map(tag: String): String = brandMap[tag] ?: tag.removePrefix("xx:")
+    fun allGermanValues(): List<String> = brandMap.values.sorted()
 }

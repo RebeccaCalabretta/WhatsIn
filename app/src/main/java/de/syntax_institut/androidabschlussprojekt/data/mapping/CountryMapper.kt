@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
+
 object CountryMapper {
     private val countryMap = mapOf(
         "en:france" to "Frankreich",
@@ -48,4 +49,7 @@ object CountryMapper {
     fun map(tag: String): String? = countryMap[tag]
 
     fun allGermanValues(): List<String> = countryMap.values.sorted()
+
+    fun reverseMap(label: String): String? = countryMap.entries.find { it.value == label }?.key
+
 }

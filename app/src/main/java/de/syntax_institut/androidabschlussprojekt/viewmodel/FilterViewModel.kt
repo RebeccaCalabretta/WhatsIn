@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.filter.StaticFilterValues
+import de.syntax_institut.androidabschlussprojekt.data.mapping.CountryMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.IngredientMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
@@ -120,47 +121,49 @@ class FilterViewModel(
     fun checkFilter(product: Product, filter: ActiveFilter): List<String> {
         val violations = mutableListOf<String>()
 
-        val matchedAllergens = product.allergensTags.intersect(filter.excludedAllergens.toSet())
-        if (matchedAllergens.isNotEmpty()) {
-            violations.add("Enthält ausgeschlossene Allergene: ${matchedAllergens.joinToString()}")
-        }
+        product.ingredientsTags
+            .intersect(filter.excludedIngredients.toSet())
+            .takeIf { it.isNotEmpty() }
+            ?.let { violations.add("Beinhaltet ausgeschlossene Zutaten: ${it.joinToString()}") }
 
-        val matchedAdditives = product.additivesTags.intersect(filter.excludedAdditives.toSet())
-        if (matchedAdditives.isNotEmpty()) {
-            violations.add("Enthält ausgeschlossene Zusatzstoffe: ${matchedAdditives.joinToString()}")
-        }
+        product.allergensTags
+            .intersect(filter.excludedAllergens.toSet())
+            .takeIf { it.isNotEmpty() }
+            ?.let { violations.add("Beinhaltet ausgeschlossene Allergene: ${it.joinToString()}") }
 
-        val matchedIngredients = product.ingredientsTags.intersect(filter.excludedIngredients.toSet())
-        if (matchedIngredients.isNotEmpty()) {
-            violations.add("Enthält ausgeschlossene Zutaten: ${matchedIngredients.joinToString()}")
-        }
+        product.additivesTags
+            .intersect(filter.excludedAdditives.toSet())
+            .takeIf { it.isNotEmpty() }
+            ?.let { violations.add("Beinhaltet ausgeschlossene Zusatzstoffe: ${it.joinToString()}") }
 
-        if (!product.brand.isNullOrBlank() && product.brand in filter.excludedBrands) {
-            violations.add("Marke ist ausgeschlossen: ${product.brand}")
-        }
+        product.brand?.takeIf { it in filter.excludedBrands }
+            ?.let { violations.add("Marke ausgeschlossen: $it") }
 
-        if (!product.corporation.isNullOrBlank() && product.corporation in filter.excludedCorporations) {
-            violations.add("Konzern ist ausgeschlossen: ${product.corporation}")
-        }
+        product.corporation?.takeIf { it in filter.excludedCorporations }
+            ?.let { violations.add("Konzern ausgeschlossen: $it") }
 
         if (filter.allowedLabels.isNotEmpty()) {
-            val matchedLabels = product.labelsTags.intersect(filter.allowedLabels.toSet())
-            if (matchedLabels.isEmpty()) {
-                violations.add("Erforderliche Label fehlen")
+            val matched = product.labelsTags.mapNotNull { LabelMapper.map(it) }
+            val required = filter.allowedLabels
+            val missing = required.filter { it !in matched }
+            if (missing.isNotEmpty()) {
+                violations.add("Erforderliche Labels fehlen: ${missing.joinToString()}")
             }
         }
 
         if (filter.allowedNutriScore.isNotEmpty()) {
-            val score = product.nutriScore?.trim()?.uppercase()
+            val score = product.nutriScore?.uppercase()
             if (score !in filter.allowedNutriScore.map { it.uppercase() }) {
-                violations.add("Nutri-Score nicht erlaubt: ${score ?: "Unbekannt"}")
+                violations.add("Nicht erlaubter Nutri-Score: $score")
             }
         }
 
         if (filter.allowedCountry.isNotEmpty()) {
-            val matchedCountries = product.countriesTags.intersect(filter.allowedCountry.toSet())
-            if (matchedCountries.isEmpty()) {
-                violations.add("Nicht verfügbar in den ausgewählten Ländern")
+            val matched = product.countriesTags.mapNotNull { CountryMapper.map(it) }
+            val required = filter.allowedCountry
+            val common = matched.intersect(required.toSet())
+            if (common.isEmpty()) {
+                violations.add("Nicht verfügbar in: ${required.joinToString()}")
             }
         }
 

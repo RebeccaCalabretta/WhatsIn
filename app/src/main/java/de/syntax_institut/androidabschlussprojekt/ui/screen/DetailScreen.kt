@@ -43,7 +43,11 @@ fun DetailScreen(
 
     LaunchedEffect(product) {
         product?.let {
+            Log.d("FilterCheck", "Produkt Tags: ${it.countriesTags}")
+            Log.d("FilterCheck", "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}")
+
             filterViewModel.validateProduct(it)
+
             showFilterDialog = filterViewModel.filterViolations.value.isNotEmpty()
         }
     }
