@@ -6,10 +6,10 @@ import kotlinx.serialization.Serializable
 object ScanRoute
 
 @Serializable
-object FoodListRoute
+object FoodRoute
 
 @Serializable
-object BeautyListRoute
+object BeautyRoute
 
 @Serializable
 object SettingsRoute

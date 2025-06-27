@@ -15,9 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import de.syntax_institut.androidabschlussprojekt.navigation.BeautyListRoute
+import de.syntax_institut.androidabschlussprojekt.navigation.BeautyRoute
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
-import de.syntax_institut.androidabschlussprojekt.navigation.FoodListRoute
+import de.syntax_institut.androidabschlussprojekt.navigation.FoodRoute
 import de.syntax_institut.androidabschlussprojekt.navigation.ScanRoute
 import de.syntax_institut.androidabschlussprojekt.navigation.SettingsRoute
 
@@ -30,16 +30,16 @@ fun TopBar(navController: NavController) {
     val showBackButton = currentDestination != ScanRoute::class.qualifiedName
     val showSettingsIcon =
         currentDestination == ScanRoute::class.qualifiedName ||
-                currentDestination == FoodListRoute::class.qualifiedName ||
-                currentDestination == BeautyListRoute::class.qualifiedName ||
+                currentDestination == FoodRoute::class.qualifiedName ||
+                currentDestination == BeautyRoute::class.qualifiedName ||
                 currentDestination?.contains("DetailRoute") == true
 
     val title = when {
         currentDestination == ScanRoute::class.qualifiedName -> "What's In"
         currentDestination == SettingsRoute::class.qualifiedName -> "Settings"
         currentDestination == FilterRoute::class.qualifiedName -> "Filter Options"
-        currentDestination == FoodListRoute::class.qualifiedName -> "Food List"
-        currentDestination == BeautyListRoute::class.qualifiedName -> "Beauty List"
+        currentDestination == FoodRoute::class.qualifiedName -> "Food List"
+        currentDestination == BeautyRoute::class.qualifiedName -> "Beauty List"
         currentDestination?.contains("DetailRoute") == true -> "Product Details"
         else -> ""
     }

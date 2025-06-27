@@ -19,22 +19,25 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.ProductCard
 @Composable
 fun ScanHistory(
     scannedProducts: List<ScannedProduct>,
-    onNavigateToDetail: (String) -> Unit
+    onNavigateToDetail: (String) -> Unit,
+    title: String? = "Verlauf"
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        item {
-            Text(
-                "Verlauf",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+        if (!title.isNullOrBlank()) {
+            item {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
         }
 
-        items(items = scannedProducts) { scannedProduct ->
+        items(scannedProducts) { scannedProduct ->
             ProductCard(
                 product = scannedProduct.toProduct(),
                 isFilterMatch = true,

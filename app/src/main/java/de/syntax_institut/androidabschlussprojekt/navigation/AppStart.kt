@@ -17,10 +17,10 @@ import androidx.navigation.toRoute
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.BottomNavigationBar
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GradientFab
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.TopBar
-import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyListScreen
+import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FilterScreen
-import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodListScreen
+import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.SettingsScreen
 
@@ -75,11 +75,19 @@ fun AppStart() {
                         }
                     )
                 }
-                composable<FoodListRoute> {
-                    FoodListScreen()
+                composable<FoodRoute> {
+                    FoodScreen(
+                        onNavigateToDetail = { barcode ->
+                            navController.navigate(DetailRoute(barcode))
+                        }
+                    )
                 }
-                composable<BeautyListRoute> {
-                    BeautyListScreen()
+                composable<BeautyRoute> {
+                    BeautyScreen(
+                        onNavigateToDetail = { barcode ->
+                            navController.navigate(DetailRoute(barcode))
+                        }
+                    )
                 }
                 composable<DetailRoute> {
                     val route = it.toRoute<DetailRoute>()
