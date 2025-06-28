@@ -1,7 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.general
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -14,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import de.syntax_institut.androidabschlussprojekt.ui.theme.FabGradientDark
-import de.syntax_institut.androidabschlussprojekt.ui.theme.FabGradientLight
+import de.syntax_institut.androidabschlussprojekt.ui.theme.ButtonGradient
 
 @Composable
 fun GradientFab(
@@ -23,8 +21,6 @@ fun GradientFab(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val fabBrush = if (isSystemInDarkTheme()) FabGradientDark else FabGradientLight
-
     FloatingActionButton(
         onClick = onClick,
         containerColor = Color.Transparent,
@@ -36,7 +32,7 @@ fun GradientFab(
             modifier = Modifier
                 .size(56.dp)
                 .background(
-                    brush = fabBrush,
+                    brush = ButtonGradient,
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center

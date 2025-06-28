@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import de.syntax_institut.androidabschlussprojekt.ui.theme.ButtonGradientBrush
+import de.syntax_institut.androidabschlussprojekt.ui.theme.ButtonGradient
 
 @Composable
 fun GeneralButton(
@@ -25,14 +25,14 @@ fun GeneralButton(
         modifier = modifier
             .shadow(6.dp, RoundedCornerShape(24.dp), clip = false)
             .clip(RoundedCornerShape(24.dp))
-            .background(brush = ButtonGradientBrush)
+            .background(brush = ButtonGradient)
     ) {
         Button(
             onClick = onClick,
             shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-            modifier = Modifier,
-            contentPadding = PaddingValues(0.dp)
+            contentPadding = PaddingValues(0.dp),
+            modifier = Modifier
         ) {
             Text(
                 text = text,
