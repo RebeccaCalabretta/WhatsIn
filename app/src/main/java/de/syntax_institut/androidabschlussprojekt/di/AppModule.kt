@@ -10,6 +10,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultFilterR
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import org.koin.android.ext.koin.androidContext
@@ -48,4 +49,5 @@ val appModule = module {
 
     viewModelOf(::ProductViewModel)
     viewModelOf(::FilterViewModel)
+    viewModelOf(::ScanViewModel)
 }

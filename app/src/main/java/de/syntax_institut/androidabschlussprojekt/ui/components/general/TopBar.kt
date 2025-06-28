@@ -36,11 +36,11 @@ fun TopBar(navController: NavController) {
 
     val title = when {
         currentDestination == ScanRoute::class.qualifiedName -> "What's In"
-        currentDestination == SettingsRoute::class.qualifiedName -> "Settings"
-        currentDestination == FilterRoute::class.qualifiedName -> "Filter Options"
-        currentDestination == FoodRoute::class.qualifiedName -> "Food List"
-        currentDestination == BeautyRoute::class.qualifiedName -> "Beauty List"
-        currentDestination?.contains("DetailRoute") == true -> "Product Details"
+        currentDestination == SettingsRoute::class.qualifiedName -> "Einstellungen"
+        currentDestination == FilterRoute::class.qualifiedName -> "Filter Optionen"
+        currentDestination == FoodRoute::class.qualifiedName -> "Lebensmittel Sammlung"
+        currentDestination == BeautyRoute::class.qualifiedName -> "Kosmetik Sammlung"
+        currentDestination?.contains("DetailRoute") == true -> "Produkt Details"
         else -> ""
     }
 

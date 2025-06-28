@@ -4,27 +4,15 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
@@ -33,15 +21,23 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralB
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanHistory
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ScanScreen(
     productViewModel: ProductViewModel = koinViewModel(),
+    scanViewModel: ScanViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val previewView = remember { PreviewView(context) }
+
     val scannedProducts by productViewModel.scannedProducts.collectAsState()
+    val scannedBarcode by scanViewModel.scannedBarcode.collectAsState()
+    val product by productViewModel.selectedProduct.collectAsState()
+    val productError by productViewModel.productError.collectAsState()
 
     var hasCameraPermission by remember {
         mutableStateOf(
@@ -64,13 +60,22 @@ fun ScanScreen(
         }
     }
 
-    val product by productViewModel.selectedProduct.collectAsState()
-    val productError by productViewModel.productError.collectAsState()
+    LaunchedEffect(scannedBarcode) {
+        scannedBarcode?.let {
+            productViewModel.startScan(it)
+            scanViewModel.resetScan()
+        }
+    }
 
     LaunchedEffect(product, productError) {
-        val currentProduct = product
-        if (currentProduct != null && productError == null) {
-            onNavigateToDetail(currentProduct.barcode)
+        if (product != null && productError == null) {
+            onNavigateToDetail(product!!.barcode)
+        }
+    }
+
+    if (hasCameraPermission) {
+        LaunchedEffect(previewView) {
+            scanViewModel.setupCamera(context, lifecycleOwner, previewView)
         }
     }
 
@@ -82,10 +87,10 @@ fun ScanScreen(
 
         if (hasCameraPermission) {
             ScanPreview(
-                productViewModel = productViewModel,
                 modifier = Modifier
                     .size(300.dp)
-                    .clipToBounds()
+                    .clipToBounds(),
+                previewView = previewView
             )
         } else {
             Text("Kamera-Berechtigung erforderlich")
@@ -110,12 +115,13 @@ fun ScanScreen(
             }
         )
 
-        if (productError != null) {
+        productError?.let {
             ErrorDialog(
-                message = productError!!.message,
+                message = it.message,
                 onDismiss = { productViewModel.clearProductError() }
             )
         }
+
         ScanHistory(
             scannedProducts = scannedProducts,
             onNavigateToDetail = onNavigateToDetail

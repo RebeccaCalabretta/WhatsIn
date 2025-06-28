@@ -107,14 +107,14 @@ class FilterViewModel(
         )
 
         return listOf(
-            FilterConfig("Exclude Ingredients", ingredients, active.excludedIngredients, ingredientsToggle),
-            FilterConfig("Exclude Allergens", allergens, active.excludedAllergens, allergensToggle),
-            FilterConfig("Exclude Additives", additives, active.excludedAdditives, additivesToggle),
-            FilterConfig("Select Labels", labels, active.allowedLabels, labelsToggle),
-            FilterConfig("Available in", countries, active.allowedCountry, countriesToggle),
-            FilterConfig("Exclude Brands", brands, active.excludedBrands, brandsToggle),
-            FilterConfig("Nutri-Score", nutri, active.allowedNutriScore, nutriToggle),
-            FilterConfig("Exclude Corporations", corporations, active.excludedCorporations, corpToggle)
+            FilterConfig("Zutatenen ausschließen", ingredients, active.excludedIngredients, ingredientsToggle),
+            FilterConfig("Allergene ausschließen", allergens, active.excludedAllergens, allergensToggle),
+            FilterConfig("Zusatzstoffe ausschließen", additives, active.excludedAdditives, additivesToggle),
+            FilterConfig("Labels wählen", labels, active.allowedLabels, labelsToggle),
+            FilterConfig("Erhältlich in", countries, active.allowedCountry, countriesToggle),
+            FilterConfig("Marken ausschließen", brands, active.excludedBrands, brandsToggle),
+            FilterConfig("Nutri-Score wählen", nutri, active.allowedNutriScore, nutriToggle),
+            FilterConfig("Konzerne ausschließen", corporations, active.excludedCorporations, corpToggle)
         )
     }
 
@@ -137,10 +137,10 @@ class FilterViewModel(
             ?.let { violations.add("Beinhaltet ausgeschlossene Zusatzstoffe: ${it.joinToString()}") }
 
         product.brand?.takeIf { it in filter.excludedBrands }
-            ?.let { violations.add("Marke ausgeschlossen: $it") }
+            ?.let { violations.add("Beinhaltet ausgeschlossene Marken: $it") }
 
         product.corporation?.takeIf { it in filter.excludedCorporations }
-            ?.let { violations.add("Konzern ausgeschlossen: $it") }
+            ?.let { violations.add("Beinhaltet ausgeschlossene Konzerne: $it") }
 
         if (filter.allowedLabels.isNotEmpty()) {
             val matched = product.labelsTags.mapNotNull { LabelMapper.map(it) }
