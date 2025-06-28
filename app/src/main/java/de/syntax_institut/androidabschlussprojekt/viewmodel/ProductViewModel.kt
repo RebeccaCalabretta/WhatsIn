@@ -21,9 +21,6 @@ class ProductViewModel(
     private val _selectedProduct = MutableStateFlow<Product?>(null)
     val selectedProduct = _selectedProduct.asStateFlow()
 
-    private val _scannedBarcode = MutableStateFlow<String?>(null)
-    val scannedBarcode = _scannedBarcode.asStateFlow()
-
     private val _scannedProducts = MutableStateFlow<List<ScannedProduct>>(emptyList())
     val scannedProducts: StateFlow<List<ScannedProduct>> = _scannedProducts
 
@@ -44,9 +41,8 @@ class ProductViewModel(
         }
     }
 
-    fun selectProduct(product: Product) {
-        _selectedProduct.value = product
-        Log.d("ProductViewModel", "Produkt ausgewählt: ${product.name}")
+    fun clearSelectedProduct() {
+        _selectedProduct.value = null
     }
 
     fun startScan(barcode: String) {
@@ -54,7 +50,6 @@ class ProductViewModel(
             Log.d("ProductViewModel", "Ungültiger Barcode")
             return
         }
-        _scannedBarcode.value = barcode
         Log.d("ProductViewModel", "Scan gestartet mit Barcode: $barcode")
         getProductByBarcode(barcode)
     }

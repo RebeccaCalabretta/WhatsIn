@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
@@ -23,6 +25,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import org.koin.androidx.compose.koinViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun ScanScreen(
@@ -69,13 +72,32 @@ fun ScanScreen(
 
     LaunchedEffect(product, productError) {
         if (product != null && productError == null) {
+            scanViewModel.stopCamera(previewView)
+            delay(300)
             onNavigateToDetail(product!!.barcode)
+            productViewModel.clearSelectedProduct()
         }
     }
 
-    if (hasCameraPermission) {
-        LaunchedEffect(previewView) {
-            scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+    DisposableEffect(Unit) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> {
+                    if (hasCameraPermission) {
+                        scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+                    }
+                }
+                Lifecycle.Event.ON_PAUSE -> {
+                    scanViewModel.stopCamera(previewView)
+                }
+                else -> {}
+            }
+        }
+
+        val lifecycle = lifecycleOwner.lifecycle
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
         }
     }
 

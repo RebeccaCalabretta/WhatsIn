@@ -14,13 +14,13 @@ import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-
-class ScanViewModel() : ViewModel() {
+class ScanViewModel : ViewModel() {
 
     private val _scannedBarcode = MutableStateFlow<String?>(null)
     val scannedBarcode: StateFlow<String?> = _scannedBarcode
 
     private var lastScanned: String? = null
+    private var isCameraRunning = false
 
     fun onBarcodeScanned(barcode: String) {
         if (barcode != lastScanned) {
@@ -41,8 +41,10 @@ class ScanViewModel() : ViewModel() {
         lifecycleOwner: LifecycleOwner,
         previewView: PreviewView
     ) {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        if (isCameraRunning) return
+        isCameraRunning = true
 
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build().apply {
@@ -81,10 +83,21 @@ class ScanViewModel() : ViewModel() {
                     preview,
                     imageAnalysis
                 )
-                Log.d("ScanViewModel", "Kamera erfolgreich gebunden")
+                Log.d("ScanViewModel", "Kamera gebunden")
             } catch (e: Exception) {
-                Log.e("ScanViewModel", "Kamera-Fehler", e)
+                Log.e("ScanViewModel", "Fehler beim Binden", e)
             }
         }, ContextCompat.getMainExecutor(context))
+    }
+
+    fun stopCamera(previewView: PreviewView) {
+        try {
+            val cameraProvider = ProcessCameraProvider.getInstance(previewView.context).get()
+            cameraProvider.unbindAll()
+            isCameraRunning = false
+            Log.d("ScanViewModel", "Kamera gestoppt")
+        } catch (e: Exception) {
+            Log.e("ScanViewModel", "Fehler beim Stoppen", e)
+        }
     }
 }
