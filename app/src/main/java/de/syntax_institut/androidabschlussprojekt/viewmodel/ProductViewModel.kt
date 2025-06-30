@@ -44,6 +44,18 @@ class ProductViewModel(
             emptyList()
         )
 
+    val beautyProducts: StateFlow<List<Product>> = scannedProducts
+        .map { list ->
+            list.map { it.toProduct() }
+                .filter { it.productType == ProductType.BEAUTY }
+                .sortedBy { it.name?.lowercase() ?: "" }
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
     init {
         loadScannedProducts()
     }
