@@ -48,7 +48,6 @@ interface FoodFilterApiService {
     suspend fun getBrands(): FilterListResponse
 }
 
-
 object FoodApi {
     val service: FoodApiService by lazy {
         retrofitFood.create(FoodApiService::class.java)

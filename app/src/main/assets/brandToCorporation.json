@@ -1,0 +1,18 @@
+{
+  "Nestlé": ["Nescafé", "Maggi", "Vittel", "KitKat"],
+  "Unilever": ["Dove", "Knorr", "Rama", "Ben & Jerry's"],
+  "PepsiCo": ["Pepsi", "Lay's", "7Up", "Punica"],
+  "Coca-Cola": ["Coca-Cola", "Fanta", "Sprite", "ViO"],
+  "Mondelez": ["Milka", "Oreo", "TUC", "Philadelphia"],
+  "Danone": ["Actimel", "Alpro", "Volvic", "Evian"],
+  "Mars": ["Mars", "Snickers", "Twix", "Whiskas"],
+  "Kellogg's": ["Kellogg's", "Frosties", "Special K", "Pringles"],
+  "Kraft Heinz": ["Heinz", "Kraft", "Philadelphia", "Capri-Sun"],
+  "Procter & Gamble": ["Ariel", "Oral-B", "Always", "Head & Shoulders"],
+  "Johnson & Johnson": ["Neutrogena", "o.b.", "Listerine", "Carefree"],
+  "L'Oréal": ["L'Oréal", "Garnier", "Maybelline", "Lancôme"],
+  "Beiersdorf": ["Nivea", "Labello", "Eucerin", "Hansaplast"],
+  "Henkel": ["Persil", "Fa", "Schwarzkopf", "Pril"],
+  "Colgate-Palmolive": ["Colgate", "Palmolive", "elmex", "Meridol"],
+  "Estée Lauder": ["Estée Lauder", "Clinique", "MAC", "La Mer"]
+}
