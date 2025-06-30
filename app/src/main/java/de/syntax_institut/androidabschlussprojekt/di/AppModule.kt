@@ -2,10 +2,10 @@ package de.syntax_institut.androidabschlussprojekt.di
 
 import de.syntax_institut.androidabschlussprojekt.data.local.AppDatabase
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
-import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApi
-import de.syntax_institut.androidabschlussprojekt.data.remote.FoodFilterApiService
-import de.syntax_institut.androidabschlussprojekt.data.remote.FoodApi
-import de.syntax_institut.androidabschlussprojekt.data.remote.FoodApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FilterApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultFilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository

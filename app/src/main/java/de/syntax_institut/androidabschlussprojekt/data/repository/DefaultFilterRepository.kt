@@ -1,6 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
-import de.syntax_institut.androidabschlussprojekt.data.remote.FoodFilterApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
 
 class DefaultFilterRepository(

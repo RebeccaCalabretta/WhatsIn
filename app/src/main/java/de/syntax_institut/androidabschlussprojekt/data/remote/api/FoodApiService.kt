@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.data.remote
+package de.syntax_institut.androidabschlussprojekt.data.remote.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -16,12 +16,12 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val retrofitProduct = Retrofit.Builder()
+private val retrofitFood = Retrofit.Builder()
     .baseUrl(BASE_URL_FOOD)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
-private val retrofitFilter = Retrofit.Builder()
+private val retrofitFoodFilter = Retrofit.Builder()
     .baseUrl(BASE_URL_FOOD_FILTER)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
@@ -51,12 +51,12 @@ interface FoodFilterApiService {
 
 object FoodApi {
     val service: FoodApiService by lazy {
-        retrofitProduct.create(FoodApiService::class.java)
+        retrofitFood.create(FoodApiService::class.java)
     }
 }
 
 object FilterApi {
     val service: FoodFilterApiService by lazy {
-        retrofitFilter.create(FoodFilterApiService::class.java)
+        retrofitFoodFilter.create(FoodFilterApiService::class.java)
     }
 }

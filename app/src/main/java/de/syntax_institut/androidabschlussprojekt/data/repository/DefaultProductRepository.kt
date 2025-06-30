@@ -3,7 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.data.repository
 import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
-import de.syntax_institut.androidabschlussprojekt.data.remote.FoodApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
@@ -16,6 +16,7 @@ import retrofit2.HttpException
 
 class DefaultProductRepository(
     private val api: FoodApiService,
+
     private val scannedProductDao: ScannedProductDao
 ) : ProductRepository {
 
