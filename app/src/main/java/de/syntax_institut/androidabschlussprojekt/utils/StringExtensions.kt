@@ -1,7 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.utils
 
-import de.syntax_institut.androidabschlussprojekt.error.ProductError
-import de.syntax_institut.androidabschlussprojekt.error.ProductException
+import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 
 fun String.formatTag(): String =
@@ -9,8 +8,15 @@ fun String.formatTag(): String =
         .replace("-", " ")
         .replaceFirstChar { it.uppercaseChar() }
 
-fun String.toProductType(): ProductType = when (this.lowercase()) {
-    "food" -> ProductType.FOOD
-    "beauty" -> ProductType.BEAUTY
-    else -> throw ProductException(ProductError.NOT_FOUND)
+fun String.toProductType(): ProductType {
+    Log.d("ProductTypeMapper", "Mapping input: '$this' → ${this.trim().uppercase()}")
+
+    return when (this.trim().uppercase()) {
+        "FOOD" -> ProductType.FOOD
+        "BEAUTY" -> ProductType.BEAUTY
+        else -> {
+            Log.w("ProductType", "Unbekannter productType: '$this' – setze auf UNKNOWN")
+            ProductType.UNKNOWN
+        }
+    }
 }

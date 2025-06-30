@@ -1,10 +1,13 @@
 package de.syntax_institut.androidabschlussprojekt.data.remote.model
 
+import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.model.Product
 
 fun ProductDto.toProduct(productType: ProductType): Product {
+    Log.d("ProductMapper", "Erstelle Product aus DTO mit Typ: $productType")
+
     return Product(
         barcode = barcode,
         name = productNameDe ?: productNameEn ?: name ?: "Kein Name verfügbar",

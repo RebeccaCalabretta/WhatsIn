@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data.local.model
 
+import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
@@ -20,6 +21,8 @@ data class ScannedProduct(
 )
 
 fun ScannedProduct.toProduct(): Product {
+    Log.d("ScannedProduct", "Lese aus DB: barcode=$barcode mit Typ-String='$productType'")
+
     return Product(
         barcode = barcode,
         name = name,

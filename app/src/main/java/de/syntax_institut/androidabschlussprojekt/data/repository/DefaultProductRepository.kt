@@ -3,6 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.data.repository
 import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
+import de.syntax_institut.androidabschlussprojekt.data.mapping.ProductTypeMapper
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.toProduct
@@ -21,6 +22,8 @@ class DefaultProductRepository(
 ) : ProductRepository {
 
     override suspend fun fetchProductByBarcode(barcode: String): Product {
+        Log.d("ProductRepository", "fetchProductByBarcode() aufgerufen mit Barcode: $barcode")
+
         val foodResult = tryLoadProduct(barcode, foodApi, ProductType.FOOD)
         if (foodResult != null) return foodResult
 
@@ -36,6 +39,8 @@ class DefaultProductRepository(
         type: ProductType
     ): Product? {
         return try {
+            Log.d("ProductRepository", "Versuche Barcode $barcode über ${type.name}")
+
             val response = when (api) {
                 is FoodApiService -> api.getProductByBarcode(barcode)
                 is BeautyApiService -> api.getProductByBarcode(barcode)
@@ -47,8 +52,14 @@ class DefaultProductRepository(
                 Log.w("ProductRepository", "Produkt war null (${type.name})")
                 null
             } else {
-                val product = productDto.toProduct(type)
-                Log.d("ProductRepository", "Produkt geladen über ${type.name}: ${product.name}")
+                val finalType = ProductTypeMapper.determineProductType(
+                    productDto.categoriesTags,
+                    fallback = type,
+                    brand = productDto.brand
+                )
+
+                val product = productDto.toProduct(finalType)
+                Log.d("ProductRepository", "Produkt geladen über ${finalType.name}: ${product.name}")
                 product
             }
 
@@ -68,7 +79,7 @@ class DefaultProductRepository(
 
     override suspend fun saveScannedProduct(product: Product) {
         try {
-            Log.d("ProductRepository", "Speichere Produkt mit Barcode: ${product.barcode}")
+            Log.d("ProductRepository", "Speichere ${product.name} mit Barcode: ${product.barcode} und Typ ${product.productType}")
             scannedProductDao.insert(product.toScannedProduct())
             Log.d("ProductRepository", "Produkt gespeichert")
         } catch (e: Exception) {

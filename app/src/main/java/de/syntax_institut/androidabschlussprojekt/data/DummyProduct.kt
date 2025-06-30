@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.data
 
+import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.model.Product
 
@@ -13,6 +14,7 @@ val dummyProduct = Product(
         Hefeeextrakt*, Sonnenblumenöl*, Kurkuma*, Muskatnuss*, Liebstöckel*, schwarzer Pfeffer*.
         *aus biologischer Landwirtschaft
     """.trimIndent(),
+    productType = ProductType.FOOD,
     nutriments = Nutriments(
         energyKcal = 214.0,
         fat = 2.3,
