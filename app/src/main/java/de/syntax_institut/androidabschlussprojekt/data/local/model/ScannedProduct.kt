@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.model.Product
+import de.syntax_institut.androidabschlussprojekt.utils.toProductType
 
 @Entity
 data class ScannedProduct(
@@ -23,7 +24,7 @@ fun ScannedProduct.toProduct(): Product {
         barcode = barcode,
         name = name,
         imageUrl = imageUrl,
-        productType = productType,
+        productType = productType.toProductType(),
 
         ingredientsTags = ingredients?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
         allergensTags = allergens?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),

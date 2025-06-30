@@ -145,7 +145,7 @@ enum class AppColorScheme(val displayName: String) {
     Mint("Mint Breeze"),
     Pistachio("Pistachio Calm"),
     Blue("Ocean Sky"),
-    Purple("Lilac Mood")
+    Lilac("Lilac Mood")
 }
 
 @Composable
@@ -165,7 +165,7 @@ fun AndroidAbschlussprojektTheme(
             AppColorScheme.Mint -> if (darkTheme) DarkMintColorScheme else LightMintColorScheme
             AppColorScheme.Pistachio -> if (darkTheme) DarkPistachioColorScheme else LightPistachioColorScheme
             AppColorScheme.Blue -> if (darkTheme) DarkBlueColorScheme else LightBlueColorScheme
-            AppColorScheme.Purple -> if (darkTheme) DarkPurpleColorScheme else LightPurpleColorScheme
+            AppColorScheme.Lilac -> if (darkTheme) DarkPurpleColorScheme else LightPurpleColorScheme
         }
     }
 
@@ -174,7 +174,7 @@ fun AndroidAbschlussprojektTheme(
         AppColorScheme.Mint -> if (darkTheme) MintButtonGradientDark else MintButtonGradientLight
         AppColorScheme.Pistachio -> if (darkTheme) PistachioButtonGradientDark else PistachioButtonGradientLight
         AppColorScheme.Blue -> if (darkTheme) BlueButtonGradientDark else BlueButtonGradientLight
-        AppColorScheme.Purple -> if (darkTheme) PurpleButtonGradientDark else PurpleButtonGradientLight
+        AppColorScheme.Lilac -> if (darkTheme) PurpleButtonGradientDark else PurpleButtonGradientLight
     }
 
     MaterialTheme(

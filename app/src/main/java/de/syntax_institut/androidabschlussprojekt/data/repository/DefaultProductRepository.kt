@@ -7,6 +7,7 @@ import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
+import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +31,7 @@ class DefaultProductRepository(
                 throw ProductException(ProductError.NOT_FOUND)
             }
 
-            val product = productDto.toProduct()
+            val product = productDto.toProduct(ProductType.FOOD)
             Log.d("ProductRepository", "Produkt erfolgreich geladen: ${product.name}")
             return product
 

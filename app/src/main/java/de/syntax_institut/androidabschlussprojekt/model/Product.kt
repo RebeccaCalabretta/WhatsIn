@@ -1,6 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.model
 
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
+import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 
 data class Product(
     val barcode: String,
@@ -21,7 +22,7 @@ data class Product(
     val labelsTags: List<String> = emptyList(),
     val countriesTags: List<String> = emptyList(),
 
-    val productType: String = "food"
+    val productType: ProductType = ProductType.FOOD
 )
 
 fun Product.toScannedProduct(): ScannedProduct {
@@ -30,7 +31,7 @@ fun Product.toScannedProduct(): ScannedProduct {
         name = name ?: "Unbekannt",
         imageUrl = imageUrl,
         timestamp = System.currentTimeMillis(),
-        productType = productType,
+        productType = productType.name.lowercase(),
         ingredients = ingredientsTags.joinToString(";"),
         allergens = allergensTags.joinToString(";"),
         additives = additivesTags.joinToString(";"),
