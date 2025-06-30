@@ -2,7 +2,11 @@ package de.syntax_institut.androidabschlussprojekt.di
 
 import de.syntax_institut.androidabschlussprojekt.data.local.AppDatabase
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
-import de.syntax_institut.androidabschlussprojekt.data.remote.api.FilterApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyFilterApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyFilterApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
@@ -24,9 +28,16 @@ val appModule = module {
     }
 
     single<FoodFilterApiService> {
-        FilterApi.service
+        FoodFilterApi.service
     }
 
+    single<BeautyApiService> {
+        BeautyApi.service
+    }
+
+    single<BeautyFilterApiService> {
+        BeautyFilterApi.service
+    }
 
     single<AppDatabase> {
         AppDatabase.getDatabase(androidContext())
@@ -38,7 +49,8 @@ val appModule = module {
 
     single<ProductRepository> {
         DefaultProductRepository(
-            api = get(),
+            foodApi = get(),
+            beautyApi = get(),
             scannedProductDao = get()
         )
     }

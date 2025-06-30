@@ -55,7 +55,7 @@ object FoodApi {
     }
 }
 
-object FilterApi {
+object FoodFilterApi {
     val service: FoodFilterApiService by lazy {
         retrofitFoodFilter.create(FoodFilterApiService::class.java)
     }
