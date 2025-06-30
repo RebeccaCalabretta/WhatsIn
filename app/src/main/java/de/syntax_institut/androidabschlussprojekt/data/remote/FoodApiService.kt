@@ -9,29 +9,29 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-private const val BASE_URL_PRODUCT = "https://world.openfoodfacts.org/api/v2/"
-private const val BASE_URL_FILTER = "https://world.openfoodfacts.org/"
+private const val BASE_URL_FOOD = "https://world.openfoodfacts.org/api/v2/"
+private const val BASE_URL_FOOD_FILTER = "https://world.openfoodfacts.org/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
 private val retrofitProduct = Retrofit.Builder()
-    .baseUrl(BASE_URL_PRODUCT)
+    .baseUrl(BASE_URL_FOOD)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
 private val retrofitFilter = Retrofit.Builder()
-    .baseUrl(BASE_URL_FILTER)
+    .baseUrl(BASE_URL_FOOD_FILTER)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
-interface ProductApiService {
+interface FoodApiService {
     @GET("product/{barcode}")
     suspend fun getProductByBarcode(@Path("barcode") barcode: String): ProductResponse
 }
 
-interface FilterApiService {
+interface FoodFilterApiService {
     @GET("labels.json")
     suspend fun getLabels(): FilterListResponse
 
@@ -49,14 +49,14 @@ interface FilterApiService {
 }
 
 
-object ProductApi {
-    val service: ProductApiService by lazy {
-        retrofitProduct.create(ProductApiService::class.java)
+object FoodApi {
+    val service: FoodApiService by lazy {
+        retrofitProduct.create(FoodApiService::class.java)
     }
 }
 
 object FilterApi {
-    val service: FilterApiService by lazy {
-        retrofitFilter.create(FilterApiService::class.java)
+    val service: FoodFilterApiService by lazy {
+        retrofitFilter.create(FoodFilterApiService::class.java)
     }
 }

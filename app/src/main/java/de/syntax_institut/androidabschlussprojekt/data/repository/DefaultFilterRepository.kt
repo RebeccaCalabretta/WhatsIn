@@ -1,10 +1,10 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
-import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.FoodFilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
 
 class DefaultFilterRepository(
-    private val api: FilterApiService
+    private val api: FoodFilterApiService
 ) : FilterRepository {
 
     override suspend fun fetchAllergens(): List<FilterItem> {

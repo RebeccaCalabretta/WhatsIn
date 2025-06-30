@@ -3,9 +3,9 @@ package de.syntax_institut.androidabschlussprojekt.di
 import de.syntax_institut.androidabschlussprojekt.data.local.AppDatabase
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
 import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApi
-import de.syntax_institut.androidabschlussprojekt.data.remote.FilterApiService
-import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApi
-import de.syntax_institut.androidabschlussprojekt.data.remote.ProductApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.FoodFilterApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.FoodApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.FoodApiService
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultFilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
@@ -19,11 +19,11 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    single<ProductApiService> {
-        ProductApi.service
+    single<FoodApiService> {
+        FoodApi.service
     }
 
-    single<FilterApiService> {
+    single<FoodFilterApiService> {
         FilterApi.service
     }
 
