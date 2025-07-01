@@ -5,18 +5,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
-import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
-import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
@@ -31,30 +26,6 @@ class ProductViewModel(
 
     private val _productError = MutableStateFlow<ProductError?>(null)
     val productError = _productError.asStateFlow()
-
-    val foodProducts: StateFlow<List<Product>> = scannedProducts
-        .map { list ->
-            list.map { it.toProduct() }
-                .filter { it.productType == ProductType.FOOD }
-                .sortedBy { it.name?.lowercase() ?: "" }
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            emptyList()
-        )
-
-    val beautyProducts: StateFlow<List<Product>> = scannedProducts
-        .map { list ->
-            list.map { it.toProduct() }
-                .filter { it.productType == ProductType.BEAUTY }
-                .sortedBy { it.name?.lowercase() ?: "" }
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(),
-            emptyList()
-        )
 
     init {
         loadScannedProducts()
