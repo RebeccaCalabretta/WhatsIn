@@ -105,12 +105,10 @@ fun ScanScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(40.dp))
-
         if (hasCameraPermission) {
             ScanPreview(
                 modifier = Modifier
-                    .size(300.dp)
+                    .size(200.dp)
                     .clipToBounds(),
                 previewView = previewView
             )

@@ -2,11 +2,15 @@ package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchField
@@ -20,7 +24,7 @@ fun BeautyScreen(
     collectionViewModel: CollectionViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
-    val beautyProducts by collectionViewModel.filteredBeautyProducts.collectAsState()
+    val searchedProducts by collectionViewModel.filteredBeautyProducts.collectAsState()
     val searchText by collectionViewModel.searchText.collectAsState()
 
     Column(
@@ -33,10 +37,21 @@ fun BeautyScreen(
             onTextChange = { collectionViewModel.updateSearchText(it) }
         )
 
-        ScanHistory(
-            scannedProducts = beautyProducts.map { it.toScannedProduct() },
-            onNavigateToDetail = onNavigateToDetail,
-            title = null
-        )
+        if (searchedProducts.isEmpty()) {
+            Text(
+                text = "Keine Produkte gefunden",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        } else {
+            ScanHistory(
+                scannedProducts = searchedProducts.map { it.toScannedProduct() },
+                onNavigateToDetail = onNavigateToDetail,
+                title = null
+            )
+        }
     }
 }
