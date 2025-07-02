@@ -17,7 +17,8 @@ data class ScannedProduct(
     val ingredients: String? = null,
     val allergens: String? = null,
     val additives: String? = null,
-    val labels: String? = null
+    val labels: String? = null,
+    val isFavorite: Boolean = false
 )
 
 fun ScannedProduct.toProduct(): Product {
@@ -41,6 +42,7 @@ fun ScannedProduct.toProduct(): Product {
         allergensText = null,
         nutriScore = null,
         nutriments = Nutriments(),
-        countriesTags = emptyList()
+        countriesTags = emptyList(),
+        isFavorite = isFavorite
     )
 }

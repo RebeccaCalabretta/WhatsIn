@@ -23,7 +23,8 @@ data class Product(
     val labelsTags: List<String> = emptyList(),
     val countriesTags: List<String> = emptyList(),
 
-    val productType: ProductType
+    val productType: ProductType,
+    val isFavorite: Boolean = false
 )
 
 fun Product.toScannedProduct(): ScannedProduct {
@@ -38,6 +39,7 @@ fun Product.toScannedProduct(): ScannedProduct {
         ingredients = ingredientsTags.joinToString(";"),
         allergens = allergensTags.joinToString(";"),
         additives = additivesTags.joinToString(";"),
-        labels = labelsTags.joinToString(";")
+        labels = labelsTags.joinToString(";"),
+        isFavorite = isFavorite
     )
 }

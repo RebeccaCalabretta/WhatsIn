@@ -47,4 +47,3 @@ fun prepareFilterItems(
 
     return visibleItems to onToggle
 }
-
