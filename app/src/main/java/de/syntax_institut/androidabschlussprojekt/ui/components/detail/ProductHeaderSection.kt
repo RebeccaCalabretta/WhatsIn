@@ -1,31 +1,76 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.detail
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 
 @Composable
 fun ProductHeaderSection(
     imageUrl: String?,
-    filterViolations: List<String>
+    filterViolations: List<String>,
+    isFavorite: Boolean = false,
+    onToggleFavorite: () -> Unit = {}
 ) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+    val imageHeight = screenHeight * 0.25f.dp
+
     Column(modifier = Modifier.fillMaxWidth()) {
         if (!imageUrl.isNullOrBlank()) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Produktbild",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            )
+
+            Box(modifier = Modifier.fillMaxWidth().height(imageHeight)) {
+                if (!imageUrl.isNullOrBlank()) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = "Produktbild",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Box(
+                        Modifier.fillMaxSize().background(Color.LightGray),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Kein Bild")
+                    }
+                }
+
+                IconButton(
+                    onClick = onToggleFavorite,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = null,
+                        tint = if (isFavorite) Color.Red else Color.Gray,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
         }
 
         if (filterViolations.isEmpty()) {

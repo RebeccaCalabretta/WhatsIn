@@ -71,7 +71,12 @@ fun DetailScreen(
         }
 
         Column(modifier = Modifier.fillMaxSize()) {
-            ProductHeaderSection(product.imageUrl, filterViolations)
+            ProductHeaderSection(
+               imageUrl =  product.imageUrl,
+                filterViolations = filterViolations,
+                isFavorite = product.isFavorite,
+               onToggleFavorite =  { productViewModel.toggleFavorite() }
+            )
             ProductInfoSection(
                 name = product.name,
                 brand = product.brand,
