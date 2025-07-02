@@ -16,6 +16,8 @@ import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -54,4 +56,5 @@ val appModule = module {
     viewModelOf(::FilterViewModel)
     viewModelOf(::ScanViewModel)
     viewModelOf(::CollectionViewModel)
+    viewModelOf(::SettingsViewModel)
 }
