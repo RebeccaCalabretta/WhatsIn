@@ -7,26 +7,35 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
-import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
-    filterViewModel: FilterViewModel = koinViewModel(),
-    navController: NavController
+    navController: NavController,
+    settingsViewModel: SettingsViewModel = koinViewModel(),
 ) {
+    val isDarkmode by settingsViewModel.isDarkmode.collectAsState()
+
+    val rowHeight = 56.dp
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,18 +44,41 @@ fun SettingsScreen(
         Row(
             modifier =  Modifier
                 .fillMaxWidth()
+                .height(rowHeight)
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
                     shape = RoundedCornerShape(16.dp)
                 )
                 .clickable { navController.navigate(FilterRoute) }
-                .padding(12.dp)
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Filter Options", style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(rowHeight)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Dark Mode", style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.weight(1f))
+            Switch(
+                checked = isDarkmode,
+                onCheckedChange = { settingsViewModel.toggleDarkmode() }
             )
         }
     }
