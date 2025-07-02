@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
-import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
+import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.model.Product
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
-    private val repository: ProductRepository
+    private val repository: DefaultProductRepository
 ) : ViewModel() {
 
     private val _selectedProduct = MutableStateFlow<Product?>(null)
@@ -65,13 +65,6 @@ class ProductViewModel(
             try {
                 val product = repository.fetchProductByBarcode(barcode)
 
-                if (product == null) {
-                    Log.d("ProductViewModel", "Kein Produkt gefunden für Barcode: $barcode")
-                    _selectedProduct.value = null
-                    _productError.value = ProductError.NOT_FOUND
-                    return@launch
-                }
-
                 _selectedProduct.value = product
                 clearProductError()
                 Log.d("ProductViewModel", "Produkt geladen: ${product.name}")
@@ -89,5 +82,15 @@ class ProductViewModel(
     private fun handleError(error: ProductError, message: String) {
         _productError.value = error
         Log.e("ProductViewModel", message)
+    }
+
+    fun toggleFavorite() {
+        _selectedProduct.value?.let { product ->
+            val updated = product.copy(isFavorite = !product.isFavorite)
+            _selectedProduct.value = updated
+            viewModelScope.launch {
+                repository.updateFavorite(updated.barcode, updated.isFavorite)
+            }
+        }
     }
 }

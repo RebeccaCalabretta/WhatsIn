@@ -11,4 +11,6 @@ interface ProductRepository {
 
     suspend fun getScannedProducts(): Flow<List<ScannedProduct>>
 
+    suspend fun updateFavorite(barcode: String, isFavorite: Boolean)
+
 }

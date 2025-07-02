@@ -6,20 +6,19 @@ import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyFilterApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyFilterApiService
-import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApi
-import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApi
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApi
+import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultFilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
-import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
-import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
-import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
-import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
@@ -48,17 +47,8 @@ val appModule = module {
         get<AppDatabase>().scannedProductDao()
     }
 
-    single<ProductRepository> {
-        DefaultProductRepository(
-            foodApi = get(),
-            beautyApi = get(),
-            scannedProductDao = get()
-        )
-    }
-
-    single<FilterRepository> {
-        DefaultFilterRepository(api = get())
-    }
+    singleOf(::DefaultProductRepository)
+    singleOf(::DefaultFilterRepository)
 
     viewModelOf(::ProductViewModel)
     viewModelOf(::FilterViewModel)

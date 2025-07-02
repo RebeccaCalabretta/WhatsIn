@@ -18,7 +18,7 @@ import retrofit2.HttpException
 class DefaultProductRepository(
     private val foodApi: FoodApiService,
     private val beautyApi: BeautyApiService,
-    private val scannedProductDao: ScannedProductDao
+    private val dao: ScannedProductDao
 ) : ProductRepository {
 
     override suspend fun fetchProductByBarcode(barcode: String): Product {
@@ -80,7 +80,7 @@ class DefaultProductRepository(
     override suspend fun saveScannedProduct(product: Product) {
         try {
             Log.d("ProductRepository", "Speichere ${product.name} mit Barcode: ${product.barcode} und Typ ${product.productType}")
-            scannedProductDao.insert(product.toScannedProduct())
+            dao.insert(product.toScannedProduct())
             Log.d("ProductRepository", "Produkt gespeichert")
         } catch (e: Exception) {
             Log.e("ProductRepository", "Fehler beim Speichern: ${e.message}")
@@ -89,6 +89,10 @@ class DefaultProductRepository(
     }
 
     override suspend fun getScannedProducts(): Flow<List<ScannedProduct>> {
-        return scannedProductDao.getAll()
+        return dao.getAll()
+    }
+
+    override suspend fun updateFavorite(barcode: String, isFavorite: Boolean) {
+        dao.updateFavorite(barcode, isFavorite)
     }
 }
