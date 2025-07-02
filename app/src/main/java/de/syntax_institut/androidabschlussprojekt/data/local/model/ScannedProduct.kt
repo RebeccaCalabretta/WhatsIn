@@ -7,7 +7,7 @@ import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.utils.toProductType
 
-@Entity
+@Entity(tableName = "scanned_product")
 data class ScannedProduct(
     @PrimaryKey val barcode: String,
     val name: String,

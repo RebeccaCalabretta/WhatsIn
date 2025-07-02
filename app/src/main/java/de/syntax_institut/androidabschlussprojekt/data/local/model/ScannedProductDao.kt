@@ -12,6 +12,9 @@ interface ScannedProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: ScannedProduct)
 
-    @Query("SELECT * FROM ScannedProduct ORDER BY timestamp DESC")
+    @Query("SELECT * FROM scanned_product ORDER BY timestamp DESC")
     fun getAll(): Flow<List<ScannedProduct>>
+
+    @Query("UPDATE scanned_product SET isFavorite = :isFavorite WHERE barcode = :barcode")
+    suspend fun updateFavorite(barcode: String, isFavorite: Boolean)
 }
