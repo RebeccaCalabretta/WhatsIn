@@ -1,19 +1,19 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.syntax_institut.androidabschlussprojekt.ui.theme.AppColorScheme
 import de.syntax_institut.androidabschlussprojekt.utils.dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-private val Application.dataStore by preferencesDataStore(name = "settings")
+val Context.dataStore by preferencesDataStore(name = "settings")
 
 class SettingsViewModel(
     private val context: Context
@@ -23,6 +23,10 @@ class SettingsViewModel(
 
     private val _isDarkmode = MutableStateFlow(false)
     val isDarkmode: StateFlow<Boolean> = _isDarkmode
+
+    private val _appColorScheme = MutableStateFlow(AppColorScheme.Orange)
+    val appColorScheme: StateFlow<AppColorScheme> = _appColorScheme
+
 
     init {
         viewModelScope.launch {
