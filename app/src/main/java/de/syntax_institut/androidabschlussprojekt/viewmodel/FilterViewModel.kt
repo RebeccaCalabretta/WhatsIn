@@ -1,24 +1,21 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterConfigUseCase
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
-import de.syntax_institut.androidabschlussprojekt.utils.filter.loadFilterFromDataStore
-import de.syntax_institut.androidabschlussprojekt.utils.filter.saveFilterToDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 
 
 class FilterViewModel(
-    private val context: Context,
+    private val filterRepository: FilterRepository,
     private val filterCheckUseCase: FilterCheckUseCase,
     private val filterConfigUseCase: FilterConfigUseCase
 ) : ViewModel() {
@@ -32,23 +29,19 @@ class FilterViewModel(
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-        encodeDefaults = true
-    }
-
     init {
         Log.d("FilterViewModel", "FilterViewModel gestartet – Filter wird vorbereitet")
         viewModelScope.launch {
-            _activeFilter.value = loadFilterFromDataStore(context, json)
+            _activeFilter.value = filterRepository.getActiveFilter()
             _isLoading.value = false
         }
     }
 
+
     fun updateFilter(newFilter: ActiveFilter) {
         _activeFilter.value = newFilter
         viewModelScope.launch {
-            saveFilterToDataStore(context, json, newFilter)
+            filterRepository.saveActiveFilter(newFilter)
         }
     }
 
@@ -59,12 +52,8 @@ class FilterViewModel(
         }
     }
 
-    fun checkFilter(product: Product, filter: ActiveFilter): List<String> {
-        return filterCheckUseCase(product, filter)
-    }
-
     fun validateProduct(product: Product) {
         val filter = _activeFilter.value
-        _filterViolations.value = checkFilter(product, filter)
+        _filterViolations.value = filterCheckUseCase(product, filter)
     }
 }

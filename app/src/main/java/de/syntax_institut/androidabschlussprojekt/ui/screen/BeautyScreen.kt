@@ -12,9 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
+import de.syntax_institut.androidabschlussprojekt.helper.ProductType
+import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductCollection
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchField
-import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanHistory
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -24,8 +24,12 @@ fun BeautyScreen(
     collectionViewModel: CollectionViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
-    val searchedProducts by collectionViewModel.filteredBeautyProducts.collectAsState()
+    val products by collectionViewModel
+        .getProductsByType(ProductType.BEAUTY)
+        .collectAsState()
+
     val searchText by collectionViewModel.searchText.collectAsState()
+    val violationsMap by collectionViewModel.filterViolationsMap.collectAsState()
 
     Column(
         modifier = Modifier
@@ -37,7 +41,7 @@ fun BeautyScreen(
             onTextChange = { collectionViewModel.updateSearchText(it) }
         )
 
-        if (searchedProducts.isEmpty()) {
+        if (products.isEmpty()) {
             Text(
                 text = "Keine Produkte gefunden",
                 modifier = Modifier
@@ -47,10 +51,10 @@ fun BeautyScreen(
                 style = MaterialTheme.typography.bodyMedium
             )
         } else {
-            ScanHistory(
-                scannedProducts = searchedProducts.map { it.toScannedProduct() },
-                onNavigateToDetail = onNavigateToDetail,
-                title = null
+            ProductCollection(
+                products = products,
+                violationsMap = violationsMap,
+                onNavigateToDetail = onNavigateToDetail
             )
         }
     }

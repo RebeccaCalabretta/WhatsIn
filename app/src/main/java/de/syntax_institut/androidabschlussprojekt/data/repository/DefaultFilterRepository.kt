@@ -1,28 +1,25 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
-import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodFilterApiService
-import de.syntax_institut.androidabschlussprojekt.data.remote.model.FilterItem
+import android.content.Context
+import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
+import de.syntax_institut.androidabschlussprojekt.utils.filter.loadFilterFromDataStore
+import de.syntax_institut.androidabschlussprojekt.utils.filter.saveFilterToDataStore
+import kotlinx.serialization.json.Json
 
 class DefaultFilterRepository(
-    private val api: FoodFilterApiService
+    private val context: Context
 ) : FilterRepository {
 
-    override suspend fun fetchAllergens(): List<FilterItem> {
-        return api.getAllergens().tags
+    private val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
     }
 
-    override suspend fun fetchAdditives(): List<FilterItem> {
-        return api.getAdditives().tags
+    override suspend fun getActiveFilter(): ActiveFilter {
+        return loadFilterFromDataStore(context, json)
     }
 
-    override suspend fun fetchLabels(): List<FilterItem> {
-        return api.getLabels().tags
-    }
-
-    override suspend fun fetchCountries(): List<FilterItem> {
-        return api.getCountries().tags
-    }
-    override suspend fun fetchBrands(): List<FilterItem> {
-        return api.getBrands().tags
+    override suspend fun saveActiveFilter(filter: ActiveFilter) {
+        saveFilterToDataStore(context, json, filter)
     }
 }
