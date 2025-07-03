@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
-import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
+import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
+import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class CollectionViewModel(
-    private val repository: ProductRepository
+    private val repository: DefaultProductRepository,
+    private val filterCheckUseCase: FilterCheckUseCase
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")

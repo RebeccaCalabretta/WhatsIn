@@ -17,9 +17,12 @@ import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
+import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterConfigUseCase
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -51,6 +54,9 @@ val appModule = module {
 
     singleOf(::DefaultProductRepository)
     singleOf(::DefaultFilterRepository)
+
+    factoryOf(::FilterCheckUseCase)
+    factoryOf(::FilterConfigUseCase)
 
     viewModelOf(::ProductViewModel)
     viewModelOf(::FilterViewModel)
