@@ -51,7 +51,6 @@ fun ScanScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
 
-    val scannedProducts by productViewModel.scannedProducts.collectAsState()
     val scannedBarcode by scanViewModel.scannedBarcode.collectAsState()
     val product by productViewModel.selectedProduct.collectAsState()
     val productError by productViewModel.productError.collectAsState()
