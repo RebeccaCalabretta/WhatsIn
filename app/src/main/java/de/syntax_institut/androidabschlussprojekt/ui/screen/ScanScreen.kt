@@ -91,6 +91,12 @@ fun ScanScreen(
         }
     }
 
+    LaunchedEffect(productError) {
+        if (productError != null) {
+            scanViewModel.stopCamera(previewView)
+        }
+    }
+
     DisposableEffect(Unit) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
@@ -150,9 +156,12 @@ fun ScanScreen(
         productError?.let {
             ErrorDialog(
                 message = it.message,
-                onDismiss = { productViewModel.clearProductError() }
+                onDismiss = {
+                    productViewModel.clearProductError()
+                    scanViewModel.resetScan()
+                    scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+                }
             )
         }
-
     }
 }
