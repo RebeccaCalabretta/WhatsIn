@@ -85,7 +85,12 @@ fun AppStart(
                     composable<ScanRoute> {
                         ScanScreen(
                             onNavigateToDetail = { barcode ->
-                                navController.navigate(DetailRoute(barcode))
+                                navController.navigate(
+                                    DetailRoute(
+                                        barcode = barcode,
+                                        fromScan = true
+                                    )
+                                )
                             }
                         )
                     }
@@ -105,7 +110,10 @@ fun AppStart(
                     }
                     composable<DetailRoute> {
                         val route = it.toRoute<DetailRoute>()
-                        DetailScreen(barcode = route.barcode)
+                        DetailScreen(
+                            barcode = route.barcode,
+                            fromScan = route.fromScan
+                        )
                     }
                     composable<SettingsRoute> {
                         SettingsScreen(navController = navController)
@@ -117,5 +125,4 @@ fun AppStart(
             }
         )
     }
-
 }

@@ -29,7 +29,8 @@ import org.koin.androidx.compose.koinViewModel
 fun DetailScreen(
     productViewModel: ProductViewModel = koinViewModel(),
     filterViewModel: FilterViewModel = koinViewModel(),
-    barcode: String
+    barcode: String,
+    fromScan: Boolean
 ) {
     Log.d("AppFlow", "DetailScreen geladen mit Barcode $barcode")
 
@@ -48,7 +49,7 @@ fun DetailScreen(
             Log.d("FilterCheck", "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}")
 
             filterViewModel.validateProduct(it)
-            showFilterDialog = filterViewModel.filterViolations.value.isNotEmpty()
+            showFilterDialog = fromScan && filterViewModel.filterViolations.value.isNotEmpty()
         }
     }
 

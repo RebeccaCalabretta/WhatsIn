@@ -18,4 +18,7 @@ object SettingsRoute
 object FilterRoute
 
 @Serializable
-data class DetailRoute(val barcode: String)
+data class DetailRoute(
+    val barcode: String,
+    val fromScan: Boolean = false
+)
