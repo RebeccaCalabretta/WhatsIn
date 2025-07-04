@@ -9,6 +9,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,14 +33,14 @@ fun DetailScreen(
 ) {
     Log.d("AppFlow", "DetailScreen geladen mit Barcode $barcode")
 
-    LaunchedEffect(barcode) {
-        productViewModel.getProductByBarcode(barcode)
-    }
-
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
     val filterViolations by filterViewModel.filterViolations.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(barcode) {
+        productViewModel.loadProductFromDatabase(barcode)
+    }
 
     LaunchedEffect(product) {
         product?.let {
@@ -47,13 +48,22 @@ fun DetailScreen(
             Log.d("FilterCheck", "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}")
 
             filterViewModel.validateProduct(it)
-
             showFilterDialog = filterViewModel.filterViolations.value.isNotEmpty()
         }
     }
 
+    DisposableEffect(Unit) {
+        onDispose {
+            productViewModel.clearSelectedProduct()
+            Log.d("DetailScreen", "selectedProduct wurde gelöscht")
+        }
+    }
+
     if (product == null) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator()
         }
     } else {
