@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.collection
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +39,7 @@ fun ProductCollection(
                 .padding(top = 8.dp)
         ) {
             items(products) { product ->
+                Log.d("ProductCard", "Produkt: ${product.name}, isFavorite=${product.isFavorite}")
                 val isMatch = violationsMap[product.barcode].isNullOrEmpty()
 
                 ProductCard(

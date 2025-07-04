@@ -3,6 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.data.repository
 import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
+import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.data.mapping.ProductTypeMapper
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.BeautyApiService
 import de.syntax_institut.androidabschlussprojekt.data.remote.api.FoodApiService
@@ -79,13 +80,29 @@ class DefaultProductRepository(
 
     override suspend fun saveScannedProduct(product: Product) {
         try {
-            Log.d("ProductRepository", "Speichere ${product.name} mit Barcode: ${product.barcode} und Typ ${product.productType}")
-            dao.insert(product.toScannedProduct())
-            Log.d("ProductRepository", "Produkt gespeichert")
+            val existing = dao.getByBarcode(product.barcode)
+
+            val merged = product.copy(
+                isFavorite = existing?.isFavorite ?: false,
+                timestamp = System.currentTimeMillis()
+            )
+
+            Log.d(
+                "ProductRepository",
+                "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}"
+            )
+
+            dao.insert(merged.toScannedProduct())
+
         } catch (e: Exception) {
             Log.e("ProductRepository", "Fehler beim Speichern: ${e.message}")
             throw ProductException(ProductError.DATABASE)
         }
+    }
+
+    override suspend fun getProductFromDatabase(barcode: String): Product {
+        return dao.getByBarcode(barcode)?.toProduct()
+            ?: throw ProductException(ProductError.NOT_FOUND)
     }
 
     override suspend fun getScannedProducts(): Flow<List<ScannedProduct>> {

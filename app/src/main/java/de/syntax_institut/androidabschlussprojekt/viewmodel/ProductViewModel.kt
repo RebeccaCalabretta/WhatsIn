@@ -60,6 +60,17 @@ class ProductViewModel(
         }
     }
 
+    fun loadProductFromDatabase(barcode: String) {
+        viewModelScope.launch {
+            val localProduct = repository.getProductFromDatabase(barcode)
+            _selectedProduct.value = localProduct
+            Log.d(
+                "DetailScreen",
+                "Produkt aus DB geladen: ${localProduct.name}, isFavorite=${localProduct.isFavorite}"
+            )
+        }
+    }
+
     private fun handleError(error: ProductError, message: String) {
         _productError.value = error
         Log.e("ProductViewModel", message)
@@ -69,8 +80,12 @@ class ProductViewModel(
         _selectedProduct.value?.let { product ->
             val updated = product.copy(isFavorite = !product.isFavorite)
             _selectedProduct.value = updated
+            Log.d("Favorite", "Setze Favorite auf ${updated.isFavorite} für ${updated.barcode}")
             viewModelScope.launch {
                 repository.updateFavorite(updated.barcode, updated.isFavorite)
+
+                val refreshed = repository.getProductFromDatabase(updated.barcode)
+                _selectedProduct.value = refreshed
             }
         }
     }

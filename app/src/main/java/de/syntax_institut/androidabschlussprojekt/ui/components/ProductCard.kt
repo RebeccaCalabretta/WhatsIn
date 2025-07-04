@@ -3,6 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.ui.components
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -75,20 +77,25 @@ fun ProductCard(
                     .weight(1f)
                     .padding(end = 4.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         text = product.name ?: "Unbekannt",
-                        style = MaterialTheme.typography.titleSmall
+                        style = MaterialTheme.typography.titleSmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 28.dp)
                     )
-
-                    Spacer(modifier = Modifier.weight(1f))
 
                     if (isFavorite) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
                             contentDescription = "Favorit",
                             tint = Color.Red,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(Alignment.CenterEnd)
                         )
                     }
                 }

@@ -35,12 +35,12 @@ fun Product.toScannedProduct(): ScannedProduct {
         barcode = barcode,
         name = name ?: "Unbekannt",
         imageUrl = imageUrl,
-        timestamp = System.currentTimeMillis(),
         productType = productType.name.lowercase(),
         ingredients = ingredientsTags.joinToString(";"),
         allergens = allergensTags.joinToString(";"),
         additives = additivesTags.joinToString(";"),
         labels = labelsTags.joinToString(";"),
-        isFavorite = isFavorite
+        isFavorite = isFavorite,
+        timestamp = timestamp
     )
 }
