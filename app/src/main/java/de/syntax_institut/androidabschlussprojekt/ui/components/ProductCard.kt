@@ -1,8 +1,8 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,11 +33,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.model.Product
+import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 
 @Composable
 fun ProductCard(
     product: Product,
     isFilterMatch: Boolean,
+    isFavorite: Boolean,
+    timestamp: Long,
     onClick: () -> Unit
 ) {
     Card(
@@ -67,13 +71,27 @@ fun ProductCard(
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(
-                verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)
             ) {
-                Text(
-                    text = product.name ?: "Unbekannt",
-                    style = MaterialTheme.typography.titleSmall
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = product.name ?: "Unbekannt",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    if (isFavorite) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorit",
+                            tint = Color.Red,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
 
                 Spacer(Modifier.height(8.dp))
 
@@ -86,7 +104,17 @@ fun ProductCard(
                         else
                             Color(0xFFCD1313)
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = DateUtils.getRelativeTimeSpanString(
+                            timestamp,
+                            System.currentTimeMillis(),
+                            DateUtils.MINUTE_IN_MILLIS
+                        ).toString(),
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 }
             }
         }
@@ -97,9 +125,13 @@ fun ProductCard(
 @Preview(name = "Dark Mode", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun ProductCardPreview() {
-    ProductCard(
-        product = dummyProduct,
-        isFilterMatch = true,
-        onClick = {}
-    )
+    AndroidAbschlussprojektTheme {
+        ProductCard(
+            product = dummyProduct,
+            isFilterMatch = false,
+            isFavorite = true,
+            timestamp = System.currentTimeMillis() - 5 * 60 * 1000L,
+            onClick = {}
+        )
+    }
 }

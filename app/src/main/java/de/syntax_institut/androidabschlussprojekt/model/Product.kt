@@ -24,7 +24,8 @@ data class Product(
     val countriesTags: List<String> = emptyList(),
 
     val productType: ProductType,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val timestamp: Long = System.currentTimeMillis()
 )
 
 fun Product.toScannedProduct(): ScannedProduct {

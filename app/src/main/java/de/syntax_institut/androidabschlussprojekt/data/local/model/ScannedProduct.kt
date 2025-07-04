@@ -12,13 +12,13 @@ data class ScannedProduct(
     @PrimaryKey val barcode: String,
     val name: String,
     val imageUrl: String?,
-    val timestamp: Long,
     val productType: String,
     val ingredients: String? = null,
     val allergens: String? = null,
     val additives: String? = null,
     val labels: String? = null,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val timestamp: Long = System.currentTimeMillis()
 )
 
 fun ScannedProduct.toProduct(): Product {

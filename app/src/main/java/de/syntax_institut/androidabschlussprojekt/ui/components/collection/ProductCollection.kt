@@ -43,6 +43,8 @@ fun ProductCollection(
                 ProductCard(
                     product = product,
                     isFilterMatch = isMatch,
+                    isFavorite = product.isFavorite,
+                    timestamp = product.timestamp,
                     onClick = { onNavigateToDetail(product.barcode) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
