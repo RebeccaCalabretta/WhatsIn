@@ -43,6 +43,7 @@ fun ScannedProduct.toProduct(): Product {
         nutriScore = null,
         nutriments = Nutriments(),
         countriesTags = emptyList(),
-        isFavorite = isFavorite
+        isFavorite = isFavorite,
+        timestamp = timestamp
     )
 }

@@ -87,10 +87,7 @@ class DefaultProductRepository(
                 timestamp = System.currentTimeMillis()
             )
 
-            Log.d(
-                "ProductRepository",
-                "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}"
-            )
+            Log.d("ProductRepository", "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}")
 
             dao.insert(merged.toScannedProduct())
 
