@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -117,9 +117,11 @@ fun ScanScreen(
                         scanViewModel.setupCamera(context, lifecycleOwner, previewView)
                     }
                 }
+
                 Lifecycle.Event.ON_PAUSE -> {
                     scanViewModel.stopCamera(previewView)
                 }
+
                 else -> {}
             }
         }
@@ -136,12 +138,18 @@ fun ScanScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (hasCameraPermission) {
-            Box(
+            BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .clipToBounds()
             ) {
+                val scanFraction = 0.7f
+                val stroke = 2.dp
+                val scanSize = maxWidth * scanFraction
+                val overlaySize = scanSize + stroke * 2
+                val radius = 8.dp
+
                 ScanPreview(
                     modifier = Modifier.fillMaxSize(),
                     previewView = previewView
@@ -151,28 +159,27 @@ fun ScanScreen(
                     val overlayColor = Color(0xAA000000)
                     drawRect(overlayColor)
 
-                    val scanWidth = size.width * 0.75f
-                    val scanHeight = size.height * 0.75f
+                    val sizePx = size.width * scanFraction
                     val topLeft = Offset(
-                        (size.width - scanWidth) / 2f,
-                        (size.height - scanHeight) / 2f
+                        (size.width - sizePx) / 2f,
+                        (size.height - sizePx) / 2f
                     )
 
                     drawRoundRect(
                         color = Color.Transparent,
                         topLeft = topLeft,
-                        size = Size(scanWidth, scanHeight),
-                        cornerRadius = CornerRadius(16.dp.toPx()),
+                        size = Size(sizePx, sizePx),
+                        cornerRadius = CornerRadius(radius.toPx()),
                         blendMode = BlendMode.Clear
                     )
                 }
 
                 Image(
-                    painter = painterResource(id = R.drawable.ic_crop_free_thin),
+                    painter = painterResource(id = R.drawable.crop_frame),
                     contentDescription = null,
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .size(293.dp)
+                        .size(overlaySize)
                 )
             }
         } else {
