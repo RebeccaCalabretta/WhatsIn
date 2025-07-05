@@ -90,4 +90,10 @@ class ProductViewModel(
             }
         }
     }
+
+    fun deleteProduct(barcode: String) {
+        viewModelScope.launch {
+            repository.deleteProduct(barcode)
+        }
+    }
 }
