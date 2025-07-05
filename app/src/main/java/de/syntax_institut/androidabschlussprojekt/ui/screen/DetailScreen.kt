@@ -9,12 +9,12 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +38,8 @@ fun DetailScreen(
     val product = productState.value
     val filterViolations by filterViewModel.filterViolations.collectAsState()
     var showFilterDialog by remember { mutableStateOf(false) }
+    var hasShownDialog by rememberSaveable { mutableStateOf(false) }
+
 
     LaunchedEffect(barcode) {
         productViewModel.loadProductFromDatabase(barcode)
@@ -46,17 +48,16 @@ fun DetailScreen(
     LaunchedEffect(product) {
         product?.let {
             Log.d("FilterCheck", "Produkt Tags: ${it.countriesTags}")
-            Log.d("FilterCheck", "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}")
+            Log.d(
+                "FilterCheck",
+                "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}"
+            )
 
             filterViewModel.validateProduct(it)
-            showFilterDialog = fromScan && filterViewModel.filterViolations.value.isNotEmpty()
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            productViewModel.clearSelectedProduct()
-            Log.d("DetailScreen", "selectedProduct wurde gelöscht")
+            if (fromScan && filterViewModel.filterViolations.value.isNotEmpty() && !hasShownDialog) {
+                showFilterDialog = true
+                hasShownDialog = true
+            }
         }
     }
 
@@ -83,10 +84,10 @@ fun DetailScreen(
 
         Column(modifier = Modifier.fillMaxSize()) {
             ProductHeaderSection(
-               imageUrl =  product.imageUrl,
+                imageUrl = product.imageUrl,
                 filterViolations = filterViolations,
                 isFavorite = product.isFavorite,
-               onToggleFavorite =  { productViewModel.toggleFavorite() }
+                onToggleFavorite = { productViewModel.toggleFavorite() }
             )
             ProductInfoSection(
                 name = product.name,
