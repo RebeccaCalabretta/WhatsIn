@@ -88,6 +88,7 @@ fun ScanScreen(
             scanViewModel.stopCamera(previewView)
             delay(300)
             onNavigateToDetail(product!!.barcode)
+            productViewModel.clearSelectedProduct()
         }
     }
 
