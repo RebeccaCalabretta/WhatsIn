@@ -5,8 +5,12 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,12 +30,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
@@ -125,12 +136,45 @@ fun ScanScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (hasCameraPermission) {
-            ScanPreview(
+            Box(
                 modifier = Modifier
-                    .size(200.dp)
-                    .clipToBounds(),
-                previewView = previewView
-            )
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clipToBounds()
+            ) {
+                ScanPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    previewView = previewView
+                )
+
+                Canvas(modifier = Modifier.matchParentSize()) {
+                    val overlayColor = Color(0xAA000000)
+                    drawRect(overlayColor)
+
+                    val scanWidth = size.width * 0.75f
+                    val scanHeight = size.height * 0.75f
+                    val topLeft = Offset(
+                        (size.width - scanWidth) / 2f,
+                        (size.height - scanHeight) / 2f
+                    )
+
+                    drawRoundRect(
+                        color = Color.Transparent,
+                        topLeft = topLeft,
+                        size = Size(scanWidth, scanHeight),
+                        cornerRadius = CornerRadius(16.dp.toPx()),
+                        blendMode = BlendMode.Clear
+                    )
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_crop_free_thin),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(293.dp)
+                )
+            }
         } else {
             Text("Kamera-Berechtigung erforderlich")
         }
