@@ -60,7 +60,10 @@ class DefaultProductRepository(
                 )
 
                 val product = productDto.toProduct(finalType)
-                Log.d("ProductRepository", "Produkt geladen über ${finalType.name}: ${product.name}")
+                Log.d(
+                    "ProductRepository",
+                    "Produkt geladen über ${finalType.name}: ${product.name}"
+                )
                 product
             }
 
@@ -87,7 +90,10 @@ class DefaultProductRepository(
                 timestamp = System.currentTimeMillis()
             )
 
-            Log.d("ProductRepository", "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}")
+            Log.d(
+                "ProductRepository",
+                "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}"
+            )
 
             dao.insert(merged.toScannedProduct())
 
@@ -108,5 +114,9 @@ class DefaultProductRepository(
 
     override suspend fun updateFavorite(barcode: String, isFavorite: Boolean) {
         dao.updateFavorite(barcode, isFavorite)
+    }
+
+    override suspend fun deleteProduct(barcode: String) {
+        dao.deleteByBarcode(barcode)
     }
 }

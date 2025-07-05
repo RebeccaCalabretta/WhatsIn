@@ -18,6 +18,9 @@ interface ScannedProductDao {
     @Query("UPDATE scanned_product SET isFavorite = :isFavorite WHERE barcode = :barcode")
     suspend fun updateFavorite(barcode: String, isFavorite: Boolean)
 
-    @Query("SELECT * FROM scanned_product WHERE barcode = :barcode LIMIT 1")
+    @Query("SELECT * FROM scanned_product WHERE barcode = :barcode")
     suspend fun getByBarcode(barcode: String): ScannedProduct?
+
+    @Query("DELETE FROM scanned_product WHERE barcode = :barcode")
+    suspend fun deleteByBarcode(barcode: String)
 }

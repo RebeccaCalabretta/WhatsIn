@@ -14,4 +14,6 @@ interface ProductRepository {
     suspend fun updateFavorite(barcode: String, isFavorite: Boolean)
 
     suspend fun getProductFromDatabase(barcode: String): Product
+
+    suspend fun deleteProduct(barcode: String)
 }
