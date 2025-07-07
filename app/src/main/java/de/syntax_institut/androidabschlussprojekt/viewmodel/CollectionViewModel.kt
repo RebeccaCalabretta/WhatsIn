@@ -55,25 +55,29 @@ class CollectionViewModel(
         _searchText.value = newText
     }
 
-    val filteredProducts: StateFlow<List<Product>> = searchText
-        .combine(allProducts) { text, products ->
-            if (text.isBlank()) {
-                products
-            } else {
-                val query = text.trim().lowercase()
-                products.filter { product ->
-                    product.name?.contains(query, ignoreCase = true) == true ||
-                            product.ingredientsText?.contains(query, ignoreCase = true) == true ||
-                            product.labelsTags.any { it.contains(query, ignoreCase = true) } ||
-                            product.allergensTags.any { it.contains(query, ignoreCase = true) }
-                }
+    val filteredProducts: StateFlow<List<Product>> = combine(
+        searchText,
+        allProducts,
+        sortOption
+    ) { text, products, sortOption ->
+        val filtered = if (text.isBlank()) {
+            products
+        } else {
+            val query = text.trim().lowercase()
+            products.filter { product ->
+                product.name?.contains(query, ignoreCase = true) == true ||
+                        product.ingredientsText?.contains(query, ignoreCase = true) == true ||
+                        product.labelsTags.any { it.contains(query, ignoreCase = true) } ||
+                        product.allergensTags.any { it.contains(query, ignoreCase = true) }
             }
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+
+        sortProducts(filtered, sortOption)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     val filterViolationsMap: StateFlow<Map<String, List<String>>> =
         filteredProducts
@@ -89,9 +93,9 @@ class CollectionViewModel(
             )
 
     fun getProductsByType(type: ProductType): StateFlow<List<Product>> {
-        return combine(filteredProducts, sortOption) { products, _ ->
+        return combine(filteredProducts, sortOption) { products, sortOption ->
             val filtered = products.filter { it.productType == type }
-            sortProducts(filtered)
+            sortProducts(filtered, sortOption)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -103,8 +107,8 @@ class CollectionViewModel(
         _sortOption.value = option
     }
 
-    private fun sortProducts(products: List<Product>): List<Product> {
-        return when (sortOption.value) {
+    private fun sortProducts(products: List<Product>, sortOption: SortOption): List<Product> {
+        return when (sortOption) {
             SortOption.NAME_ASC -> products.sortedWith(
                 compareByDescending<Product> { it.isFavorite }
                     .thenBy { it.name?.lowercase() ?: "" }

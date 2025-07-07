@@ -69,7 +69,7 @@ class DefaultProductRepository(
 
         } catch (e: HttpException) {
             if (e.code() == 404) {
-                Log.w("ProductRepository", "${type.name} API: Produkt nicht gefunden (404)")
+                Log.e("ProductRepository", "${type.name} API: Produkt nicht gefunden (404)")
                 null
             } else {
                 Log.e("ProductRepository", "${type.name} API: Netzwerkfehler ${e.code()}")

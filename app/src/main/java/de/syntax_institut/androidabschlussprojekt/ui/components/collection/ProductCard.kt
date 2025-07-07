@@ -65,7 +65,7 @@ fun ProductCard(
                 model = product.imageUrl?.ifBlank { "https://via.placeholder.com/150" },
                 contentDescription = "Produktbild",
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(56.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
