@@ -89,12 +89,37 @@ class CollectionViewModel(
             )
 
     fun getProductsByType(type: ProductType): StateFlow<List<Product>> {
-        return filteredProducts
-            .map { list -> list.filter { it.productType == type } }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(),
-                initialValue = emptyList()
+        return combine(filteredProducts, sortOption) { products, _ ->
+            val filtered = products.filter { it.productType == type }
+            sortProducts(filtered)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = emptyList()
+        )
+    }
+
+    private fun sortProducts(products: List<Product>): List<Product> {
+        return when (sortOption.value) {
+            SortOption.NAME_ASC -> products.sortedWith(
+                compareByDescending<Product> { it.isFavorite }
+                    .thenBy { it.name?.lowercase() ?: "" }
             )
+
+            SortOption.NAME_DESC -> products.sortedWith(
+                compareByDescending<Product> { it.isFavorite }
+                    .thenBy { it.name?.lowercase() ?: "" }
+            )
+
+            SortOption.DATE_NEWEST_FIRST -> products.sortedWith(
+                compareByDescending<Product> { it.isFavorite }
+                    .thenByDescending { it.timestamp }
+            )
+
+            SortOption.DATE_OLDEST_FIRST -> products.sortedWith(
+                compareByDescending<Product> {  it.isFavorite}
+                    .thenBy { it.timestamp }
+            )
+        }
     }
 }
