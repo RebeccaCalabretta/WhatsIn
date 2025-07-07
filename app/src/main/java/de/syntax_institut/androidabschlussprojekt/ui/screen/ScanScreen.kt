@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,6 +33,7 @@ import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
+import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreviewSubtitle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import kotlinx.coroutines.delay
@@ -110,7 +108,6 @@ fun ScanScreen(
                 Lifecycle.Event.ON_PAUSE -> {
                     scanViewModel.stopCamera(previewView)
                 }
-
                 else -> {}
             }
         }
@@ -138,15 +135,7 @@ fun ScanScreen(
             Text("Kamera-Berechtigung erforderlich")
         }
 
-        Text(
-            text = "Halte den Barcode vor die Kamera",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp)
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
+        ScanPreviewSubtitle()
 
         Spacer(Modifier.height(20.dp))
 
