@@ -3,6 +3,9 @@ package de.syntax_institut.androidabschlussprojekt.ui.components.collection
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
@@ -20,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.utils.toUiLabel
 
@@ -27,7 +31,9 @@ import de.syntax_institut.androidabschlussprojekt.utils.toUiLabel
 @Composable
 fun SortDropdown(
     currentOption: SortOption,
-    onOptionSelected: (SortOption) -> Unit
+    onOptionSelected: (SortOption) -> Unit,
+    labelOnly: Boolean = false,
+    onCollapseSearch: (() -> Unit)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -43,15 +49,32 @@ fun SortDropdown(
         onExpandedChange = { expanded = !expanded }
     ) {
         AssistChip(
-            onClick = { expanded = true },
-            label = { Text("Sortieren nach") },
+            onClick = {
+                if (labelOnly && onCollapseSearch != null) {
+                    onCollapseSearch()
+                    expanded = true
+                } else {
+                    expanded = true
+                }
+            },
+            label = {
+                if (!labelOnly) {
+                    Text("Sortieren nach")
+                }
+            },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null
                 )
             },
-            modifier = Modifier.menuAnchor()
+            modifier = Modifier
+                .menuAnchor()
+                .then(
+                    if (labelOnly) Modifier.size(36.dp)
+                    else Modifier.height(36.dp)
+                )
+                .padding(start = 2.dp)
         )
 
         ExposedDropdownMenu(
