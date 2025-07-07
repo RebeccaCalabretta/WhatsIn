@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.ui.components
+package de.syntax_institut.androidabschlussprojekt.ui.components.collection
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.text.format.DateUtils

@@ -7,6 +7,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.FilterReposito
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
+import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +32,9 @@ class CollectionViewModel(
 
     private val _activeFilter = MutableStateFlow(ActiveFilter())
     val activeFilter: StateFlow<ActiveFilter> = _activeFilter
+
+    private val _sortOption = MutableStateFlow(SortOption.DATE_NEWEST_FIRST)
+    val sortOption: StateFlow<SortOption> = _sortOption
 
     init {
         viewModelScope.launch {

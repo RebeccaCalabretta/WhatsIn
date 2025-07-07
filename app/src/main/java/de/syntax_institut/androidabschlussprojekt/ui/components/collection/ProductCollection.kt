@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.model.Product
-import de.syntax_institut.androidabschlussprojekt.ui.components.ProductCard
 
 @Composable
 fun ProductCollection(
@@ -38,7 +37,7 @@ fun ProductCollection(
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         ) {
-            items(products) { product ->
+            items(products, key = { it.barcode }) { product ->
                 Log.d("ProductCard", "Produkt: ${product.name}, isFavorite=${product.isFavorite}")
                 val isMatch = violationsMap[product.barcode].isNullOrEmpty()
 
