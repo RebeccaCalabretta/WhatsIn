@@ -26,14 +26,13 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreview
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanPreviewSubtitle
+import de.syntax_institut.androidabschlussprojekt.utils.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import kotlinx.coroutines.delay
@@ -96,24 +95,18 @@ fun ScanScreen(
         }
     }
 
-    DisposableEffect(Unit) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_RESUME -> {
-                    if (hasCameraPermission) {
-                        scanViewModel.setupCamera(context, lifecycleOwner, previewView)
-                    }
-                }
-
-                Lifecycle.Event.ON_PAUSE -> {
-                    scanViewModel.stopCamera(previewView)
-                }
-                else -> {}
-            }
-        }
+    DisposableEffect(hasCameraPermission) {
+        val observer = observeCameraLifecycle(
+            context = context,
+            lifecycleOwner = lifecycleOwner,
+            previewView = previewView,
+            scanViewModel = scanViewModel,
+            hasPermission = hasCameraPermission
+        )
 
         val lifecycle = lifecycleOwner.lifecycle
         lifecycle.addObserver(observer)
+
         onDispose {
             lifecycle.removeObserver(observer)
         }
