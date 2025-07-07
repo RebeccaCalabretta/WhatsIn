@@ -112,7 +112,7 @@ class CollectionViewModel(
 
             SortOption.NAME_DESC -> products.sortedWith(
                 compareByDescending<Product> { it.isFavorite }
-                    .thenBy { it.name?.lowercase() ?: "" }
+                    .thenByDescending { it.name?.lowercase() ?: "" }
             )
 
             SortOption.DATE_NEWEST_FIRST -> products.sortedWith(
