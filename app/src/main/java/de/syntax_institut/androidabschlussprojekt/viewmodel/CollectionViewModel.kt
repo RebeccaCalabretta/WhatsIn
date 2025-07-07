@@ -99,6 +99,10 @@ class CollectionViewModel(
         )
     }
 
+    fun updateSortOption(option: SortOption) {
+        _sortOption.value = option
+    }
+
     private fun sortProducts(products: List<Product>): List<Product> {
         return when (sortOption.value) {
             SortOption.NAME_ASC -> products.sortedWith(
