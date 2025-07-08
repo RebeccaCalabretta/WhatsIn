@@ -103,7 +103,7 @@ class ProductViewModel(
             val product = repository.getProductFromDatabase(barcode)
             recentlyDeletedProduct = product
             repository.deleteProduct(barcode)
-            _snackbarMessage.emit("Produkt gelöscht")
+            _snackbarMessage.emit("Produkt entfernt")
         }
     }
 

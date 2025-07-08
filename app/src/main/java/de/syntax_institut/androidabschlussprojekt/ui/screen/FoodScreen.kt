@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -80,7 +81,12 @@ fun FoodScreen(
     LaunchedEffect(Unit) {
         launch {
             productViewModel.snackbarMessage.collectLatest { message ->
-                snackbarHostState.showSnackbar(message)
+                val result = snackbarHostState.showSnackbar(
+                    message = message,
+                    actionLabel = if (message == "Produkt entfernt") "Rückgängig" else null
+                )
+                if (result == SnackbarResult.ActionPerformed && message == "Produkt entfernt")
+                    productViewModel.undoDelete()
             }
         }
     }
