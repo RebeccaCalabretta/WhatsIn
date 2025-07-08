@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,8 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.collection.Produ
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SortDropdown
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -153,6 +156,14 @@ fun FoodScreen(
                 onNavigateToDetail = onNavigateToDetail,
                 onDeleteProduct = { barcode -> productViewModel.deleteProduct(barcode) }
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        launch {
+            productViewModel.snackbarMessage.collectLatest { message ->
+                snackbarHostState.showSnackbar(message)
+            }
         }
     }
 }

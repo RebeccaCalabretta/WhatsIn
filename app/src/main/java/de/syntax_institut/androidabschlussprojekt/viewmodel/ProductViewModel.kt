@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
-
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +7,9 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProduct
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.model.Product
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,9 @@ class ProductViewModel(
 
     private val _productError = MutableStateFlow<ProductError?>(null)
     val productError = _productError.asStateFlow()
+
+    private val _snackbarMessage = MutableSharedFlow<String>()
+    val snackbarMessage: SharedFlow<String> = _snackbarMessage
 
     fun clearSelectedProduct() {
         _selectedProduct.value = null
@@ -94,6 +98,7 @@ class ProductViewModel(
     fun deleteProduct(barcode: String) {
         viewModelScope.launch {
             repository.deleteProduct(barcode)
+            _snackbarMessage.emit("Produkt gelöscht")
         }
     }
 }
