@@ -43,7 +43,8 @@ fun ProductCard(
     isFilterMatch: Boolean,
     isFavorite: Boolean,
     timestamp: Long,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = Modifier

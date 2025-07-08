@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
-import de.syntax_institut.androidabschlussprojekt.utils.scan.handleProductError
 
 @Composable
 fun ScanScreenContent(
@@ -49,9 +49,11 @@ fun ScanScreenContent(
             onClick = onNavigateToDetail
         )
 
-        handleProductError(
-            error = productError,
-            onDismiss = onErrorDismiss
-        )?.invoke()
+        if (productError != null) {
+            ErrorDialog(
+                message = productError.message,
+                onDismiss = onErrorDismiss
+            )
+        }
     }
 }

@@ -17,12 +17,14 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.collection.Produ
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchField
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SortDropdown
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun BeautyScreen(
     collectionViewModel: CollectionViewModel = koinViewModel(),
+    productViewModel: ProductViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
     val products by collectionViewModel
@@ -61,7 +63,8 @@ fun BeautyScreen(
             ProductCollection(
                 products = products,
                 violationsMap = violationsMap,
-                onNavigateToDetail = onNavigateToDetail
+                onNavigateToDetail = onNavigateToDetail,
+                onDeleteProduct = { barcode -> productViewModel.deleteProduct(barcode)}
             )
         }
     }

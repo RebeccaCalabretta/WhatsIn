@@ -12,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
@@ -20,10 +19,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
 import de.syntax_institut.androidabschlussprojekt.utils.observeCameraLifecycle
-import de.syntax_institut.androidabschlussprojekt.utils.scan.handleScanSuccess
-import de.syntax_institut.androidabschlussprojekt.utils.scan.handleScannedBarcode
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -62,25 +60,19 @@ fun ScanScreen(
     }
 
     LaunchedEffect(scannedBarcode) {
-        handleScannedBarcode(
-            barcode = scannedBarcode,
-            scanViewModel = scanViewModel,
-            productViewModel = productViewModel
-        )
+        scannedBarcode?.let {
+            productViewModel.startScan(it)
+            scanViewModel.resetScan()
+        }
     }
 
-    val scope = rememberCoroutineScope()
-
     LaunchedEffect(product, productError) {
-        handleScanSuccess(
-            product = product,
-            productError = productError,
-            previewView = previewView,
-            productViewModel = productViewModel,
-            scanViewModel = scanViewModel,
-            scope = scope,
-            onNavigateToDetail = onNavigateToDetail
-        )
+        if (product != null && productError == null) {
+            scanViewModel.stopCamera(previewView)
+            delay(300)
+            onNavigateToDetail(product!!.barcode)
+            productViewModel.clearSelectedProduct()
+        }
     }
 
     LaunchedEffect(productError) {

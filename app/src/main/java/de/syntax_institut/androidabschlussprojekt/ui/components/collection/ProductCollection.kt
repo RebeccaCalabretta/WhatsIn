@@ -21,6 +21,7 @@ fun ProductCollection(
     products: List<Product>,
     violationsMap: Map<String, List<String>>,
     onNavigateToDetail: (String) -> Unit,
+    onDeleteProduct: (String) -> Unit,
     title: String? = null
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -41,12 +42,13 @@ fun ProductCollection(
                 Log.d("ProductCard", "Produkt: ${product.name}, isFavorite=${product.isFavorite}")
                 val isMatch = violationsMap[product.barcode].isNullOrEmpty()
 
-                ProductCard(
+                SwipeableProductCard(
                     product = product,
                     isFilterMatch = isMatch,
                     isFavorite = product.isFavorite,
                     timestamp = product.timestamp,
-                    onClick = { onNavigateToDetail(product.barcode) }
+                    onClick = { onNavigateToDetail(product.barcode) },
+                    onDelete = { onDeleteProduct(product.barcode) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
