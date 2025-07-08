@@ -3,10 +3,13 @@ package de.syntax_institut.androidabschlussprojekt.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -49,7 +52,11 @@ fun AppStart(
         val showBottomBar = currentDestination != FilterRoute::class.qualifiedName
         val showFab = selectedTab != TabItem.Scan && showBottomBar
 
+        val snackbarHostState = remember { SnackbarHostState() }
+
         Scaffold(
+            snackbarHost = { SnackbarHost(snackbarHostState) },
+
             topBar = {
                 TopBar(navController)
             },
@@ -96,6 +103,7 @@ fun AppStart(
                     }
                     composable<FoodRoute> {
                         FoodScreen(
+                            snackbarHostState = snackbarHostState,
                             onNavigateToDetail = { barcode ->
                                 navController.navigate(DetailRoute(barcode))
                             }
