@@ -111,6 +111,7 @@ fun AppStart(
                     }
                     composable<BeautyRoute> {
                         BeautyScreen(
+                            snackbarHostState = snackbarHostState,
                             onNavigateToDetail = { barcode ->
                                 navController.navigate(DetailRoute(barcode))
                             }

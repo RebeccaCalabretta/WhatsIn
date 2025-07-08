@@ -1,17 +1,9 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -22,14 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
+import de.syntax_institut.androidabschlussprojekt.ui.components.collection.CollectionHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductCollection
-import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchBar
-import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SortDropdown
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -58,39 +48,15 @@ fun FoodScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Suche",
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { showSearch = !showSearch }
-            )
-
-            if (showSearch) {
-                Spacer(modifier = Modifier.width(4.dp))
-
-                SearchBar(
-                    searchText = searchText,
-                    onSearchTextChange = { collectionViewModel.updateSearchText(it) },
-                    modifier = Modifier.weight(1f)
-                )
-
-            } else {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-
-            SortDropdown(
-                currentOption = sortOption,
-                onOptionSelected = { collectionViewModel.updateSortOption(it) },
-                labelOnly = showSearch,
-                onCollapseSearch = { showSearch = false }
-            )
-        }
+        CollectionHeader(
+            searchText = searchText,
+            onSearchTextChange = { collectionViewModel.updateSearchText(it) },
+            sortOption = sortOption,
+            onSortOptionSelected = { collectionViewModel.updateSortOption(it) },
+            showSearch = showSearch,
+            onToggleSearch = { showSearch = !showSearch },
+            onCollapseSearch = { showSearch = false }
+        )
 
         if (products.isEmpty()) {
             Text(
