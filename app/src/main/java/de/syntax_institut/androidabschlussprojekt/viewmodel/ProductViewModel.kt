@@ -106,4 +106,14 @@ class ProductViewModel(
             _snackbarMessage.emit("Produkt gelöscht")
         }
     }
+
+    fun undoDelete() {
+        viewModelScope.launch {
+            recentlyDeletedProduct?.let { product ->
+                repository.saveScannedProduct(product)
+                recentlyDeletedProduct = null
+                _snackbarMessage.emit("Produkt wiederhergestellt")
+            }
+        }
+    }
 }
