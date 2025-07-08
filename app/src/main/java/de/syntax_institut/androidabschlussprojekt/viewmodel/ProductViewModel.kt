@@ -26,6 +26,9 @@ class ProductViewModel(
     private val _snackbarMessage = MutableSharedFlow<String>()
     val snackbarMessage: SharedFlow<String> = _snackbarMessage
 
+    var recentlyDeletedProduct: Product? = null
+        private set
+
     fun clearSelectedProduct() {
         _selectedProduct.value = null
     }
@@ -97,6 +100,8 @@ class ProductViewModel(
 
     fun deleteProduct(barcode: String) {
         viewModelScope.launch {
+            val product = repository.getProductFromDatabase(barcode)
+            recentlyDeletedProduct = product
             repository.deleteProduct(barcode)
             _snackbarMessage.emit("Produkt gelöscht")
         }
