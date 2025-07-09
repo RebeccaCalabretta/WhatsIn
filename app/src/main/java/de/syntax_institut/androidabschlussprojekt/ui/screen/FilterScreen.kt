@@ -29,8 +29,8 @@ fun FilterScreen(
 
     val searchText by filterViewModel.searchText.collectAsState()
 
-    val configs = remember(activeFilter) {
-        filterViewModel.buildFilterConfigs()
+    val configs = remember(activeFilter, searchText) {
+        filterViewModel.buildFilterConfigs(searchText)
     }
 
     if (isLoading) {

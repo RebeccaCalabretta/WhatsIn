@@ -6,10 +6,12 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
 import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareFilterItems
+import kotlinx.coroutines.flow.StateFlow
 
 class FilterConfigUseCase {
     operator fun invoke(
         active: ActiveFilter,
+        searchText: StateFlow<String>,
         onUpdateFilter: (ActiveFilter) -> Unit
     ): List<FilterConfig> {
 

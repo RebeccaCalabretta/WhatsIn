@@ -48,9 +48,9 @@ class FilterViewModel(
         }
     }
 
-    fun buildFilterConfigs(): List<FilterConfig> {
+    fun buildFilterConfigs(searchText: String): List<FilterConfig> {
         val active = activeFilter.value
-        return filterConfigUseCase(active) { updatedFilter ->
+        return filterConfigUseCase(active, this.searchText) { updatedFilter ->
             updateFilter(updatedFilter)
         }
     }
