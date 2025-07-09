@@ -1,13 +1,21 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.detail
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -15,17 +23,41 @@ fun ProductInfoSection(
     name: String?,
     brand: String?,
     corporation: String?,
-    labels: List<String>
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Text(name ?: "Unbekannt", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(2.dp))
-        Text(brand ?: "Keine Marke", style = MaterialTheme.typography.bodyMedium)
-        if (!corporation.isNullOrBlank()) {
-            Spacer(modifier = Modifier.height(2.dp))
-            Text("Konzern: $corporation", style = MaterialTheme.typography.bodyMedium)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+    ) {
+
+        Column {
+            Text(
+                text = name ?: "Unbekannt",
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (!brand.isNullOrBlank()) {
+                Text(brand, style = MaterialTheme.typography.bodySmall)
+            }
+            if (!corporation.isNullOrBlank()) {
+                Text("Gehört zu: $corporation", style = MaterialTheme.typography.bodySmall)
+            }
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        ProductLabelSection(labels)
+
+        IconButton(
+            onClick = onToggleFavorite,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(24.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Favorite,
+                contentDescription = "Favorit",
+                tint = if (isFavorite) Color.Red else Color.Gray
+            )
+        }
     }
 }

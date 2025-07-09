@@ -24,7 +24,7 @@ fun ProductLabelSection(tags: List<String>) {
     if (mappedLabels.isNotEmpty()) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(vertical = 8.dp)
         ) {
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
