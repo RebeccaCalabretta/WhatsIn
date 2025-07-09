@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -29,13 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.ProductImageBox
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
@@ -49,9 +46,6 @@ fun ProductHeaderSection(
     filterViolations: List<String>
 ) {
     var showImageDialog by remember { mutableStateOf(false) }
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val imageSize = screenWidth * 0.2f
 
     Column(modifier = Modifier.fillMaxWidth()) {
 
@@ -61,27 +55,11 @@ fun ProductHeaderSection(
                 .padding(top = 20.dp, start = 16.dp, end = 16.dp, bottom = 12.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Box(
-                modifier = Modifier
-                    .size(imageSize)
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(Color.LightGray)
-                    .clickable(enabled = imageUrl != null) {
-                        if (!imageUrl.isNullOrBlank()) showImageDialog = true
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                if (!imageUrl.isNullOrBlank()) {
-                    AsyncImage(
-                        model = imageUrl,
-                        contentDescription = "Produktbild",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    Text("Kein Bild", style = MaterialTheme.typography.bodySmall)
-                }
-            }
+            ProductImageBox(
+                imageUrl = imageUrl,
+                imageSizeRatio = 0.20f,
+                onImageClick = { showImageDialog = true }
+            )
 
             Spacer(modifier = Modifier.width(16.dp))
 
