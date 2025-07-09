@@ -6,6 +6,7 @@ import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
+import de.syntax_institut.androidabschlussprojekt.domain.usecase.SearchUseCase
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
@@ -20,8 +21,9 @@ import kotlinx.coroutines.launch
 
 class CollectionViewModel(
     private val repository: ProductRepository,
+    private val filterRepository: FilterRepository,
     private val filterCheckUseCase: FilterCheckUseCase,
-    private val filterRepository: FilterRepository
+    private val searchUseCase: SearchUseCase
 ) : ViewModel() {
 
     private val _searchText = MutableStateFlow("")
@@ -60,17 +62,7 @@ class CollectionViewModel(
         allProducts,
         sortOption
     ) { text, products, sortOption ->
-        val filtered = if (text.isBlank()) {
-            products
-        } else {
-            val query = text.trim().lowercase()
-            products.filter { product ->
-                product.name?.contains(query, ignoreCase = true) == true ||
-                        product.ingredientsText?.contains(query, ignoreCase = true) == true ||
-                        product.labelsTags.any { it.contains(query, ignoreCase = true) } ||
-                        product.allergensTags.any { it.contains(query, ignoreCase = true) }
-            }
-        }
+        val filtered = searchUseCase(products, text)
 
         sortProducts(filtered, sortOption)
     }.stateIn(

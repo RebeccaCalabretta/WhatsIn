@@ -12,6 +12,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.FilterReposito
 import de.syntax_institut.androidabschlussprojekt.data.repository.ProductRepository
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterConfigUseCase
+import de.syntax_institut.androidabschlussprojekt.domain.usecase.SearchUseCase
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
@@ -48,6 +49,7 @@ val appModule = module {
 
     factoryOf(::FilterCheckUseCase)
     factoryOf(::FilterConfigUseCase)
+    factoryOf(::SearchUseCase)
 
     viewModelOf(::ProductViewModel)
     viewModelOf(::FilterViewModel)
