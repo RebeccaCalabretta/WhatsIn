@@ -1,17 +1,20 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.general
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,40 +26,34 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ExpandableCard(
-    title: String,
-    isInitiallyExpanded: Boolean = false,
+    title: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    cardColors: CardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
     content: @Composable () -> Unit
 ) {
-    var expanded by remember { mutableStateOf(isInitiallyExpanded) }
+    var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp)
-            .animateContentSize(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        modifier = modifier.clickable { expanded = !expanded },
+        colors = cardColors
     ) {
-        Column(Modifier.padding(12.dp)) {
+        Column {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .clickable { expanded = !expanded },
+                    .padding(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
-                )
+                Box(Modifier.weight(1f)) { title() }
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                     contentDescription = if (expanded) "Weniger anzeigen" else "Mehr anzeigen"
                 )
             }
-            if (expanded) {
-                Spacer(Modifier.height(8.dp))
-                content()
+            AnimatedVisibility(visible = expanded) {
+                Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+                    content()
+                }
             }
         }
     }

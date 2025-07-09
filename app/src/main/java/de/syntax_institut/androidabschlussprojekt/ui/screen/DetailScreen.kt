@@ -99,6 +99,7 @@ fun DetailScreen(
                 additivesTags = product.additivesTags,
                 allergensTags = product.allergensTags,
                 nutriScore = product.nutriScore,
+                brand = product.brand,
                 corporation = product.corporation
             )
         }
