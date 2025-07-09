@@ -47,3 +47,19 @@ fun prepareFilterItems(
 
     return visibleItems to onToggle
 }
+
+fun prepareMappedItems(
+    raw: List<String>,
+    selected: List<String>,
+    update: (List<String>) -> Unit,
+    mapper: (String) -> String?,
+    allLabel: String? = null
+): Pair<List<String>, (String) -> Unit> {
+    return prepareFilterItems(
+        rawItems = raw,
+        selected = selected,
+        update = update,
+        allLabel = allLabel,
+        map = { mapper(it) ?: it }
+    )
+}

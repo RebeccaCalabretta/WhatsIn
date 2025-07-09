@@ -607,4 +607,5 @@ object CorporationMapper {
     fun getCorporationForBrand(brand: String): String? {
         return brandToCorporation[brand.trim().lowercase()]
     }
+    fun map(tag: String): String? = getCorporationForBrand(tag)
 }
