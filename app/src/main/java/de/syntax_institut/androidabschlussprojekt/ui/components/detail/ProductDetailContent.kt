@@ -40,7 +40,7 @@ fun ProductDetailContent(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Zutaten:", style = MaterialTheme.typography.titleMedium)
+                Text("Inhaltsstoffe:", style = MaterialTheme.typography.titleMedium)
                 Text(
                     ingredientsText ?: "Keine Angaben",
                     style = MaterialTheme.typography.bodyMedium

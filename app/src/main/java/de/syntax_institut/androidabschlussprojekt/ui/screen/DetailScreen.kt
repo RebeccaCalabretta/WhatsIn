@@ -89,7 +89,8 @@ fun DetailScreen(
                 corporation = product.corporation,
                 filterViolations = filterViolations,
                 isFavorite = product.isFavorite,
-                onToggleFavorite = { productViewModel.toggleFavorite() }
+                onToggleFavorite = { productViewModel.toggleFavorite() },
+                labels = product.labelsTags
             )
 
             ProductDetailContent(

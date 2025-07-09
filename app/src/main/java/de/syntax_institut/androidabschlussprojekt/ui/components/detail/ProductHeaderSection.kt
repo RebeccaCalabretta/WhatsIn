@@ -26,16 +26,20 @@ fun ProductHeaderSection(
     corporation: String?,
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit,
-    filterViolations: List<String>
+    filterViolations: List<String>,
+    labels: List<String>
 ) {
     var showImageDialog by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-
+    Column(
+        modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, start = 16.dp, end = 16.dp, bottom = 12.dp),
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.Top
         ) {
             ProductImageBox(
@@ -56,6 +60,8 @@ fun ProductHeaderSection(
         }
 
         CriteriaStatusSection(filterViolations)
+
+        ProductLabelSection(labels)
     }
 
     ProductImagePreview(

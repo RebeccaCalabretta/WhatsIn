@@ -29,7 +29,6 @@ fun ProductInfoSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp)
     ) {
 
         Column {
@@ -51,7 +50,8 @@ fun ProductInfoSection(
             onClick = onToggleFavorite,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .size(24.dp)
+                .size(28.dp)
+                .padding(4.dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Favorite,
