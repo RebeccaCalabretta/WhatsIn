@@ -33,8 +33,8 @@ fun ProductHeaderSection(
 
     Column(
         modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
         Row(
             modifier = Modifier
@@ -60,6 +60,7 @@ fun ProductHeaderSection(
         }
 
         CriteriaStatusSection(filterViolations)
+
 
         ProductLabelSection(labels)
     }

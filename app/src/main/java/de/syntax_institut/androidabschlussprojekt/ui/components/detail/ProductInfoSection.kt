@@ -49,7 +49,7 @@ fun ProductInfoSection(
         IconButton(
             onClick = onToggleFavorite,
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(Alignment.TopEnd)
                 .size(28.dp)
                 .padding(4.dp)
         ) {
