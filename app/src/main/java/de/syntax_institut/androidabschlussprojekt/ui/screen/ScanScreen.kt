@@ -16,7 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
 import de.syntax_institut.androidabschlussprojekt.utils.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
@@ -99,7 +98,6 @@ fun ScanScreen(
         hasCameraPermission = hasCameraPermission,
         previewView = previewView,
         productError = productError,
-        onNavigateToDetail = { onNavigateToDetail(dummyProduct.barcode) },
         onErrorDismiss = {
             productViewModel.clearProductError()
             scanViewModel.resetScan()

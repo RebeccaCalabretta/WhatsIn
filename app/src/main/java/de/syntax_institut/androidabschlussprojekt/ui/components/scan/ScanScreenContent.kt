@@ -15,14 +15,12 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
-import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
 
 @Composable
 fun ScanScreenContent(
     hasCameraPermission: Boolean,
     previewView: PreviewView,
     productError: ProductError?,
-    onNavigateToDetail: () -> Unit,
     onErrorDismiss: () -> Unit
 ) {
     Column(
@@ -42,12 +40,8 @@ fun ScanScreenContent(
         }
 
         ScanPreviewSubtitle()
-        Spacer(Modifier.height(20.dp))
 
-        GeneralButton(
-            text = "Scannen",
-            onClick = onNavigateToDetail
-        )
+        Spacer(Modifier.height(20.dp))
 
         if (productError != null) {
             ErrorDialog(
