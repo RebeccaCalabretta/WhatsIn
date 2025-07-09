@@ -11,9 +11,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,7 +27,7 @@ fun FilterScreen(
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
 
-    var searchText by remember { mutableStateOf("") }
+    val searchText by filterViewModel.searchText.collectAsState()
 
     val configs = remember(activeFilter) {
         filterViewModel.buildFilterConfigs()
@@ -51,7 +49,7 @@ fun FilterScreen(
         ) {
             SearchBar(
                 searchText =searchText,
-                onSearchTextChange = { searchText = it },
+                onSearchTextChange = { filterViewModel.updateSearchText(it) },
                 modifier = Modifier.fillMaxWidth()
             )
 

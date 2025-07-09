@@ -29,6 +29,9 @@ class FilterViewModel(
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _searchText = MutableStateFlow("")
+    val searchText: StateFlow<String> = _searchText
+
     init {
         Log.d("FilterViewModel", "FilterViewModel gestartet – Filter wird vorbereitet")
         viewModelScope.launch {
@@ -55,5 +58,9 @@ class FilterViewModel(
     fun validateProduct(product: Product) {
         val filter = _activeFilter.value
         _filterViolations.value = filterCheckUseCase(product, filter)
+    }
+
+    fun updateSearchText(newText: String) {
+        _searchText.value = newText
     }
 }
