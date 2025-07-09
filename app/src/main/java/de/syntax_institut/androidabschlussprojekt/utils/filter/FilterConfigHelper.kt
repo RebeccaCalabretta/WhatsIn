@@ -5,13 +5,16 @@ fun prepareFilterItems(
     selected: List<String>,
     update: (List<String>) -> Unit,
     allLabel: String? = null,
+    searchValue: String = "",
     map: (String) -> String = { it }
 ): Pair<List<String>, (String) -> Unit> {
 
     val cleanItems = rawItems.filter { it.isNotBlank() }.distinct()
 
     val sortedItems = buildList {
-        allLabel?.let { add(it) }
+        if (searchValue.isBlank()) {
+            allLabel?.let { add(it) }
+        }
         addAll(selected.intersect(cleanItems).sorted())
         addAll(cleanItems.minus(selected).sorted())
     }
@@ -32,10 +35,12 @@ fun prepareFilterItems(
                     current.clear()
                 }
             }
+
             tag in current -> {
                 current.remove(tag)
                 allLabel?.let { current.remove(it) }
             }
+
             else -> {
                 current.add(tag)
                 allLabel?.let { current.remove(it) }
