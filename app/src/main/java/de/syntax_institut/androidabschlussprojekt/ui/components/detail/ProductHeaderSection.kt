@@ -60,8 +60,9 @@ fun ProductHeaderSection(
             )
         }
 
-        CriteriaStatusSection(filterViolations)
+        BrandCorporationInfo(brand = brand, corporation = corporation)
 
+        CriteriaStatusSection(filterViolations)
 
         ProductLabelSection(labels)
     }
