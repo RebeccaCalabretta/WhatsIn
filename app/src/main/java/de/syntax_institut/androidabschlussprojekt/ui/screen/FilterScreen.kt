@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchBar
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
@@ -55,7 +56,7 @@ fun FilterScreen(
 
             configs.forEach { config ->
                 FilterSection(
-                    title = config.title,
+                    title = stringResource(config.titleRes),
                     items = config.items,
                     selectedItems = config.selectedItems,
                     onToggleItem = config.onToggleItem

@@ -16,15 +16,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.CollectionHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductCollection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -44,6 +45,9 @@ fun FoodScreen(
 
     var showSearch by remember { mutableStateOf(false) }
 
+    val productRemoved = stringResource(R.string.product_removed)
+    val undo = stringResource(R.string.undo)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +65,7 @@ fun FoodScreen(
 
         if (products.isEmpty()) {
             Text(
-                text = "Keine Produkte gefunden",
+                text = stringResource(R.string.no_products_saved),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
@@ -79,14 +83,17 @@ fun FoodScreen(
     }
 
     LaunchedEffect(Unit) {
-        launch {
-            productViewModel.snackbarMessage.collectLatest { message ->
-                val result = snackbarHostState.showSnackbar(
-                    message = message,
-                    actionLabel = if (message == "Produkt entfernt") "Rückgängig" else null
-                )
-                if (result == SnackbarResult.ActionPerformed && message == "Produkt entfernt")
-                    productViewModel.undoDelete()
+        productViewModel.snackbarMessage.collectLatest { messageKey ->
+            val message = when (messageKey) {
+                "product_removed" -> productRemoved
+                else -> messageKey
+            }
+            val result = snackbarHostState.showSnackbar(
+                message = message,
+                actionLabel = if (messageKey == "product_removed") undo else null
+            )
+            if (result == SnackbarResult.ActionPerformed && messageKey == "product_removed") {
+                productViewModel.undoDelete()
             }
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ProductImageBox
 
 @SuppressLint("ConfigurationScreenWidthHeight")
@@ -26,7 +27,7 @@ fun ProductHeaderSection(
     corporation: String?,
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit,
-    filterViolations: List<String>,
+    filterViolations: List<FilterViolation>,
     labels: List<String>
 ) {
     var showImageDialog by remember { mutableStateOf(false) }

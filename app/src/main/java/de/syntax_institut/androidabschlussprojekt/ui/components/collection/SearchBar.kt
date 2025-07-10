@@ -20,7 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
 fun SearchBar(
@@ -52,7 +54,7 @@ fun SearchBar(
                     Box(modifier = Modifier.weight(1f)) {
                         if (searchText.isBlank()) {
                             Text(
-                                text = "Suche...",
+                                text = stringResource(R.string.search),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -62,7 +64,7 @@ fun SearchBar(
                     if (searchText.isNotBlank()) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Text löschen",
+                            contentDescription = stringResource(R.string.clear_text),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier
                                 .size(24.dp)

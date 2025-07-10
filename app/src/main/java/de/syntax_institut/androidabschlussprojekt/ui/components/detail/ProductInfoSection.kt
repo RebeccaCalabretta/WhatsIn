@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
 fun ProductInfoSection(
@@ -33,7 +35,7 @@ fun ProductInfoSection(
 
         Column {
             Text(
-                text = name ?: "Unbekannt",
+                text = name ?: stringResource(R.string.unknown),
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -42,7 +44,7 @@ fun ProductInfoSection(
                 Text(brand, style = MaterialTheme.typography.bodySmall)
             }
             if (!corporation.isNullOrBlank()) {
-                Text("Gehört zu: $corporation", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.belongs_to), style = MaterialTheme.typography.bodySmall)
             }
         }
 
@@ -55,7 +57,7 @@ fun ProductInfoSection(
         ) {
             Icon(
                 imageVector = Icons.Default.Favorite,
-                contentDescription = "Favorit",
+                contentDescription = stringResource(R.string.favorite),
                 tint = if (isFavorite) Color.Red else Color.Gray
             )
         }

@@ -12,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.theme.ButtonGradient
 
 @Composable
@@ -39,7 +41,7 @@ fun GradientFab(
         ) {
             Icon(
                 painter = painterResource(id = iconResId),
-                contentDescription = "Scan",
+                contentDescription = stringResource(R.string.scan),
                 tint = Color.White
             )
         }

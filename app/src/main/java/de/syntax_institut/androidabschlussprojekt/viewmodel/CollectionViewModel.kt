@@ -10,6 +10,7 @@ import de.syntax_institut.androidabschlussprojekt.domain.usecase.SearchUseCase
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
+import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -71,7 +72,7 @@ class CollectionViewModel(
         initialValue = emptyList()
     )
 
-    val filterViolationsMap: StateFlow<Map<String, List<String>>> =
+    val filterViolationsMap: StateFlow<Map<String, List<FilterViolation>>> =
         filteredProducts
             .combine(activeFilter) { products, filter ->
                 products.associate { product ->

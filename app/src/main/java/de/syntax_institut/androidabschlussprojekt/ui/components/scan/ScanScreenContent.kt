@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.error.ProductError
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ErrorDialog
 
@@ -36,7 +38,7 @@ fun ScanScreenContent(
                 previewView = previewView
             )
         } else {
-            Text("Kamera-Berechtigung erforderlich")
+            Text(stringResource(R.string.camera_permission))
         }
 
         ScanPreviewSubtitle()
@@ -45,7 +47,7 @@ fun ScanScreenContent(
 
         if (productError != null) {
             ErrorDialog(
-                message = productError.message,
+                message = stringResource(productError.messageRes),
                 onDismiss = onErrorDismiss
             )
         }

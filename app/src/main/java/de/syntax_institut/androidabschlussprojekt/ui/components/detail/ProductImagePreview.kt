@@ -13,6 +13,8 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.res.stringResource
+import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
 fun ProductImagePreview(
@@ -30,7 +32,7 @@ fun ProductImagePreview(
             ) {
                 AsyncImage(
                     model = imageUrl,
-                    contentDescription = "Produktbild vergrößert",
+                    contentDescription = stringResource(R.string.product_image_zoomed),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .aspectRatio(1f)
@@ -42,7 +44,11 @@ fun ProductImagePreview(
                         .align(Alignment.TopEnd)
                         .padding(24.dp)
                 ) {
-                    Icon(Icons.Default.Close, contentDescription = "Schließen", tint = Color.White)
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = stringResource(R.string.close),
+                        tint = Color.White
+                    )
                 }
             }
         }

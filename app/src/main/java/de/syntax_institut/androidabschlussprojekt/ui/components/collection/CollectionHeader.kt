@@ -12,7 +12,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 
 @Composable
@@ -32,7 +34,7 @@ fun CollectionHeader(
     ) {
         Icon(
             imageVector = Icons.Default.Search,
-            contentDescription = "Suche",
+            contentDescription = stringResource(R.string.search),
             modifier = Modifier
                 .size(24.dp)
                 .clickable { onToggleSearch() }

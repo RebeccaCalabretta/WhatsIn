@@ -18,6 +18,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductDetailContent
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductHeaderSection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
@@ -76,8 +78,10 @@ fun DetailScreen(
                         Text("OK")
                     }
                 },
-                title = { Text("Achtung") },
-                text = { Text("Dieses Produkt entspricht nicht deinen Filterkriterien.") }
+                title = { Text(stringResource(R.string.attention))
+                },
+                text = { Text(stringResource(R.string.product_not_matching_filter))
+                }
             )
         }
 

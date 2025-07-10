@@ -13,8 +13,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.navigation.BeautyRoute
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
 import de.syntax_institut.androidabschlussprojekt.navigation.FoodRoute
@@ -35,12 +37,12 @@ fun TopBar(navController: NavController) {
                 currentDestination?.contains("DetailRoute") == true
 
     val title = when {
-        currentDestination == ScanRoute::class.qualifiedName -> "What's In"
-        currentDestination == SettingsRoute::class.qualifiedName -> "Einstellungen"
-        currentDestination == FilterRoute::class.qualifiedName -> "Filter Optionen"
-        currentDestination == FoodRoute::class.qualifiedName -> "Lebensmittel Sammlung"
-        currentDestination == BeautyRoute::class.qualifiedName -> "Kosmetik Sammlung"
-        currentDestination?.contains("DetailRoute") == true -> "Produkt Details"
+        currentDestination == ScanRoute::class.qualifiedName -> stringResource(R.string.app_name)
+        currentDestination == SettingsRoute::class.qualifiedName -> stringResource(R.string.settings)
+        currentDestination == FilterRoute::class.qualifiedName -> stringResource(R.string.filter_options)
+        currentDestination == FoodRoute::class.qualifiedName -> stringResource(R.string.food_collection)
+        currentDestination == BeautyRoute::class.qualifiedName -> stringResource(R.string.beauty_collection)
+        currentDestination?.contains("DetailRoute") == true -> stringResource(R.string.product_details)
         else -> ""
     }
 
@@ -53,8 +55,7 @@ fun TopBar(navController: NavController) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Zurück"
-                    )
+                        contentDescription = stringResource(R.string.back)                    )
                 }
             }
         },
@@ -63,7 +64,7 @@ fun TopBar(navController: NavController) {
                 IconButton(onClick = {
                     navController.navigate(SettingsRoute)
                 }) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = "Einstellungen")
+                    Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                 }
             }
         },

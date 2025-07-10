@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.domain.usecase
 
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.filter.StaticFilterValues
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
@@ -40,7 +41,7 @@ class FilterConfigUseCase {
             raw = filteredAllergens,
             selected = active.excludedAllergens,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedAllergens = updatedItems)) },
-            allLabel = "Alle",
+            // allLabel wird in der UI als stringResource(R.string.all) gesetzt!
             mapper = AllergenMapper::map
         )
 
@@ -51,15 +52,14 @@ class FilterConfigUseCase {
             raw = filteredAdditives,
             selected = active.excludedAdditives,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedAdditives = updatedItems)) },
-            allLabel = "Alle",
             mapper = AdditiveMapper::map
         )
 
-        val fiteredLabels = StaticFilterValues.labels.filter {
+        val filteredLabels = StaticFilterValues.labels.filter {
             it.contains(searchValue, ignoreCase = true)
         }
         val (labels, labelsToggle) = prepareMappedItems(
-            raw = fiteredLabels,
+            raw = filteredLabels,
             selected = active.allowedLabels,
             update = { updatedItems -> onUpdateFilter(active.copy(allowedLabels = updatedItems)) },
             mapper = LabelMapper::map
@@ -102,38 +102,57 @@ class FilterConfigUseCase {
             raw = filteredCorporations,
             selected = active.excludedCorporations,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedCorporations = updatedItems)) },
-            allLabel = "Alle",
             mapper = CorporationMapper::map
         )
 
         return listOf(
             FilterConfig(
-                "Zutaten ausschließen",
-                ingredients,
-                active.excludedIngredients,
-                ingredientsToggle
+                titleRes = R.string.exclude_ingredients,
+                items = ingredients,
+                selectedItems = active.excludedIngredients,
+                onToggleItem = ingredientsToggle
             ),
             FilterConfig(
-                "Allergene ausschließen",
-                allergens,
-                active.excludedAllergens,
-                allergensToggle
+                titleRes = R.string.exclude_allergens,
+                items = allergens,
+                selectedItems = active.excludedAllergens,
+                onToggleItem = allergensToggle
             ),
             FilterConfig(
-                "Zusatzstoffe ausschließen",
-                additives,
-                active.excludedAdditives,
-                additivesToggle
+                titleRes = R.string.exclude_additives,
+                items = additives,
+                selectedItems = active.excludedAdditives,
+                onToggleItem = additivesToggle
             ),
-            FilterConfig("Labels wählen", labels, active.allowedLabels, labelsToggle),
-            FilterConfig("Erhältlich in", countries, active.allowedCountry, countriesToggle),
-            FilterConfig("Marken ausschließen", brands, active.excludedBrands, brandsToggle),
-            FilterConfig("Nutri-Score wählen", nutri, active.allowedNutriScore, nutriToggle),
             FilterConfig(
-                "Konzerne ausschließen",
-                corporations,
-                active.excludedCorporations,
-                corpToggle
+                titleRes = R.string.choose_labels,
+                items = labels,
+                selectedItems = active.allowedLabels,
+                onToggleItem = labelsToggle
+            ),
+            FilterConfig(
+                titleRes = R.string.available_in,
+                items = countries,
+                selectedItems = active.allowedCountry,
+                onToggleItem = countriesToggle
+            ),
+            FilterConfig(
+                titleRes = R.string.exclude_brands,
+                items = brands,
+                selectedItems = active.excludedBrands,
+                onToggleItem = brandsToggle
+            ),
+            FilterConfig(
+                titleRes = R.string.choose_nutriscore,
+                items = nutri,
+                selectedItems = active.allowedNutriScore,
+                onToggleItem = nutriToggle
+            ),
+            FilterConfig(
+                titleRes = R.string.exclude_corporations,
+                items = corporations,
+                selectedItems = active.excludedCorporations,
+                onToggleItem = corpToggle
             )
         )
     }

@@ -7,7 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
 fun BrandCorporationInfo(
@@ -26,7 +28,7 @@ fun BrandCorporationInfo(
 
             if (!corporation.isNullOrBlank()) {
                 Text(
-                    "Gehört zu: $corporation",
+                    stringResource(R.string.belongs_to, corporation),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

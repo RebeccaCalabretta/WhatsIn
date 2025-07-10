@@ -23,7 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.utils.toUiLabel
 
@@ -59,7 +61,7 @@ fun SortDropdown(
             },
             label = {
                 if (!labelOnly) {
-                    Text("Sortieren nach")
+                    Text(stringResource(R.string.sort_by))
                 }
             },
             trailingIcon = {
@@ -93,7 +95,7 @@ fun SortDropdown(
                             if (option == currentOption) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
-                                    contentDescription = "Aktuell ausgewählt",
+                                    contentDescription = stringResource(R.string.currently_selected),
                                     tint = MaterialTheme.colorScheme.primary
                                 )
                             }

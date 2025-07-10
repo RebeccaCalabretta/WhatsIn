@@ -9,17 +9,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ExpandableCard
 import de.syntax_institut.androidabschlussprojekt.utils.formatNutriments
+import de.syntax_institut.androidabschlussprojekt.utils.hasAnyValue
 
 @Composable
 fun ProductDetailContent(
@@ -31,6 +35,8 @@ fun ProductDetailContent(
     brand: String?,
     corporation: String?
 ) {
+    val nutrientStrings = nutriments.formatNutriments()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,59 +45,151 @@ fun ProductDetailContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (!brand.isNullOrBlank() || !corporation.isNullOrBlank()) {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (!brand.isNullOrBlank()) {
+                        Text(brand, style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Spacer(Modifier.weight(1f))
+                    if (!corporation.isNullOrBlank()) {
+                        Text(stringResource(R.string.belongs_to), style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+            }
+        }
+
+        if (!ingredientsText.isNullOrBlank()) {
+            ExpandableCard(
+                title = { Text(stringResource(R.string.ingredients), style = MaterialTheme.typography.titleMedium) }
+            ) {
+                Text(ingredientsText, style = MaterialTheme.typography.bodyMedium)
+            }
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "${stringResource(R.string.ingredients)}: ",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        stringResource(R.string.no_data),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+
+        if (nutriments.hasAnyValue) {
+            ExpandableCard(
+                title = { Text(stringResource(R.string.nutriments_per_100g), style = MaterialTheme.typography.titleMedium) }
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    nutrientStrings.forEach { line ->
+                        Text(line, style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+            }
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "${stringResource(R.string.nutriments_per_100g)}: ",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        stringResource(R.string.no_data),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+
+        if (!additivesTags.isNullOrEmpty()) {
+            ExpandableCard(
+                title = { Text(stringResource(R.string.additives), style = MaterialTheme.typography.titleMedium) }
+            ) {
+                Text(
+                    additivesTags.joinToString { AdditiveMapper.map(it) },
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "${stringResource(R.string.additives)}: ",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        stringResource(R.string.no_data),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+
+        if (!allergensTags.isNullOrEmpty()) {
+            ExpandableCard(
+                title = { Text(stringResource(R.string.allergens), style = MaterialTheme.typography.titleMedium) }
+            ) {
+                Text(
+                    allergensTags.joinToString { AllergenMapper.map(it) },
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "${stringResource(R.string.allergens)}: ",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        stringResource(R.string.no_data),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (!brand.isNullOrBlank()) {
-                    Text(brand, style = MaterialTheme.typography.bodyMedium)
-                }
-                Spacer(Modifier.weight(1f))
-                if (!corporation.isNullOrBlank()) {
-                    Text("Gehört zu: $corporation", style = MaterialTheme.typography.bodyMedium)
-                }
-            }
-        }
-
-        ExpandableCard(
-            title = { Text("Inhaltsstoffe", style = MaterialTheme.typography.titleMedium) }
-        ) {
-            Text(ingredientsText ?: "Keine Angaben", style = MaterialTheme.typography.bodyMedium)
-        }
-
-        ExpandableCard(
-            title = { Text("Nährwerte (pro 100g)", style = MaterialTheme.typography.titleMedium) }
-        ) {
-            Text(nutriments.formatNutriments(), style = MaterialTheme.typography.bodyMedium)
-        }
-
-        ExpandableCard(
-            title = {
                 Text(
-                    "Zusatzstoffe, Allergene & Nutri-Score",
+                    "${stringResource(R.string.nutri_score)}: ",
                     style = MaterialTheme.typography.titleMedium
                 )
-            }
-        ) {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    "Zusatzstoffe: " + (
-                            additivesTags.takeUnless { it.isEmpty() }
-                                ?.joinToString { AdditiveMapper.map(it) }
-                                ?: "Keine"
-                            ),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    "Allergene: " + (
-                            allergensTags.takeUnless { it.isEmpty() }
-                                ?.joinToString { AllergenMapper.map(it) }
-                                ?: "Keine"
-                            ),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    "Nutri-Score: ${nutriScore?.trim()?.uppercase() ?: "Unbekannt"}",
+                    nutriScore?.trim()?.uppercase() ?: stringResource(R.string.unknown),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

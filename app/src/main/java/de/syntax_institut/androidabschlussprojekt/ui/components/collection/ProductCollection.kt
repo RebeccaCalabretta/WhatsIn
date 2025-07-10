@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.collection
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,13 +12,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
 
 @Composable
 fun ProductCollection(
     products: List<Product>,
-    violationsMap: Map<String, List<String>>,
+    violationsMap: Map<String, List<FilterViolation>>,
     onNavigateToDetail: (String) -> Unit,
     onDeleteProduct: (String) -> Unit,
     title: String? = null
@@ -39,18 +40,33 @@ fun ProductCollection(
                 .padding(top = 8.dp)
         ) {
             items(products, key = { it.barcode }) { product ->
-                Log.d("ProductCard", "Produkt: ${product.name}, isFavorite=${product.isFavorite}")
-                val isMatch = violationsMap[product.barcode].isNullOrEmpty()
+                val violations = violationsMap[product.barcode].orEmpty()
+                val isMatch = violations.isEmpty()
 
-                SwipeableProductCard(
-                    product = product,
-                    isFilterMatch = isMatch,
-                    isFavorite = product.isFavorite,
-                    timestamp = product.timestamp,
-                    onClick = { onNavigateToDetail(product.barcode) },
-                    onDelete = { onDeleteProduct(product.barcode) }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column {
+                    SwipeableProductCard(
+                        product = product,
+                        isFilterMatch = isMatch,
+                        isFavorite = product.isFavorite,
+                        timestamp = product.timestamp,
+                        onClick = { onNavigateToDetail(product.barcode) },
+                        onDelete = { onDeleteProduct(product.barcode) }
+                    )
+                    if (violations.isNotEmpty()) {
+                        Column(
+                            modifier = Modifier.padding(start = 16.dp, top = 4.dp, bottom = 8.dp)
+                        ) {
+                            violations.forEach { violation ->
+                                Text(
+                                    text = stringResource(violation.resId, violation.value ?: ""),
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }

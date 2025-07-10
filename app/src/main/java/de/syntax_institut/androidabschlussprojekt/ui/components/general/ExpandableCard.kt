@@ -22,7 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
 fun ExpandableCard(
@@ -47,7 +49,7 @@ fun ExpandableCard(
                 Box(Modifier.weight(1f)) { title() }
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Weniger anzeigen" else "Mehr anzeigen"
+                    contentDescription = stringResource(if (expanded) R.string.expand_less else R.string.expand_more)
                 )
             }
             AnimatedVisibility(visible = expanded) {

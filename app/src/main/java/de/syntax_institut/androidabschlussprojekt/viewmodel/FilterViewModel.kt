@@ -7,6 +7,7 @@ import de.syntax_institut.androidabschlussprojekt.data.repository.FilterReposito
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterConfigUseCase
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
+import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,8 @@ class FilterViewModel(
     private val _activeFilter = MutableStateFlow(ActiveFilter())
     val activeFilter: StateFlow<ActiveFilter> = _activeFilter
 
-    private val _filterViolations = MutableStateFlow<List<String>>(emptyList())
-    val filterViolations: StateFlow<List<String>> = _filterViolations
+    private val _filterViolations = MutableStateFlow<List<FilterViolation>>(emptyList())
+    val filterViolations: StateFlow<List<FilterViolation>> = _filterViolations
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading

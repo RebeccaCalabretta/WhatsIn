@@ -21,8 +21,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -53,7 +55,7 @@ fun SettingsScreen(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Filter Options", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.filter_options), style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = Icons.Default.ChevronRight,
@@ -74,8 +76,10 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Dark Mode", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge)
+
             Spacer(modifier = Modifier.weight(1f))
+
             Switch(
                 checked = isDarkmode,
                 onCheckedChange = { settingsViewModel.toggleDarkmode() }

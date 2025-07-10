@@ -18,11 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ExpandableCard
 
 @Composable
-fun CriteriaStatusSection(filterViolations: List<String>) {
+fun CriteriaStatusSection(filterViolations: List<FilterViolation>) {
     if (filterViolations.isEmpty()) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -34,11 +37,11 @@ fun CriteriaStatusSection(filterViolations: List<String>) {
             ) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
-                    contentDescription = "Kriterien erfüllt",
+                    contentDescription = stringResource(R.string.criteria_met),
                     tint = Color(0xFF4CAF50)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Kriterien erfüllt", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.criteria_met), style = MaterialTheme.typography.bodyMedium)
             }
         }
     } else {
@@ -47,11 +50,11 @@ fun CriteriaStatusSection(filterViolations: List<String>) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Warning,
-                        contentDescription = "Kriterien nicht erfüllt",
+                        contentDescription = stringResource(R.string.criteria_not_met),
                         tint = Color(0xFFF44336)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Kriterien nicht erfüllt", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.criteria_not_met), style = MaterialTheme.typography.bodyMedium)
                 }
             },
             modifier = Modifier.fillMaxWidth(),
@@ -59,7 +62,7 @@ fun CriteriaStatusSection(filterViolations: List<String>) {
         ) {
             Column(modifier = Modifier.padding(top = 8.dp)) {
                 filterViolations.forEach {
-                    Text("\u2022 $it", style = MaterialTheme.typography.bodySmall)
+                    Text("• $it", style = MaterialTheme.typography.bodySmall)
                 }
             }
         }

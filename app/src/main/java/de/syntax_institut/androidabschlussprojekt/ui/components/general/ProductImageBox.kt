@@ -15,8 +15,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import de.syntax_institut.androidabschlussprojekt.R
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
@@ -42,12 +44,12 @@ fun ProductImageBox(
         if (!imageUrl.isNullOrBlank()) {
             AsyncImage(
                 model = imageUrl,
-                contentDescription = "Produktbild",
+                contentDescription = stringResource(R.string.product_image),
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
         } else {
-            Text("Kein Bild", style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.no_image), style = MaterialTheme.typography.bodySmall)
         }
     }
 }

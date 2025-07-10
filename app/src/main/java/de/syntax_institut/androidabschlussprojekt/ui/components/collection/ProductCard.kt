@@ -29,10 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.dummyProduct
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
@@ -64,7 +66,7 @@ fun ProductCard(
         ) {
             AsyncImage(
                 model = product.imageUrl?.ifBlank { "https://via.placeholder.com/150" },
-                contentDescription = "Produktbild",
+                contentDescription = stringResource(R.string.product_image),
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(8.dp)),
@@ -80,7 +82,7 @@ fun ProductCard(
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = product.name ?: "Unbekannt",
+                        text = product.name ?: stringResource(R.string.unknown),
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -92,7 +94,7 @@ fun ProductCard(
                     if (isFavorite) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
-                            contentDescription = "Favorit",
+                            contentDescription = stringResource(R.string.favorite),
                             tint = Color.Red,
                             modifier = Modifier
                                 .size(20.dp)
