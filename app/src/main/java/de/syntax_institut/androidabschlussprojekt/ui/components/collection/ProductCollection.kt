@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
@@ -52,19 +51,7 @@ fun ProductCollection(
                         onClick = { onNavigateToDetail(product.barcode) },
                         onDelete = { onDeleteProduct(product.barcode) }
                     )
-                    if (violations.isNotEmpty()) {
-                        Column(
-                            modifier = Modifier.padding(start = 16.dp, top = 4.dp, bottom = 8.dp)
-                        ) {
-                            violations.forEach { violation ->
-                                Text(
-                                    text = stringResource(violation.resId, violation.value ?: ""),
-                                    color = MaterialTheme.colorScheme.error,
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
-                        }
-                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }

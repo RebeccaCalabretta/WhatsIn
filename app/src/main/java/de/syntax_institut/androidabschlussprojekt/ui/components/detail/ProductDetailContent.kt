@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,11 +45,9 @@ fun ProductDetailContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (!brand.isNullOrBlank() || !corporation.isNullOrBlank()) {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            DetailCard {
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (!brand.isNullOrBlank()) {
@@ -70,11 +68,9 @@ fun ProductDetailContent(
                 Text(ingredientsText, style = MaterialTheme.typography.bodyMedium)
             }
         } else {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            DetailCard {
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -100,11 +96,9 @@ fun ProductDetailContent(
                 }
             }
         } else {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            DetailCard {
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -129,11 +123,9 @@ fun ProductDetailContent(
                 )
             }
         } else {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            DetailCard {
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -158,11 +150,9 @@ fun ProductDetailContent(
                 )
             }
         } else {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            DetailCard {
                 Row(
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -177,11 +167,9 @@ fun ProductDetailContent(
             }
         }
 
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        DetailCard {
             Row(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -194,5 +182,6 @@ fun ProductDetailContent(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(48.dp))
     }
 }

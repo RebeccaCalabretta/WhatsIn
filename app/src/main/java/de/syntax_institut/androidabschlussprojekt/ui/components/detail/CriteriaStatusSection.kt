@@ -60,10 +60,12 @@ fun CriteriaStatusSection(filterViolations: List<FilterViolation>) {
             modifier = Modifier.fillMaxWidth(),
             cardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            Column(modifier = Modifier.padding(top = 8.dp)) {
+            Column {
                 filterViolations.forEach {
-                    Text("• $it", style = MaterialTheme.typography.bodySmall)
-                }
+                    Text(
+                        text = "• " + stringResource(it.resId, it.value ?: ""),
+                        style = MaterialTheme.typography.bodySmall
+                    )                }
             }
         }
     }

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -31,19 +32,23 @@ fun ExpandableCard(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     cardColors: CardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     content: @Composable () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = modifier.clickable { expanded = !expanded },
-        colors = cardColors
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded },
+        colors = cardColors,
+        elevation = elevation
     ) {
         Column {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(4.dp),
+                    .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(Modifier.weight(1f)) { title() }
@@ -53,7 +58,7 @@ fun ExpandableCard(
                 )
             }
             AnimatedVisibility(visible = expanded) {
-                Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+                Box(Modifier.padding(8.dp)) {
                     content()
                 }
             }
