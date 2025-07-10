@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.navigation
 
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
@@ -13,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -78,7 +80,9 @@ fun AppStart(
                             selectedTab = TabItem.Scan
                             navController.navigate(ScanRoute)
                         },
-                        iconResId = TabItem.Scan.iconResId
+                        iconResId = TabItem.Scan.iconResId,
+                        modifier = Modifier
+                            .offset(y = 44.dp)
                     )
                 }
             },

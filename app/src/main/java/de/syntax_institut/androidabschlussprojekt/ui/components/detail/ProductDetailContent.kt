@@ -113,7 +113,7 @@ fun ProductDetailContent(
             }
         }
 
-        if (!additivesTags.isNullOrEmpty()) {
+        if (additivesTags.isNotEmpty()) {
             ExpandableCard(
                 title = { Text(stringResource(R.string.additives), style = MaterialTheme.typography.titleMedium) }
             ) {
@@ -140,7 +140,7 @@ fun ProductDetailContent(
             }
         }
 
-        if (!allergensTags.isNullOrEmpty()) {
+        if (allergensTags.isNotEmpty()) {
             ExpandableCard(
                 title = { Text(stringResource(R.string.allergens), style = MaterialTheme.typography.titleMedium) }
             ) {
@@ -182,6 +182,6 @@ fun ProductDetailContent(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
