@@ -11,6 +11,8 @@ import de.syntax_institut.androidabschlussprojekt.utils.toProductType
 data class ScannedProduct(
     @PrimaryKey val barcode: String,
     val name: String,
+    val brand: String? = null,
+    val corporation: String? = null,
     val imageUrl: String?,
     val productType: String,
     val ingredients: String? = null,
@@ -27,22 +29,20 @@ fun ScannedProduct.toProduct(): Product {
     return Product(
         barcode = barcode,
         name = name,
+        brand = brand,
+        corporation = corporation,
         imageUrl = imageUrl,
         productType = productType.toProductType(),
-
         ingredientsTags = ingredients?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
-        allergensTags = allergens?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
         additivesTags = additives?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        allergensTags = allergens?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
         labelsTags = labels?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
-
-        brand = null,
-        corporation = null,
+        countriesTags = emptyList(),
         ingredientsText = null,
         additivesText = null,
         allergensText = null,
         nutriScore = null,
         nutriments = Nutriments(),
-        countriesTags = emptyList(),
         isFavorite = isFavorite,
         timestamp = timestamp
     )

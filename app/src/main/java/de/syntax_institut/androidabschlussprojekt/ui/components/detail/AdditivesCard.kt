@@ -13,13 +13,21 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ExpandableCard
 
 @Composable
-fun AdditivesCard(additivesTags: List<String>) {
+fun AdditivesCard(
+    additivesTags: List<String>,
+    selectedLanguage: String
+) {
     if (additivesTags.isNotEmpty()) {
         ExpandableCard(
-            title = { Text(stringResource(R.string.additives), style = MaterialTheme.typography.titleMedium) }
+            title = {
+                Text(
+                    stringResource(R.string.additives),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         ) {
             Text(
-                additivesTags.joinToString { AdditiveMapper.map(it) },
+                additivesTags.joinToString { AdditiveMapper.map(it, selectedLanguage) },
                 style = MaterialTheme.typography.bodyMedium
             )
         }

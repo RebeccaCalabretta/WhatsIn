@@ -24,7 +24,6 @@ import de.syntax_institut.androidabschlussprojekt.R
 fun ProductInfoSection(
     name: String?,
     brand: String?,
-    corporation: String?,
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit
 ) {
@@ -42,9 +41,6 @@ fun ProductInfoSection(
             )
             if (!brand.isNullOrBlank()) {
                 Text(brand, style = MaterialTheme.typography.bodySmall)
-            }
-            if (!corporation.isNullOrBlank()) {
-                Text(stringResource(R.string.belongs_to), style = MaterialTheme.typography.bodySmall)
             }
         }
 

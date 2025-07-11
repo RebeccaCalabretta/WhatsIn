@@ -49,16 +49,16 @@ class FilterViewModel(
         }
     }
 
-    fun buildFilterConfigs(searchText: String): List<FilterConfig> {
+    fun buildFilterConfigs(searchText: String, selectedLanguage: String): List<FilterConfig> {
         val active = activeFilter.value
-        return filterConfigUseCase(active, this.searchText) { updatedFilter ->
+        return filterConfigUseCase(active, this.searchText, selectedLanguage) { updatedFilter ->
             updateFilter(updatedFilter)
         }
     }
 
-    fun validateProduct(product: Product) {
+    fun validateProduct(product: Product, selectedLanguage: String) {
         val filter = _activeFilter.value
-        _filterViolations.value = filterCheckUseCase(product, filter)
+        _filterViolations.value = filterCheckUseCase(product, filter, selectedLanguage)
     }
 
     fun updateSearchText(newText: String) {

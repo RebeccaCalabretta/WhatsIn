@@ -2,6 +2,7 @@ package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
+import de.syntax_institut.androidabschlussprojekt.ui.components.settings.LanguageDropdown
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -35,13 +40,23 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel = koinViewModel(),
 ) {
     val isDarkmode by settingsViewModel.isDarkmode.collectAsState()
+    val selectedLanguage by settingsViewModel.selectedLanguage.collectAsState()
+
+    val languages = listOf(
+        "de" to stringResource(R.string.language_german),
+        "en" to stringResource(R.string.language_english)
+    )
+
+    var expanded by remember { mutableStateOf(false) }
 
     val rowHeight = 56.dp
+    val cornerRadius = 16.dp
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier =  Modifier
@@ -63,8 +78,6 @@ fun SettingsScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,5 +98,13 @@ fun SettingsScreen(
                 onCheckedChange = { settingsViewModel.toggleDarkmode() }
             )
         }
+
+        LanguageDropdown(
+            selectedLanguage = selectedLanguage,
+            languages = languages,
+            onSelectLanguage = { settingsViewModel.setLanguage(it) },
+            rowHeight = rowHeight,
+            cornerRadius = cornerRadius
+        )
     }
 }

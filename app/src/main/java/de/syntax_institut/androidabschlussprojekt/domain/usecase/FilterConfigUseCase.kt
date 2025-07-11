@@ -19,6 +19,7 @@ class FilterConfigUseCase {
     operator fun invoke(
         active: ActiveFilter,
         searchText: StateFlow<String>,
+        language: String,
         onUpdateFilter: (ActiveFilter) -> Unit
     ): List<FilterConfig> {
 
@@ -31,7 +32,7 @@ class FilterConfigUseCase {
             raw = filteredIngredients,
             selected = active.excludedIngredients,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedIngredients = updatedItems)) },
-            mapper = IngredientMapper::map
+            mapper = { tag -> IngredientMapper.map(tag, language) }
         )
 
         val filteredAllergens = StaticFilterValues.allergens.filter {
@@ -41,8 +42,7 @@ class FilterConfigUseCase {
             raw = filteredAllergens,
             selected = active.excludedAllergens,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedAllergens = updatedItems)) },
-            // allLabel wird in der UI als stringResource(R.string.all) gesetzt!
-            mapper = AllergenMapper::map
+            mapper = { tag -> AllergenMapper.map(tag, language) }
         )
 
         val filteredAdditives = StaticFilterValues.additives.filter {
@@ -52,7 +52,7 @@ class FilterConfigUseCase {
             raw = filteredAdditives,
             selected = active.excludedAdditives,
             update = { updatedItems -> onUpdateFilter(active.copy(excludedAdditives = updatedItems)) },
-            mapper = AdditiveMapper::map
+            mapper = { tag -> AdditiveMapper.map(tag, language) }
         )
 
         val filteredLabels = StaticFilterValues.labels.filter {
@@ -62,7 +62,7 @@ class FilterConfigUseCase {
             raw = filteredLabels,
             selected = active.allowedLabels,
             update = { updatedItems -> onUpdateFilter(active.copy(allowedLabels = updatedItems)) },
-            mapper = LabelMapper::map
+            mapper = { tag -> LabelMapper.map(tag, language) }
         )
 
         val filteredCountries = StaticFilterValues.countries.filter {
@@ -72,7 +72,7 @@ class FilterConfigUseCase {
             raw = filteredCountries,
             selected = active.allowedCountry,
             update = { updatedItems -> onUpdateFilter(active.copy(allowedCountry = updatedItems)) },
-            mapper = CountryMapper::map
+            mapper = { tag -> CountryMapper.map(tag, language) }
         )
 
         val filteredBrands = StaticFilterValues.brands.filter {

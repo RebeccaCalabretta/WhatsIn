@@ -20,16 +20,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductDetailContent
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductHeaderSection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailScreen(
     productViewModel: ProductViewModel = koinViewModel(),
     filterViewModel: FilterViewModel = koinViewModel(),
+    settingsViewModel: SettingsViewModel = koinViewModel(),
     barcode: String,
     fromScan: Boolean
 ) {
@@ -38,6 +42,8 @@ fun DetailScreen(
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
     val filterViolations by filterViewModel.filterViolations.collectAsState()
+    val selectedLanguage by settingsViewModel.selectedLanguage.collectAsState()
+
     var showFilterDialog by remember { mutableStateOf(false) }
     var hasShownDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -46,15 +52,9 @@ fun DetailScreen(
         productViewModel.loadProductFromDatabase(barcode)
     }
 
-    LaunchedEffect(product) {
+    LaunchedEffect(product, selectedLanguage) {
         product?.let {
-            Log.d("FilterCheck", "Produkt Tags: ${it.countriesTags}")
-            Log.d(
-                "FilterCheck",
-                "Erlaubte Länder: ${filterViewModel.activeFilter.value.allowedCountry}"
-            )
-
-            filterViewModel.validateProduct(it)
+            filterViewModel.validateProduct(it, selectedLanguage)
             if (fromScan && filterViewModel.filterViolations.value.isNotEmpty() && !hasShownDialog) {
                 showFilterDialog = true
                 hasShownDialog = true
@@ -85,6 +85,8 @@ fun DetailScreen(
             )
         }
 
+        val mappedLabels = product.labelsTags.map { LabelMapper.map(it, selectedLanguage) }
+
         Column(modifier = Modifier.fillMaxSize()) {
             ProductHeaderSection(
                 imageUrl = product.imageUrl,
@@ -94,7 +96,8 @@ fun DetailScreen(
                 filterViolations = filterViolations,
                 isFavorite = product.isFavorite,
                 onToggleFavorite = { productViewModel.toggleFavorite() },
-                labels = product.labelsTags
+                labels = mappedLabels,
+                selectedLanguage = selectedLanguage
             )
 
             ProductDetailContent(
@@ -103,8 +106,7 @@ fun DetailScreen(
                 additivesTags = product.additivesTags,
                 allergensTags = product.allergensTags,
                 nutriScore = product.nutriScore,
-                brand = product.brand,
-                corporation = product.corporation
+                selectedLanguage = selectedLanguage
             )
         }
     }

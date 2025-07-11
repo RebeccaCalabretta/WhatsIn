@@ -20,8 +20,7 @@ fun ProductDetailContent(
     additivesTags: List<String>,
     allergensTags: List<String>,
     nutriScore: String?,
-    brand: String?,
-    corporation: String?
+    selectedLanguage: String
 ) {
     Column(
         modifier = Modifier
@@ -32,8 +31,8 @@ fun ProductDetailContent(
     ) {
         IngredientsCard(ingredientsText)
         NutrimentsCard(nutriments)
-        AdditivesCard(additivesTags)
-        AllergensCard(allergensTags)
+        AdditivesCard(additivesTags, selectedLanguage)
+        AllergensCard(allergensTags, selectedLanguage)
         NutriScoreCard(nutriScore)
         Spacer(modifier = Modifier.height(20.dp))
     }

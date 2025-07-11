@@ -72,11 +72,11 @@ class CollectionViewModel(
         initialValue = emptyList()
     )
 
-    val filterViolationsMap: StateFlow<Map<String, List<FilterViolation>>> =
+    fun filterViolationsMap(selectedLanguage: String): StateFlow<Map<String, List<FilterViolation>>> =
         filteredProducts
             .combine(activeFilter) { products, filter ->
                 products.associate { product ->
-                    product.barcode to filterCheckUseCase(product, filter)
+                    product.barcode to filterCheckUseCase(product, filter, selectedLanguage)
                 }
             }
             .stateIn(

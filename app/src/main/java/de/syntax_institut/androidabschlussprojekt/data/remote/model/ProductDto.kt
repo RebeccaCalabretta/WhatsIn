@@ -8,6 +8,7 @@ data class ProductDto(
     @Json(name = "product_name_en") val productNameEn: String?,
     @Json(name = "product_name") val name: String?,
     @Json(name = "brands") val brand: String?,
+    @Json(name = "brands_tags") val brandsTags: List<String>?,
     @Json(name = "image_front_url") val imageUrl: String?,
     @Json(name = "ingredients_text_de") val ingredientsTextDe: String?,
     @Json(name = "ingredients_text_en") val ingredientsTextEn: String?,

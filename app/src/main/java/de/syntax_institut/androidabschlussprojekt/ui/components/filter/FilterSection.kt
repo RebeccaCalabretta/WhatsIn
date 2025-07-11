@@ -23,7 +23,8 @@ fun FilterSection(
     title: String,
     items: List<String>,
     selectedItems: List<String> = emptyList(),
-    onToggleItem: (String) -> Unit
+    onToggleItem: (String) -> Unit,
+    labelMapper: (String) -> String = { it }
 
 ) {
     Column(
@@ -47,7 +48,7 @@ fun FilterSection(
                 FilterChip(
                     selected = item in selectedItems,
                     onClick = { onToggleItem(item) },
-                    label = { Text(item) }
+                    label = { Text(labelMapper(item)) }
                 )
             }
         }

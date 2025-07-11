@@ -1,7 +1,8 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
 object IngredientMapper {
-    private val ingredientMap = mapOf(
+
+    private val ingredientMapDe = mapOf(
         "en:salt" to "Salz",
         "en:sugar" to "Zucker",
         "en:water" to "Wasser",
@@ -60,7 +61,6 @@ object IngredientMapper {
         "en:acidity-regulator" to "Säureregulator",
         "en:tree-nut" to "Schalenfrüchte",
         "en:sea-salt" to "Meersalz",
-        "en:cream" to "Sahne",
         "en:soya-lecithin" to "Sojalecithin",
         "en:natural-flavouring" to "Natürliches Aroma",
         "en:egg-white" to "Eiklar",
@@ -90,8 +90,98 @@ object IngredientMapper {
         "en:enzyme" to "Enzym"
     )
 
-    fun map(tag: String): String? = ingredientMap[tag]
+    private val ingredientMapEn = mapOf(
+        "en:salt" to "Salt",
+        "en:sugar" to "Sugar",
+        "en:water" to "Water",
+        "en:flavouring" to "Flavouring",
+        "en:vegetable" to "Vegetable",
+        "en:fruit" to "Fruit",
+        "en:flour" to "Flour",
+        "en:wheat" to "Wheat",
+        "en:milk" to "Milk",
+        "en:cream" to "Cream",
+        "en:oil-and-fat" to "Oils and Fats",
+        "en:vegetable-oil" to "Vegetable Oil",
+        "en:rapeseed-oil" to "Rapeseed Oil",
+        "en:sunflower-oil" to "Sunflower Oil",
+        "en:palm-oil" to "Palm Oil",
+        "en:garlic" to "Garlic",
+        "en:onion" to "Onion",
+        "en:carrot" to "Carrot",
+        "en:tomato" to "Tomato",
+        "en:rice" to "Rice",
+        "en:corn" to "Corn",
+        "en:pepper" to "Pepper",
+        "en:herb" to "Herb",
+        "en:yeast" to "Yeast",
+        "en:yeast-extract" to "Yeast Extract",
+        "en:sweet-whey-powder" to "Sweet Whey Powder",
+        "en:butter-oil" to "Butter Oil",
+        "en:vinegar" to "Vinegar",
+        "en:glucose" to "Glucose",
+        "en:fructose" to "Fructose",
+        "en:maltodextrin" to "Maltodextrin",
+        "en:emulsifier" to "Emulsifier",
+        "en:preservative" to "Preservative",
+        "en:colour" to "Colour",
+        "en:acid" to "Acid",
+        "en:starch" to "Starch",
+        "en:modified-starch" to "Modified Starch",
+        "en:juice" to "Juice",
+        "en:egg" to "Egg",
+        "en:protein" to "Protein",
+        "en:flavour-enhancer" to "Flavour Enhancer",
+        "en:added-sugar" to "Added Sugar",
+        "en:vegetable-oil-and-fat" to "Vegetable Oils and Fats",
+        "en:cereal" to "Cereal",
+        "en:root-vegetable" to "Root Vegetable",
+        "en:cereal-flour" to "Cereal Flour",
+        "en:plant" to "Plant",
+        "en:condiment" to "Condiment",
+        "en:spice" to "Spice",
+        "en:cocoa" to "Cocoa",
+        "en:minerals" to "Minerals",
+        "en:corn-starch" to "Corn Starch",
+        "en:raising-agent" to "Raising Agent",
+        "en:cheese" to "Cheese",
+        "en:artificial-flavouring" to "Artificial Flavouring",
+        "en:acidity-regulator" to "Acidity Regulator",
+        "en:tree-nut" to "Tree Nut",
+        "en:sea-salt" to "Sea Salt",
+        "en:soya-lecithin" to "Soya Lecithin",
+        "en:natural-flavouring" to "Natural Flavouring",
+        "en:egg-white" to "Egg White",
+        "en:lactic-ferments" to "Lactic Ferments",
+        "en:whey" to "Whey",
+        "en:soya" to "Soya",
+        "en:carbohydrate" to "Carbohydrate",
+        "en:dextrose" to "Dextrose",
+        "en:cocoa-paste" to "Cocoa Paste",
+        "en:e330" to "Citric Acid (E330)",
+        "en:e322" to "Lecithin (E322)",
+        "en:e300" to "Ascorbic Acid (E300)",
+        "en:e471" to "Mono- and Diglycerides (E471)",
+        "en:e415" to "Xanthan (E415)",
+        "en:e202" to "Potassium Sorbate (E202)",
+        "en:e101" to "Riboflavin (E101)",
+        "en:e500" to "Sodium Carbonate (E500)",
+        "en:e322i" to "Lecithin (E322i)",
+        "en:e375" to "Nicotinic Acid (E375)",
+        "en:e500ii" to "Sodium Bicarbonate (E500ii)",
+        "en:nut" to "Nut",
+        "en:legume" to "Legume",
+        "en:fruit-juice" to "Fruit Juice",
+        "en:glucose-syrup" to "Glucose Syrup",
+        "en:folic-acid" to "Folic Acid",
+        "en:iron" to "Iron",
+        "en:enzyme" to "Enzyme"
+    )
 
-    fun allGermanValues(): List<String> = ingredientMap.values.sorted()
-
+    fun map(tag: String, selectedLanguage: String): String =
+        when (selectedLanguage) {
+            "de" -> ingredientMapDe[tag] ?: tag.removePrefix("en:")
+            "en" -> ingredientMapEn[tag] ?: tag.removePrefix("en:")
+            else -> ingredientMapEn[tag] ?: tag.removePrefix("en:")
+        }
 }

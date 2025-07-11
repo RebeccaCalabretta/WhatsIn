@@ -2,7 +2,7 @@ package de.syntax_institut.androidabschlussprojekt.data.mapping
 
 object AdditiveMapper {
 
-    private val additiveMap = mapOf(
+    private val additiveMapDe = mapOf(
         "en:e100" to "E100 - Curcuma",
         "en:e102" to "E102 - Tartrazin",
         "en:e110" to "E110 - Gelborange S",
@@ -102,7 +102,111 @@ object AdditiveMapper {
         "en:e14xx" to "E14XX - modifizierte Stärke"
     )
 
-    fun map(tag: String): String = additiveMap[tag] ?: tag.removePrefix("en:")
+    private val additiveMapEn = mapOf(
+        "en:e100" to "E100 - Curcumin",
+        "en:e102" to "E102 - Tartrazine",
+        "en:e110" to "E110 - Sunset Yellow FCF",
+        "en:e120" to "E120 - Cochineal",
+        "en:e127" to "E127 - Erythrosine",
+        "en:e129" to "E129 - Allura Red AC",
+        "en:e132" to "E132 - Indigo Carmine",
+        "en:e133" to "E133 - Brilliant Blue FCF",
+        "en:e150a" to "E150a - Plain Caramel",
+        "en:e150c" to "E150c - Ammonia Caramel",
+        "en:e150d" to "E150d - Sulphite Ammonia Caramel",
+        "en:e160" to "E160 - Carotenoids",
+        "en:e160a" to "E160a - Carotenes",
+        "en:e160ai" to "E160ai - Beta-Carotene",
+        "en:e160b" to "E160b - Annatto",
+        "en:e160c" to "E160c - Paprika Extract",
+        "en:e163" to "E163 - Anthocyanins",
+        "en:e170" to "E170 - Calcium Carbonate",
+        "en:e171" to "E171 - Titanium Dioxide",
+        "en:e200" to "E200 - Sorbic Acid",
+        "en:e202" to "E202 - Potassium Sorbate",
+        "en:e211" to "E211 - Sodium Benzoate",
+        "en:e220" to "E220 - Sulphur Dioxide",
+        "en:e223" to "E223 - Sodium Metabisulphite",
+        "en:e235" to "E235 - Natamycin",
+        "en:e250" to "E250 - Sodium Nitrite",
+        "en:e252" to "E252 - Potassium Nitrate",
+        "en:e260" to "E260 - Acetic Acid",
+        "en:e262" to "E262 - Sodium Acetates",
+        "en:e262ii" to "E262ii - Sodium Diacetate",
+        "en:e270" to "E270 - Lactic Acid",
+        "en:e290" to "E290 - Carbon Dioxide",
+        "en:e296" to "E296 - Malic Acid",
+        "en:e297" to "E297 - Fumaric Acid",
+        "en:e300" to "E300 - Ascorbic Acid",
+        "en:e301" to "E301 - Sodium Ascorbate",
+        "en:e306" to "E306 - Vitamin E",
+        "en:e316" to "E316 - Sodium Erythorbate",
+        "en:e320" to "E320 - Butylated Hydroxyanisole (BHA)",
+        "en:e321" to "E321 - Butylated Hydroxytoluene (BHT)",
+        "en:e322" to "E322 - Lecithins",
+        "en:e322i" to "E322i - Lecithin",
+        "en:e326" to "E326 - Potassium Lactate",
+        "en:e330" to "E330 - Citric Acid",
+        "en:e331" to "E331 - Sodium Citrates",
+        "en:e334" to "E334 - Tartaric Acid",
+        "en:e338" to "E338 - Phosphoric Acid",
+        "en:e339" to "E339 - Sodium Phosphates",
+        "en:e339ii" to "E339ii - Disodium Phosphate",
+        "en:e340" to "E340 - Potassium Phosphates",
+        "en:e340ii" to "E340ii - Dipotassium Phosphate",
+        "en:e341" to "E341 - Calcium Phosphates",
+        "en:e341i" to "E341i - Monocalcium Phosphate",
+        "en:e385" to "E385 - Calcium Disodium EDTA",
+        "en:e392" to "E392 - Rosemary Extract",
+        "en:e401" to "E401 - Sodium Alginate",
+        "en:e406" to "E406 - Agar",
+        "en:e407" to "E407 - Carrageenan",
+        "en:e410" to "E410 - Locust Bean Gum",
+        "en:e412" to "E412 - Guar Gum",
+        "en:e414" to "E414 - Acacia Gum",
+        "en:e415" to "E415 - Xanthan Gum",
+        "en:e416" to "E416 - Karaya Gum",
+        "en:e418" to "E418 - Gellan Gum",
+        "en:e420" to "E420 - Sorbitol",
+        "en:e422" to "E422 - Glycerol",
+        "en:e428" to "E428 - Gelatin",
+        "en:e433" to "E433 - Polysorbate 80",
+        "en:e435" to "E435 - Polysorbate 60",
+        "en:e440" to "E440 - Pectin",
+        "en:e450" to "E450 - Diphosphates",
+        "en:e450i" to "E450i - Disodium Diphosphate",
+        "en:e451" to "E451 - Triphosphates",
+        "en:e452" to "E452 - Polyphosphates",
+        "en:e460" to "E460 - Cellulose",
+        "en:e461" to "E461 - Methylcellulose",
+        "en:e466" to "E466 - Carboxymethylcellulose",
+        "en:e471" to "E471 - Mono- and Diglycerides of Fatty Acids",
+        "en:e472e" to "E472e - Diacetyltartaric Acid Esters",
+        "en:e476" to "E476 - Polyglycerol Polyricinoleate",
+        "en:e481" to "E481 - Sodium Stearoyl-2-lactylate",
+        "en:e503" to "E503 - Ammonium Carbonates",
+        "en:e503ii" to "E503ii - Ammonium Bicarbonate",
+        "en:e501" to "E501 - Potassium Carbonates",
+        "en:e541" to "E541 - Sodium Aluminium Phosphate",
+        "en:e621" to "E621 - Monosodium Glutamate",
+        "en:e627" to "E627 - Disodium Guanylate",
+        "en:e631" to "E631 - Disodium Inosinate",
+        "en:e906" to "E906 - Shellac",
+        "en:e951" to "E951 - Aspartame",
+        "en:e955" to "E955 - Sucralose",
+        "en:e960" to "E960 - Steviol Glycosides",
+        "en:e965" to "E965 - Maltitol",
+        "en:e903" to "E903 - Carnauba Wax",
+        "en:e1000" to "E1000 - Cholic Acid",
+        "en:e1400" to "E1400 - Dextrin",
+        "en:e14xx" to "E14XX - Modified Starch"
+    )
 
-    fun allGermanValues(): List<String> = additiveMap.values.sorted()
+    fun map(tag: String, language: String): String {
+        return when (language) {
+            "de" -> additiveMapDe[tag] ?: tag.removePrefix("en:")
+            "en" -> additiveMapEn[tag] ?: tag.removePrefix("en:")
+            else -> additiveMapEn[tag] ?: tag.removePrefix("en:")
+        }
+    }
 }

@@ -12,21 +12,16 @@ import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 
 @Composable
-fun BrandCorporationInfo(
-    brand: String?,
+fun CorporationInfo(
     corporation: String?
 ) {
-    if (!brand.isNullOrBlank() || !corporation.isNullOrBlank()) {
+    if (!corporation.isNullOrBlank()) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         ) {
-            if (!brand.isNullOrBlank()) {
-                Text(brand, style = MaterialTheme.typography.bodyMedium)
-            }
-
-            if (!corporation.isNullOrBlank()) {
+            if (corporation.isNotBlank()) {
                 Text(
                     stringResource(R.string.belongs_to, corporation),
                     style = MaterialTheme.typography.bodySmall

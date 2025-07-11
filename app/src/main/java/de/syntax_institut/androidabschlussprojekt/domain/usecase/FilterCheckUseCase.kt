@@ -8,7 +8,7 @@ import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
 
 class FilterCheckUseCase {
-    operator fun invoke(product: Product, filter: ActiveFilter): List<FilterViolation> {
+    operator fun invoke(product: Product, filter: ActiveFilter, selectedLanguage: String): List<FilterViolation> {
         val violations = mutableListOf<FilterViolation>()
 
         product.ingredientsTags
@@ -43,7 +43,7 @@ class FilterCheckUseCase {
             }
 
         if (filter.allowedLabels.isNotEmpty()) {
-            val matched = product.labelsTags.mapNotNull { LabelMapper.map(it) }
+            val matched = product.labelsTags.map { LabelMapper.map(it, selectedLanguage) }
             val required = filter.allowedLabels
             val missing = required.filter { it !in matched }
             if (missing.isNotEmpty()) {
@@ -59,7 +59,7 @@ class FilterCheckUseCase {
         }
 
         if (filter.allowedCountry.isNotEmpty()) {
-            val matched = product.countriesTags.mapNotNull { CountryMapper.map(it) }
+            val matched = product.countriesTags.map { CountryMapper.map(it, selectedLanguage) }
             val required = filter.allowedCountry
             val common = matched.intersect(required.toSet())
             if (common.isEmpty()) {

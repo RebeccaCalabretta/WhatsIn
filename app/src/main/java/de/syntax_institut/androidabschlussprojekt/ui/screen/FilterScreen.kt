@@ -19,19 +19,22 @@ import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchBar
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FilterScreen(
-    filterViewModel: FilterViewModel = koinViewModel()
+    filterViewModel: FilterViewModel = koinViewModel(),
+    settingsViewModel: SettingsViewModel = koinViewModel()
 ) {
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
 
     val searchText by filterViewModel.searchText.collectAsState()
+    val language = settingsViewModel.selectedLanguage.collectAsState().value
 
-    val configs = remember(activeFilter, searchText) {
-        filterViewModel.buildFilterConfigs(searchText)
+    val configs = remember(activeFilter, searchText, language) {
+        filterViewModel.buildFilterConfigs(searchText, language)
     }
 
     if (isLoading) {

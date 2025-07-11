@@ -13,13 +13,16 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ExpandableCard
 
 @Composable
-fun AllergensCard(allergensTags: List<String>) {
+fun AllergensCard(
+    allergensTags: List<String>,
+    selectedLanguage: String
+) {
     if (allergensTags.isNotEmpty()) {
         ExpandableCard(
             title = { Text(stringResource(R.string.allergens), style = MaterialTheme.typography.titleMedium) }
         ) {
             Text(
-                allergensTags.joinToString { AllergenMapper.map(it) },
+                allergensTags.joinToString { AllergenMapper.map(it, selectedLanguage) },
                 style = MaterialTheme.typography.bodyMedium
             )
         }

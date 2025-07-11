@@ -18,13 +18,15 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 
 @Composable
-fun ProductLabelSection(tags: List<String>) {
-    val mappedLabels = tags.mapNotNull { LabelMapper.map(it) }
+fun ProductLabelSection(
+    tags: List<String>,
+    selectedLanguage: String
+) {
+    val mappedLabels = tags.map { LabelMapper.map(it, selectedLanguage) }
 
     if (mappedLabels.isNotEmpty()) {
         Column(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp)
         ) {
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -62,7 +64,8 @@ fun LabelItem(text: String) {
 fun ProductLabelSectionPreview() {
     AndroidAbschlussprojektTheme {
         ProductLabelSection(
-            tags = listOf("en:vegan", "en:organic", "en:fair-trade")
+            tags = listOf("en:vegan", "en:organic", "en:fair-trade"),
+            selectedLanguage = "de"
         )
     }
 }

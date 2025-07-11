@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.detail
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ProductImageBox
 
-@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun ProductHeaderSection(
     imageUrl: String?,
@@ -28,7 +26,8 @@ fun ProductHeaderSection(
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit,
     filterViolations: List<FilterViolation>,
-    labels: List<String>
+    labels: List<String>,
+    selectedLanguage: String
 ) {
     var showImageDialog by remember { mutableStateOf(false) }
 
@@ -54,17 +53,16 @@ fun ProductHeaderSection(
             ProductInfoSection(
                 name = name,
                 brand = brand,
-                corporation = corporation,
                 isFavorite = isFavorite,
                 onToggleFavorite = onToggleFavorite
             )
         }
 
-        BrandCorporationInfo(brand = brand, corporation = corporation)
+        CorporationInfo(corporation = corporation)
 
         CriteriaStatusSection(filterViolations)
 
-        ProductLabelSection(labels)
+        ProductLabelSection(labels, selectedLanguage)
     }
 
     ProductImagePreview(

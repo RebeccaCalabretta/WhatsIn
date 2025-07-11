@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhatIn</string>
+    <string name="app_name">WhatsIn</string>
     <string name="ingredients">Inhaltsstoffe</string>
     <string name="allergens">Allergene</string>
     <string name="additives">Zusatzstoffe</string>
@@ -99,4 +99,7 @@
     <string name="nutrient_proteins">Proteine: %1$s g</string>
     <string name="nutrient_salt">Salz: %1$s g</string>
     <string name="nutrient_sugar">Zucker: %1$s g</string>
+    <string name="language">Sprache</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_english">Englisch</string>
 </resources>

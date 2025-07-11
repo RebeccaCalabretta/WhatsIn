@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhatIn</string>
+    <string name="app_name">WhatsIn</string>
     <string name="ingredients">Ingredients</string>
     <string name="allergens">Allergens</string>
     <string name="additives">Additives</string>
@@ -74,7 +74,7 @@
     <string name="error_network">No network – please check your internet connection</string>
     <string name="error_not_found">Product not found</string>
     <string name="error_unknown">An unknown error has occurred</string>
-    <string name="error_database">The product could not not be saved</string>
+    <string name="error_database">The product could not be saved</string>
     <string name="violation_ingredients">Contains excluded ingredients: %1$s</string>
     <string name="violation_allergens">Contains excluded allergens: %1$s</string>
     <string name="violation_additives">Contains excluded additives: %1$s</string>
@@ -99,4 +99,7 @@
     <string name="nutrient_proteins">Proteins: %1$s g</string>
     <string name="nutrient_salt">Salt: %1$s g</string>
     <string name="nutrient_sugar">Sugar: %1$s g</string>
+    <string name="language">Language</string>
+    <string name="language_german">German</string>
+    <string name="language_english">English</string>
 </resources>

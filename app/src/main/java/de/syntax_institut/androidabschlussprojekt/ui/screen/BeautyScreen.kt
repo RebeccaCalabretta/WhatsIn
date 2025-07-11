@@ -25,6 +25,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.collection.Colle
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductCollection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
@@ -34,6 +35,7 @@ fun BeautyScreen(
     snackbarHostState: SnackbarHostState,
     collectionViewModel: CollectionViewModel = koinViewModel(),
     productViewModel: ProductViewModel = koinViewModel(),
+    settingsViewModel: SettingsViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
 ) {
     val products by collectionViewModel
@@ -42,7 +44,8 @@ fun BeautyScreen(
 
     val searchText by collectionViewModel.searchText.collectAsState()
     val sortOption by collectionViewModel.sortOption.collectAsState()
-    val violationsMap by collectionViewModel.filterViolationsMap.collectAsState()
+    val selectedLanguage by settingsViewModel.selectedLanguage.collectAsState()
+    val violationsMap by collectionViewModel.filterViolationsMap(selectedLanguage).collectAsState()
     var showSearch by remember { mutableStateOf(false) }
 
     val productRemoved = stringResource(R.string.product_removed)

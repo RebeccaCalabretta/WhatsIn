@@ -3,6 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.viewmodel
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,9 +21,13 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     private val DARK_MODE_KEY = booleanPreferencesKey("is_dark_mode")
+    private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
 
     private val _isDarkmode = MutableStateFlow(false)
     val isDarkmode: StateFlow<Boolean> = _isDarkmode
+
+    private val _selectedLanguage = MutableStateFlow("de")
+    val selectedLanguage: StateFlow<String> = _selectedLanguage
 
     private val _appColorScheme = MutableStateFlow(AppColorScheme.Orange)
     val appColorScheme: StateFlow<AppColorScheme> = _appColorScheme
@@ -34,6 +39,12 @@ class SettingsViewModel(
                 .map { prefs -> prefs[DARK_MODE_KEY] ?: false }
                 .collect { value -> _isDarkmode.value = value }
         }
+
+        viewModelScope.launch {
+            context.dataStore.data
+                .map { prefs -> prefs[LANGUAGE_KEY] ?: "de" }
+                .collect { value -> _selectedLanguage.value = value }
+        }
     }
 
     fun toggleDarkmode() {
@@ -43,6 +54,15 @@ class SettingsViewModel(
         viewModelScope.launch {
             context.dataStore.edit { prefs ->
                 prefs[DARK_MODE_KEY] = newValue
+            }
+        }
+    }
+
+    fun setLanguage(langCode: String) {
+        _selectedLanguage.value = langCode
+        viewModelScope.launch {
+            context.dataStore.edit { prefs ->
+                prefs[LANGUAGE_KEY] = langCode
             }
         }
     }

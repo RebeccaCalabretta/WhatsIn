@@ -10,12 +10,11 @@ fun ProductDto.toProduct(productType: ProductType): Product {
 
     return Product(
         barcode = barcode,
-        name = productNameDe ?: productNameEn ?: name ?: "Kein Name verfügbar",
-        brand = brand ?: "Keine Marke verfügbar",
+        name = productNameDe ?: productNameEn ?: name,
+        brand = brand,
         imageUrl = imageUrl,
-        ingredientsText = ingredientsTextDe ?: ingredientsTextEn ?: ingredientsText
-        ?: "Keine Zutaten verfügbar",
-        nutriScore = nutritionGrades ?: "Unbekannt",
+        ingredientsText = ingredientsTextDe ?: ingredientsTextEn ?: ingredientsText,
+        nutriScore = nutritionGrades,
         nutriments = nutriments?.toNutriments() ?: Nutriments(),
 
         labelsTags = labelsTags.orEmpty(),
