@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,11 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -42,12 +41,13 @@ fun SettingsScreen(
     val isDarkmode by settingsViewModel.isDarkmode.collectAsState()
     val selectedLanguage by settingsViewModel.selectedLanguage.collectAsState()
 
+    val context = LocalContext.current
+    val activity = context as? Activity
+
     val languages = listOf(
         "de" to stringResource(R.string.language_german),
         "en" to stringResource(R.string.language_english)
     )
-
-    var expanded by remember { mutableStateOf(false) }
 
     val rowHeight = 56.dp
     val cornerRadius = 16.dp
@@ -59,12 +59,12 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
-            modifier =  Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(rowHeight)
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(cornerRadius)
                 )
                 .clickable { navController.navigate(FilterRoute) }
                 .padding(12.dp),
@@ -84,15 +84,13 @@ fun SettingsScreen(
                 .height(rowHeight)
                 .background(
                     color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(cornerRadius)
                 )
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge)
-
             Spacer(modifier = Modifier.weight(1f))
-
             Switch(
                 checked = isDarkmode,
                 onCheckedChange = { settingsViewModel.toggleDarkmode() }
@@ -102,7 +100,9 @@ fun SettingsScreen(
         LanguageDropdown(
             selectedLanguage = selectedLanguage,
             languages = languages,
-            onSelectLanguage = { settingsViewModel.setLanguage(it) },
+            onSelectLanguage = { langCode ->
+                activity?.let { settingsViewModel.setLanguage(langCode, it) }
+            },
             rowHeight = rowHeight,
             cornerRadius = cornerRadius
         )
