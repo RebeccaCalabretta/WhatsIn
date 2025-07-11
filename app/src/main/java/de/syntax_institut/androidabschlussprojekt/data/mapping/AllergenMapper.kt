@@ -1,5 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
+import android.util.Log
+
 
 object AllergenMapper {
 
@@ -160,8 +162,12 @@ object AllergenMapper {
         "en:vegetable" to "Vegetable"
     )
 
-    fun map(tag: String, lang: String): String = when (lang) {
-        "de" -> allergenMapDe[tag] ?: tag.removePrefix("en:")
-        "en" -> allergenMapEn[tag] ?: tag.removePrefix("en:")
-        else -> allergenMapEn[tag] ?: tag.removePrefix("en:")
-    }}
+    fun map(tag: String, lang: String): String {
+        Log.d("AllergenMapper", "called with tag=$tag, lang=$lang")
+        return when (lang) {
+            "de" -> allergenMapDe[tag] ?: tag.removePrefix("en:")
+            "en" -> allergenMapEn[tag] ?: tag.removePrefix("en:")
+            else -> allergenMapEn[tag] ?: tag.removePrefix("en:")
+        }
+    }
+}
