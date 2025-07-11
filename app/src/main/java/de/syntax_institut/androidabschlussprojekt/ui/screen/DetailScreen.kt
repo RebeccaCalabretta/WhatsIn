@@ -85,7 +85,7 @@ fun DetailScreen(
             )
         }
 
-        val mappedLabels = product.labelsTags.map { LabelMapper.map(it, selectedLanguage) }
+        val mappedLabels = product.labelsTags.mapNotNull { LabelMapper.map(it, selectedLanguage) }
 
         Column(modifier = Modifier.fillMaxSize()) {
             ProductHeaderSection(

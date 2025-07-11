@@ -22,7 +22,7 @@ fun ProductLabelSection(
     tags: List<String>,
     selectedLanguage: String
 ) {
-    val mappedLabels = tags.map { LabelMapper.map(it, selectedLanguage) }
+    val mappedLabels = tags.mapNotNull { LabelMapper.map(it, selectedLanguage) }
 
     if (mappedLabels.isNotEmpty()) {
         Column(

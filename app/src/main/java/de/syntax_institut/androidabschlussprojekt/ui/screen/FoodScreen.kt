@@ -27,6 +27,7 @@ import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -86,18 +87,16 @@ fun FoodScreen(
     }
 
     LaunchedEffect(Unit) {
-        productViewModel.snackbarMessage.collectLatest { messageKey ->
-            val message = when (messageKey) {
-                "product_removed" -> productRemoved
-                else -> messageKey
-            }
-            val result = snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = if (messageKey == "product_removed") undo else null
-            )
-            if (result == SnackbarResult.ActionPerformed && messageKey == "product_removed") {
-                productViewModel.undoDelete()
+        launch {
+            productViewModel.snackbarMessage.collectLatest { message ->
+                val result = snackbarHostState.showSnackbar(
+                    message = message,
+                    actionLabel = if (message == productRemoved) undo else null
+                )
+                if (result == SnackbarResult.ActionPerformed && message == productRemoved)
+                    productViewModel.undoDelete()
             }
         }
     }
 }
+
