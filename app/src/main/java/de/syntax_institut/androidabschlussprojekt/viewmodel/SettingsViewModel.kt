@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class SettingsViewModel(
     private val context: Context
@@ -55,21 +54,11 @@ class SettingsViewModel(
     }
 
     fun setLanguage(langCode: String, activity: Activity) {
-        _selectedLanguage.value = langCode
-        setAppLocale(activity, langCode)
         viewModelScope.launch {
             activity.dataStore.edit { prefs ->
                 prefs[LANGUAGE_KEY] = langCode
             }
+            activity.runOnUiThread { activity.recreate() }
         }
-        activity.recreate()
-    }
-
-    fun setAppLocale(context: Context, lang: String) {
-        val locale = Locale(lang)
-        Locale.setDefault(locale)
-        val config = context.resources.configuration
-        config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 }

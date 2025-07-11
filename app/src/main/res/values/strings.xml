@@ -70,6 +70,7 @@
     <string name="attention">Achtung</string>
     <string name="product_not_matching_filter">Dieses Produkt entspricht nicht deinen Filterkriterien.</string>
     <string name="product_removed">Produkt entfernt</string>
+    <string name="product_restored">Produkt wiederhergestellt</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="error_network">Kein Netz – bitte überprüfe deine Internetverbindung</string>
     <string name="error_not_found">Produkt nicht gefunden</string>
@@ -101,5 +102,5 @@
     <string name="nutrient_sugar">Zucker: %1$s g</string>
     <string name="language">Sprache</string>
     <string name="language_german">Deutsch</string>
-    <string name="language_english">Englisch</string>
+    <string name="language_english">English</string>
 </resources>

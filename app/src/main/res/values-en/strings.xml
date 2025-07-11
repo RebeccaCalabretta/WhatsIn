@@ -8,8 +8,8 @@
     <string name="sort_by">Sort by</string>
     <string name="sort_newest_first">Newest first</string>
     <string name="sort_oldest_first">Oldest first</string>
-    <string name="sort_alphabetical_asc">Alphabetically (A-Z)</string>
-    <string name="sort_alphabetical_desc">Alphabetically (Z–A)</string>
+    <string name="sort_alphabetical_asc">Alphabetical (A-Z)</string>
+    <string name="sort_alphabetical_desc">Alphabetical (Z–A)</string>
     <string name="no_results_found">No results found</string>
     <string name="back">Back</string>
     <string name="details">Details</string>
@@ -70,6 +70,7 @@
     <string name="attention">Attention</string>
     <string name="product_not_matching_filter">This product does not match your filter criteria.</string>
     <string name="product_removed">Product removed</string>
+    <string name="product_restored">Product restored</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="error_network">No network – please check your internet connection</string>
     <string name="error_not_found">Product not found</string>
@@ -100,6 +101,6 @@
     <string name="nutrient_salt">Salt: %1$s g</string>
     <string name="nutrient_sugar">Sugar: %1$s g</string>
     <string name="language">Language</string>
-    <string name="language_german">German</string>
+    <string name="language_german">Deutsch</string>
     <string name="language_english">English</string>
 </resources>

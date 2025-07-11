@@ -26,8 +26,8 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.collection.Produ
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
+import de.syntax_institut.androidabschlussprojekt.viewmodel.SnackEvent
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -50,6 +50,7 @@ fun FoodScreen(
     var showSearch by remember { mutableStateOf(false) }
 
     val productRemoved = stringResource(R.string.product_removed)
+    val productRestored = stringResource(R.string.product_restored)
     val undo = stringResource(R.string.undo)
 
     Column(
@@ -87,14 +88,20 @@ fun FoodScreen(
     }
 
     LaunchedEffect(Unit) {
-        launch {
-            productViewModel.snackbarMessage.collectLatest { message ->
-                val result = snackbarHostState.showSnackbar(
-                    message = message,
-                    actionLabel = if (message == productRemoved) undo else null
-                )
-                if (result == SnackbarResult.ActionPerformed && message == productRemoved)
-                    productViewModel.undoDelete()
+        productViewModel.snackbarEvent.collectLatest { event ->
+            when (event) {
+                is SnackEvent.ProductRemoved -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = productRemoved,
+                        actionLabel = undo
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        productViewModel.undoDelete()
+                    }
+                }
+                is SnackEvent.ProductRestored -> {
+                    snackbarHostState.showSnackbar(productRestored)
+                }
             }
         }
     }
