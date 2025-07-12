@@ -12,6 +12,7 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.NutriScoreMapper
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
+import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareMappedItems
 import kotlinx.coroutines.flow.StateFlow
 
 class FilterConfigUseCase {
@@ -25,91 +26,66 @@ class FilterConfigUseCase {
 
         val searchValue = searchText.value.lowercase()
 
-        fun prepare(
-            rawItems: List<String>,
-            selectedTags: List<String>,
-            mapper: (String) -> String,
-            reverseMapper: (String) -> String?,
-            onUpdate: (List<String>) -> Unit
-        ): Pair<List<String>, (String) -> Unit> {
-
-            val itemsMapped = rawItems.map { tag -> mapper(tag) to tag }
-
-            val filteredSortedItems = itemsMapped
-                .filter { (label, _) -> label.lowercase().contains(searchValue) }
-                .sortedWith(
-                    compareByDescending<Pair<String, String>> { it.second in selectedTags }
-                        .thenBy { it.first }
-                )
-                .map { it.first }
-
-            val toggle: (String) -> Unit = { clickedLabel ->
-                val clickedTag = reverseMapper(clickedLabel)
-                if (clickedTag != null) {
-                    val updated = if (clickedTag in selectedTags) {
-                        selectedTags - clickedTag
-                    } else {
-                        selectedTags + clickedTag
-                    }
-                    onUpdate(updated)
-                }
-            }
-
-            return Pair(filteredSortedItems, toggle)
-        }
-
-        val (allergens, allergensToggle) = prepare(
+        val (allergens, allergensToggle) = prepareMappedItems(
             rawItems = StaticFilterValues.allergens,
             selectedTags = active.excludedAllergens,
+            searchValue = searchValue,
             mapper = { AllergenMapper.map(it, language) },
             reverseMapper = { AllergenMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(excludedAllergens = it)) }
 
-        val (ingredients, ingredientsToggle) = prepare(
+        val (ingredients, ingredientsToggle) = prepareMappedItems(
             StaticFilterValues.ingredients,
             active.excludedIngredients,
+            searchValue,
             { IngredientMapper.map(it, language) },
             { IngredientMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(excludedIngredients = it)) }
 
-        val (additives, additivesToggle) = prepare(
+        val (additives, additivesToggle) = prepareMappedItems(
             StaticFilterValues.additives,
             active.excludedAdditives,
+            searchValue,
             { AdditiveMapper.map(it, language) },
             { AdditiveMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(excludedAdditives = it)) }
 
-        val (labels, labelsToggle) = prepare(
+        val (labels, labelsToggle) = prepareMappedItems(
             StaticFilterValues.labels,
             active.allowedLabels,
-            { LabelMapper.map(it, language) ?: it },
+            searchValue,
+            { LabelMapper.map(it, language) },
             { LabelMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(allowedLabels = it)) }
 
-        val (countries, countriesToggle) = prepare(
+        val (countries, countriesToggle) = prepareMappedItems(
             StaticFilterValues.countries,
             active.allowedCountry,
+            searchValue,
             { CountryMapper.map(it, language) },
             { CountryMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(allowedCountry = it)) }
 
-        val (brands, brandsToggle) = prepare(
+        val (brands, brandsToggle) = prepareMappedItems(
             StaticFilterValues.brands,
             active.excludedBrands,
+            searchValue,
             { BrandMapper.map(it) },
             { BrandMapper.getReverseMap()[it] }
         ) { onUpdateFilter(active.copy(excludedBrands = it)) }
 
-        val (nutri, nutriToggle) = prepare(
+        val (nutri, nutriToggle) = prepareMappedItems(
             StaticFilterValues.nutriScore,
             active.allowedNutriScore,
+            searchValue,
             { NutriScoreMapper.map(it) },
             { NutriScoreMapper.getReverseMap()[it] }
         ) { onUpdateFilter(active.copy(allowedNutriScore = it)) }
 
-        val (corporations, corpToggle) = prepare(
+        val (corporations, corpToggle) = prepareMappedItems(
             StaticFilterValues.corporations,
             active.excludedCorporations,
+            searchValue,
             { CorporationMapper.map(it) ?: it },
             { CorporationMapper.getReverseMap()[it] }
         ) { onUpdateFilter(active.copy(excludedCorporations = it)) }
@@ -136,7 +112,7 @@ class FilterConfigUseCase {
             FilterConfig(
                 R.string.choose_labels,
                 labels,
-                active.allowedLabels.mapNotNull { LabelMapper.map(it, language) },
+                active.allowedLabels.map { LabelMapper.map(it, language) },
                 labelsToggle
             ),
             FilterConfig(

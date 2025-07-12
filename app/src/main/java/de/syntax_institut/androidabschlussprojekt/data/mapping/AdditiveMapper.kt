@@ -202,17 +202,17 @@ object AdditiveMapper {
         "en:e14xx" to "E14XX - Modified Starch"
     )
 
-    fun map(tag: String, language: String): String {
-        return when (language) {
+    fun map(tag: String, selectedLanguage: String): String =
+        when (selectedLanguage) {
             "de" -> additiveMapDe[tag] ?: tag.removePrefix("en:")
             "en" -> additiveMapEn[tag] ?: tag.removePrefix("en:")
             else -> additiveMapEn[tag] ?: tag.removePrefix("en:")
         }
-    }
 
-    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
-        "de" -> additiveMapDe.entries.associate { (tag, label) -> label to tag }
-        "en" -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
-        else -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
-    }
+    fun getReverseMap(selectedLanguage: String): Map<String, String> =
+        when (selectedLanguage) {
+            "de" -> additiveMapDe.entries.associate { (tag, label) -> label to tag }
+            "en" -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
+            else -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
+        }
 }

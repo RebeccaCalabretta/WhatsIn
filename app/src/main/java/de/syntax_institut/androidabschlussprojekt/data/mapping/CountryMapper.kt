@@ -96,7 +96,7 @@ object CountryMapper {
             else -> countryMapEn[tag] ?: tag.removePrefix("en:")
         }
 
-    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
+    fun getReverseMap(selectedLanguage: String): Map<String, String> = when (selectedLanguage) {
         "de" -> countryMapDe.entries.associate { (tag, label) -> label to tag }
         "en" -> countryMapEn.entries.associate { (tag, label) -> label to tag }
         else -> countryMapEn.entries.associate { (tag, label) -> label to tag }

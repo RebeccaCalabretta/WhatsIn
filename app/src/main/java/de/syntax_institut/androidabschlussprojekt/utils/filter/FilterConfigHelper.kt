@@ -53,19 +53,35 @@ fun prepareFilterItems(
 }
 
 fun prepareMappedItems(
-    raw: List<String>,
-    selected: List<String>,
-    update: (List<String>) -> Unit,
+    rawItems: List<String>,
+    selectedTags: List<String>,
+    searchValue: String,
     mapper: (String) -> String,
-    allLabel: String? = null,
-    searchValue: String = ""
+    reverseMapper: (String) -> String?,
+    onUpdate: (List<String>) -> Unit
 ): Pair<List<String>, (String) -> Unit> {
-    return prepareFilterItems(
-        rawItems = raw,
-        selected = selected,
-        update = update,
-        allLabel = allLabel,
-        searchValue = searchValue,
-        map = mapper
-    )
+
+    val itemsMapped = rawItems.map { tag -> mapper(tag) to tag }
+
+    val filteredSortedItems = itemsMapped
+        .filter { (label, _) -> label.lowercase().contains(searchValue) }
+        .sortedWith(
+            compareByDescending<Pair<String, String>> { it.second in selectedTags }
+                .thenBy { it.first }
+        )
+        .map { it.first }
+
+    val toggle: (String) -> Unit = { clickedLabel ->
+        val clickedTag = reverseMapper(clickedLabel)
+        if (clickedTag != null) {
+            val updated = if (clickedTag in selectedTags) {
+                selectedTags - clickedTag
+            } else {
+                selectedTags + clickedTag
+            }
+            onUpdate(updated)
+        }
+    }
+
+    return Pair(filteredSortedItems, toggle)
 }
