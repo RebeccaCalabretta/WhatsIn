@@ -35,10 +35,26 @@ fun Product.toScannedProduct(): ScannedProduct {
         corporation = corporation,
         imageUrl = imageUrl,
         productType = productType.name.lowercase(),
+
         ingredients = ingredientsTags.joinToString(";"),
-        allergens = allergensTags.joinToString(";"),
+        ingredientsText = ingredientsText,
+        ingredientsTextDe = null,
+        ingredientsTextEn = null,
+
         additives = additivesTags.joinToString(";"),
+        additivesText = additivesText,
+        additivesTextDe = null,
+        additivesTextEn = null,
+
+        allergens = allergensTags.joinToString(";"),
+        allergensText = allergensText,
+        allergensTextDe = null,
+        allergensTextEn = null,
+
         labels = labelsTags.joinToString(";"),
+        countries = countriesTags.joinToString(";"),
+        nutriScore = nutriScore,
+
         isFavorite = isFavorite,
         timestamp = timestamp
     )

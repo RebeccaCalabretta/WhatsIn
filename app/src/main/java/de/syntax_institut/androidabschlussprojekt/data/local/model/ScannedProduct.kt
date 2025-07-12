@@ -15,10 +15,26 @@ data class ScannedProduct(
     val corporation: String? = null,
     val imageUrl: String?,
     val productType: String,
+
     val ingredients: String? = null,
-    val allergens: String? = null,
+    val ingredientsTextDe: String? = null,
+    val ingredientsText: String? = null,
+    val ingredientsTextEn: String? = null,
+
     val additives: String? = null,
+    val additivesTextDe: String? = null,
+    val additivesText: String? = null,
+    val additivesTextEn: String? = null,
+
+    val allergens: String? = null,
+    val allergensTextDe: String? = null,
+    val allergensText: String? = null,
+    val allergensTextEn: String? = null,
+
     val labels: String? = null,
+    val countries: String? = null,
+    val nutriScore: String? = null,
+
     val isFavorite: Boolean = false,
     val timestamp: Long = System.currentTimeMillis()
 )
@@ -33,16 +49,34 @@ fun ScannedProduct.toProduct(): Product {
         corporation = corporation,
         imageUrl = imageUrl,
         productType = productType.toProductType(),
+
         ingredientsTags = ingredients?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        ingredientsText = ingredientsTextDe
+            ?.takeIf { it.isNotBlank() }
+            ?: ingredientsText
+                ?.takeIf { it.isNotBlank() }
+            ?: ingredientsTextEn,
+
         additivesTags = additives?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        additivesText = additivesTextDe
+            ?.takeIf { it.isNotBlank() }
+            ?: additivesText
+                ?.takeIf { it.isNotBlank() }
+            ?: additivesTextEn,
+
         allergensTags = allergens?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+        allergensText = allergensTextDe
+            ?.takeIf { it.isNotBlank() }
+            ?: allergensText
+                ?.takeIf { it.isNotBlank() }
+            ?: allergensTextEn,
+
         labelsTags = labels?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
-        countriesTags = emptyList(),
-        ingredientsText = null,
-        additivesText = null,
-        allergensText = null,
-        nutriScore = null,
+        countriesTags = countries?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
+
+        nutriScore = nutriScore,
         nutriments = Nutriments(),
+
         isFavorite = isFavorite,
         timestamp = timestamp
     )
