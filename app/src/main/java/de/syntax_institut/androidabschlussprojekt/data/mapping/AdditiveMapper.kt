@@ -209,4 +209,10 @@ object AdditiveMapper {
             else -> additiveMapEn[tag] ?: tag.removePrefix("en:")
         }
     }
+
+    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
+        "de" -> additiveMapDe.entries.associate { (tag, label) -> label to tag }
+        "en" -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
+        else -> additiveMapEn.entries.associate { (tag, label) -> label to tag }
+    }
 }

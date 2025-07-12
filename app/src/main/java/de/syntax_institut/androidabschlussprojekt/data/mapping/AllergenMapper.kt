@@ -2,11 +2,9 @@ package de.syntax_institut.androidabschlussprojekt.data.mapping
 
 import android.util.Log
 
-
 object AllergenMapper {
 
     private val allergenMapDe = mapOf(
-
         "en:milk" to "Milch",
         "en:cream" to "Sahne",
         "en:butter" to "Butter",
@@ -169,5 +167,11 @@ object AllergenMapper {
             "en" -> allergenMapEn[tag] ?: tag.removePrefix("en:")
             else -> allergenMapEn[tag] ?: tag.removePrefix("en:")
         }
+    }
+
+    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
+        "de" -> allergenMapDe.entries.associate { (tag, label) -> label to tag }
+        "en" -> allergenMapEn.entries.associate { (tag, label) -> label to tag }
+        else -> allergenMapEn.entries.associate { (tag, label) -> label to tag }
     }
 }

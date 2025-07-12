@@ -1,6 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.filter
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +27,6 @@ fun FilterSection(
     selectedItems: List<String> = emptyList(),
     onToggleItem: (String) -> Unit,
     labelMapper: (String) -> String = { it }
-
 ) {
     Column(
         modifier = Modifier
@@ -41,14 +42,20 @@ fun FilterSection(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(items) { item ->
+                val isSelected = item in selectedItems
+
+                Log.d("FilterDebug", "Item='$item' | isSelected=$isSelected | selectedItems=$selectedItems")
+
                 FilterChip(
-                    selected = item in selectedItems,
+                    selected = isSelected,
                     onClick = { onToggleItem(item) },
-                    label = { Text(labelMapper(item)) }
+                    label = { Text(labelMapper(item)) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                        labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+                    )
                 )
             }
         }

@@ -8,15 +8,16 @@ fun prepareFilterItems(
     searchValue: String = "",
     map: (String) -> String = { it }
 ): Pair<List<String>, (String) -> Unit> {
-
     val cleanItems = rawItems.filter { it.isNotBlank() }.distinct()
 
     val sortedItems = buildList {
         if (searchValue.isBlank()) {
             allLabel?.let { add(it) }
         }
-        addAll(selected.intersect(cleanItems).sorted())
-        addAll(cleanItems.minus(selected).sorted())
+        val selectedSorted = selected.intersect(cleanItems).sortedBy { map(it).lowercase() }
+        val restSorted = cleanItems.minus(selected).sortedBy { map(it).lowercase() }
+        addAll(selectedSorted)
+        addAll(restSorted)
     }
 
     val visibleItems = sortedItems.map { map(it) }
@@ -35,12 +36,10 @@ fun prepareFilterItems(
                     current.clear()
                 }
             }
-
             tag in current -> {
                 current.remove(tag)
                 allLabel?.let { current.remove(it) }
             }
-
             else -> {
                 current.add(tag)
                 allLabel?.let { current.remove(it) }
@@ -57,14 +56,16 @@ fun prepareMappedItems(
     raw: List<String>,
     selected: List<String>,
     update: (List<String>) -> Unit,
-    mapper: (String) -> String?,
-    allLabel: String? = null
+    mapper: (String) -> String,
+    allLabel: String? = null,
+    searchValue: String = ""
 ): Pair<List<String>, (String) -> Unit> {
     return prepareFilterItems(
         rawItems = raw,
         selected = selected,
         update = update,
         allLabel = allLabel,
-        map = { mapper(it) ?: it }
+        searchValue = searchValue,
+        map = mapper
     )
 }

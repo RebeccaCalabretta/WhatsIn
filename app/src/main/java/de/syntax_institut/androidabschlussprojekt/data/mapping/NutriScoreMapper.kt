@@ -1,9 +1,10 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
 object NutriScoreMapper {
-    val values = listOf("A", "B", "C", "D", "E")
+    val values = listOf("a", "b", "c", "d", "e")
 
-    fun map(tag: String): String = tag.uppercase()
-    fun reverseMap(label: String): String = label.uppercase()
-    fun allValues(): List<String> = values
+    fun map(tag: String): String = tag.trim().uppercase()
+
+    fun getReverseMap(): Map<String, String> =
+        values.associate { it.uppercase() to it }
 }

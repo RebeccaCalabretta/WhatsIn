@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
 class FilterViewModel(
     private val filterRepository: FilterRepository,
     private val filterCheckUseCase: FilterCheckUseCase,
@@ -34,34 +33,43 @@ class FilterViewModel(
     val searchText: StateFlow<String> = _searchText
 
     init {
-        Log.d("FilterViewModel", "FilterViewModel gestartet – Filter wird vorbereitet")
+        Log.d("FilterDebug", "FilterViewModel init – Filter wird vorbereitet")
         viewModelScope.launch {
             _activeFilter.value = filterRepository.getActiveFilter()
             _isLoading.value = false
+            Log.d("FilterDebug", "Initial activeFilter: ${_activeFilter.value}")
         }
     }
 
-
     fun updateFilter(newFilter: ActiveFilter) {
+        Log.d("FilterDebug", "updateFilter called. New filter: $newFilter")
         _activeFilter.value = newFilter
         viewModelScope.launch {
             filterRepository.saveActiveFilter(newFilter)
+            Log.d("FilterDebug", "Filter saved to repository: $newFilter")
         }
     }
 
     fun buildFilterConfigs(searchText: String, selectedLanguage: String): List<FilterConfig> {
         val active = activeFilter.value
-        return filterConfigUseCase(active, this.searchText, selectedLanguage) { updatedFilter ->
+        Log.d("FilterDebug", "buildFilterConfigs called with searchText='$searchText', language='$selectedLanguage', activeFilter=$active")
+        val result = filterConfigUseCase(active, this.searchText, selectedLanguage) { updatedFilter ->
+            Log.d("FilterDebug", "buildFilterConfigs onUpdateFilter: $updatedFilter")
             updateFilter(updatedFilter)
         }
+        Log.d("FilterDebug", "buildFilterConfigs returns FilterConfigs: $result")
+        return result
     }
 
     fun validateProduct(product: Product, selectedLanguage: String) {
         val filter = _activeFilter.value
+        Log.d("FilterDebug", "validateProduct called with product=$product, filter=$filter, lang=$selectedLanguage")
         _filterViolations.value = filterCheckUseCase(product, filter, selectedLanguage)
+        Log.d("FilterDebug", "validateProduct filterViolations=${_filterViolations.value}")
     }
 
     fun updateSearchText(newText: String) {
+        Log.d("FilterDebug", "updateSearchText: $newText")
         _searchText.value = newText
     }
 }

@@ -128,5 +128,6 @@ object BrandMapper {
     )
 
     fun map(tag: String): String = brandMap[tag.trim().lowercase()] ?: tag.removePrefix("xx:")
-    fun allValues(): List<String> = brandMap.values.sorted()
+    fun getReverseMap(): Map<String, String> =
+        brandMap.entries.associate { (tag, label) -> label to tag }
 }

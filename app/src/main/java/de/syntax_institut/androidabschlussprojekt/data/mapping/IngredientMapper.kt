@@ -184,4 +184,10 @@ object IngredientMapper {
             "en" -> ingredientMapEn[tag] ?: tag.removePrefix("en:")
             else -> ingredientMapEn[tag] ?: tag.removePrefix("en:")
         }
+
+    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
+        "de" -> ingredientMapDe.entries.associate { (tag, label) -> label to tag }
+        "en" -> ingredientMapEn.entries.associate { (tag, label) -> label to tag }
+        else -> ingredientMapEn.entries.associate { (tag, label) -> label to tag }
+    }
 }

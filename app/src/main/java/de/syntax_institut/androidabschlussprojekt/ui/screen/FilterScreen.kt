@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,12 +53,13 @@ fun FilterScreen(
                 .padding(16.dp)
         ) {
             SearchBar(
-                searchText =searchText,
+                searchText = searchText,
                 onSearchTextChange = { filterViewModel.updateSearchText(it) },
                 modifier = Modifier.fillMaxWidth()
             )
 
             configs.forEach { config ->
+                Log.d("FilterDebug", "FilterScreen rendering: titleRes=${config.titleRes}, items=${config.items}, selectedItems=${config.selectedItems}")
                 FilterSection(
                     title = stringResource(config.titleRes),
                     items = config.items,

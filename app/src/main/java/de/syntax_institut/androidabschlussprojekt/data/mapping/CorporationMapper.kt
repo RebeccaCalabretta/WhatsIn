@@ -608,4 +608,7 @@ object CorporationMapper {
         return brandToCorporation[brand.trim().lowercase()]
     }
     fun map(tag: String): String? = getCorporationForBrand(tag)
+
+    fun getReverseMap(): Map<String, String> =
+        brandToCorporation.entries.associate { (tag, label) -> label to tag }
 }

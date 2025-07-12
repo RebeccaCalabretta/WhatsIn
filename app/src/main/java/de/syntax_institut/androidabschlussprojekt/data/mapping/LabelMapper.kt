@@ -65,10 +65,9 @@ object LabelMapper {
             else -> labelMapEn[tag]
         }
 
-    fun reverseMap(label: String, selectedLanguage: String): String? =
-        when (selectedLanguage) {
-            "de" -> labelMapDe.entries.find { it.value == label }?.key
-            "en" -> labelMapEn.entries.find { it.value == label }?.key
-            else -> labelMapEn.entries.find { it.value == label }?.key
-        }
+    fun getReverseMap(lang: String): Map<String, String> = when (lang) {
+        "de" -> labelMapDe.entries.associate { (tag, label) -> label to tag }
+        "en" -> labelMapEn.entries.associate { (tag, label) -> label to tag }
+        else -> labelMapEn.entries.associate { (tag, label) -> label to tag }
+    }
 }
