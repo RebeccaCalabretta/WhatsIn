@@ -1,7 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,13 +12,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.PermissionSettingsDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
+import de.syntax_institut.androidabschlussprojekt.utils.scan.checkCameraPermission
 import de.syntax_institut.androidabschlussprojekt.utils.scan.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
@@ -53,21 +55,35 @@ fun ScanScreen(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         hasCameraPermission = isGranted
+        if (isGranted) {
+            scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+        }
     }
 
+    var hasRequestedCameraPermission by rememberSaveable { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        if (!hasCameraPermission) {
-            val isPermanentlyDenied = (context as? Activity)?.let {
-                !ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.CAMERA)
-            } ?: false
-
-            if (isPermanentlyDenied) {
-                showSettingsDialog = true
-            } else {
-                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                checkCameraPermission(
+                    context = context,
+                    hasRequestedBefore = hasRequestedCameraPermission,
+                    requestLauncher = requestCameraPermissionLauncher,
+                    onPermissionGranted = {
+                        hasCameraPermission = true
+                        scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+                    },
+                    onShowSettingsDialog = {
+                        showSettingsDialog = true
+                    }
+                )
+                hasRequestedCameraPermission = true
             }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
@@ -102,9 +118,8 @@ fun ScanScreen(
             hasPermission = hasCameraPermission
         )
 
-        val lifecycle = lifecycleOwner.lifecycle
-        lifecycle.addObserver(observer)
-        onDispose { lifecycle.removeObserver(observer) }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     ScanScreenContent(

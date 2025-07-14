@@ -104,7 +104,7 @@
     <string name="language_german">Deutsch</string>
     <string name="language_english">English</string>
     <string name="permission_dialog_title">Kamerazugriff benötigt</string>
-    <string name="permission_dialog_text">Die Kameraerlaubnis wurde dauerhaft verweigert. Bitte öffne die Systemeinstellungen, um sie manuell zu aktivieren.</string>
-    <string name="permission_dialog_confirm">Einstellungen öffnen</string>
+    <string name="permission_dialog_text">Um ein Produkt zu scannen, benötigt die App Zugriff auf die Kamera. Bitte öffne die Systemeinstellungen, um den Zugriff manuell zu erlauben.</string>
+    <string name="permission_dialog_confirm">Einstellungen</string>
     <string name="permission_dialog_cancel">Abbrechen</string>
 </resources>

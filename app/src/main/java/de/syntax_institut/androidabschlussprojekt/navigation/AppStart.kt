@@ -77,8 +77,12 @@ fun AppStart(
                 if (showFab) {
                     GradientFab(
                         onClick = {
-                            selectedTab = TabItem.Scan
-                            navController.navigate(ScanRoute)
+                            if (selectedTab != TabItem.Scan) {
+                                selectedTab = TabItem.Scan
+                            }
+                            navController.navigate(ScanRoute) {
+                                launchSingleTop = true
+                            }
                         },
                         iconResId = TabItem.Scan.iconResId,
                         modifier = Modifier
