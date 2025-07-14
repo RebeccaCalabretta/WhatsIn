@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.utils
+package de.syntax_institut.androidabschlussprojekt.utils.scan
 
 import android.content.Context
 import androidx.camera.view.PreviewView

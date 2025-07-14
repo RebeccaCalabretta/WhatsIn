@@ -1,6 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,10 +15,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
-import de.syntax_institut.androidabschlussprojekt.utils.observeCameraLifecycle
+import de.syntax_institut.androidabschlussprojekt.utils.scan.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
 import kotlinx.coroutines.delay
@@ -46,15 +48,25 @@ fun ScanScreen(
         )
     }
 
-    val permissionLauncher = rememberLauncherForActivityResult(
+    val requestCameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        hasCameraPermission = granted
+    ) { isGranted ->
+        hasCameraPermission = isGranted
     }
+
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         if (!hasCameraPermission) {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
+            val isPermanentlyDenied = (context as? Activity)?.let {
+                !ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.CAMERA)
+            } ?: false
+
+            if (isPermanentlyDenied) {
+                showSettingsDialog = true
+            } else {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
         }
     }
 

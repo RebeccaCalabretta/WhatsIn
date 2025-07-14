@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.utils
+package de.syntax_institut.androidabschlussprojekt.utils.collection
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

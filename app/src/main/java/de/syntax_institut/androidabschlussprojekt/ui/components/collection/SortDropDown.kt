@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.helper.SortOption
-import de.syntax_institut.androidabschlussprojekt.utils.toUiLabel
+import de.syntax_institut.androidabschlussprojekt.utils.collection.toUiLabel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
