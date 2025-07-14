@@ -103,4 +103,8 @@
     <string name="language">Language</string>
     <string name="language_german">Deutsch</string>
     <string name="language_english">English</string>
+    <string name="permission_dialog_title">Camera access required</string>
+    <string name="permission_dialog_text">Camera permission was permanently denied. Please open system settings to grant it manually.</string>
+    <string name="permission_dialog_confirm">Open settings</string>
+    <string name="permission_dialog_cancel">Cancel</string>
 </resources>
