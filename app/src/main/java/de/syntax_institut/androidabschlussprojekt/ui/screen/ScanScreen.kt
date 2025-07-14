@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import de.syntax_institut.androidabschlussprojekt.ui.components.scan.PermissionSettingsDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
 import de.syntax_institut.androidabschlussprojekt.utils.scan.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
@@ -116,4 +117,11 @@ fun ScanScreen(
             scanViewModel.setupCamera(context, lifecycleOwner, previewView)
         }
     )
+
+    if (showSettingsDialog) {
+        PermissionSettingsDialog(
+            context = context,
+            onDismiss = { showSettingsDialog = false }
+        )
+    }
 }
