@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -32,6 +33,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.screen.FoodScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.SettingsScreen
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
+import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,8 +44,11 @@ fun AppStart(
     val isColorSchemeLoaded by settingsViewModel.isColorSchemeLoaded.collectAsState()
 
     if (!isColorSchemeLoaded) {
-        Box(modifier = Modifier.fillMaxSize()) {
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(brush = MintButtonGradientLight),
+        )
         return
     }
 

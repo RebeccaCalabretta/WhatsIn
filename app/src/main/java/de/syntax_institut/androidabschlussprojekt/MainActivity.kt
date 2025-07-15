@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import de.syntax_institut.androidabschlussprojekt.navigation.AppStart
+import de.syntax_institut.androidabschlussprojekt.ui.root.MainApp
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 import de.syntax_institut.androidabschlussprojekt.utils.applySavedLocale
 import kotlinx.coroutines.runBlocking
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AndroidAbschlussprojektTheme {
-                AppStart()
+                MainApp()
             }
         }
     }
