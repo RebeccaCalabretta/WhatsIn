@@ -20,6 +20,8 @@ class SettingsViewModel(
 
     private val DARK_MODE_KEY = booleanPreferencesKey("is_dark_mode")
     private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
+    private val COLOR_SCHEME_KEY = stringPreferencesKey("selected_color_scheme")
+
 
     private val _isDarkmode = MutableStateFlow(false)
     val isDarkmode: StateFlow<Boolean> = _isDarkmode
@@ -41,6 +43,13 @@ class SettingsViewModel(
                 .map { prefs -> prefs[LANGUAGE_KEY] ?: "de" }
                 .collect { value -> _selectedLanguage.value = value }
         }
+        viewModelScope.launch {
+            context.dataStore.data
+                .map { prefs -> prefs[COLOR_SCHEME_KEY] ?: AppColorScheme.Orange.name }
+                .collect { value ->
+                    _appColorScheme.value = AppColorScheme.valueOf(value)
+                }
+        }
     }
 
     fun toggleDarkmode() {
@@ -59,6 +68,15 @@ class SettingsViewModel(
                 prefs[LANGUAGE_KEY] = langCode
             }
             activity.runOnUiThread { activity.recreate() }
+        }
+    }
+
+    fun setAppColorScheme(scheme: AppColorScheme) {
+        _appColorScheme.value = scheme
+        viewModelScope.launch {
+            context.dataStore.edit { prefs ->
+                prefs[COLOR_SCHEME_KEY] = scheme.name
+            }
         }
     }
 }
