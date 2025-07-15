@@ -1,5 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
@@ -37,6 +39,13 @@ import org.koin.androidx.compose.koinViewModel
 fun AppStart(
     settingsViewModel: SettingsViewModel = koinViewModel()
 ) {
+    val isColorSchemeLoaded by settingsViewModel.isColorSchemeLoaded.collectAsState()
+
+    if (!isColorSchemeLoaded) {
+        Box(modifier = Modifier.fillMaxSize()) {
+        }
+        return
+    }
 
     val isDarkMode by settingsViewModel.isDarkmode.collectAsState()
     val appColorScheme by settingsViewModel.appColorScheme.collectAsState()
@@ -58,10 +67,7 @@ fun AppStart(
 
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
-
-            topBar = {
-                TopBar(navController)
-            },
+            topBar = { TopBar(navController) },
             bottomBar = {
                 if (showBottomBar) {
                     BottomNavigationBar(
@@ -85,8 +91,7 @@ fun AppStart(
                             }
                         },
                         iconResId = TabItem.Scan.iconResId,
-                        modifier = Modifier
-                            .offset(y = 44.dp)
+                        modifier = Modifier.offset(y = 44.dp)
                     )
                 }
             },

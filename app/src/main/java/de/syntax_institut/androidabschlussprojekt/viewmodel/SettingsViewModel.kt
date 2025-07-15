@@ -32,6 +32,9 @@ class SettingsViewModel(
     private val _appColorScheme = MutableStateFlow(AppColorScheme.Orange)
     val appColorScheme: StateFlow<AppColorScheme> = _appColorScheme
 
+    private val _isColorSchemeLoaded = MutableStateFlow(false)
+    val isColorSchemeLoaded: StateFlow<Boolean> = _isColorSchemeLoaded
+
     init {
         viewModelScope.launch {
             context.dataStore.data
@@ -48,6 +51,7 @@ class SettingsViewModel(
                 .map { prefs -> prefs[COLOR_SCHEME_KEY] ?: AppColorScheme.Orange.name }
                 .collect { value ->
                     _appColorScheme.value = AppColorScheme.valueOf(value)
+                    _isColorSchemeLoaded.value = true
                 }
         }
     }
