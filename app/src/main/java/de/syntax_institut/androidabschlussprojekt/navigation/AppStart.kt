@@ -1,12 +1,10 @@
 package de.syntax_institut.androidabschlussprojekt.navigation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -20,17 +18,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.BottomNavigationBar
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GradientFab
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.TopBar
+import de.syntax_institut.androidabschlussprojekt.ui.components.splash.SplashLogoAnimated
+import de.syntax_institut.androidabschlussprojekt.ui.components.splash.SplashText
 import de.syntax_institut.androidabschlussprojekt.ui.screen.BeautyScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.DetailScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.FilterScreen
@@ -55,11 +53,12 @@ fun AppStart(
                 .background(brush = MintButtonGradientLight),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.splash_logo),
-                contentDescription = null,
-                modifier = Modifier.size(120.dp)
+            SplashLogoAnimated(
+                alpha = 1f,
+                scale = 1f
             )
+
+            SplashText()
         }
         return
     }

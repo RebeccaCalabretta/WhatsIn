@@ -15,7 +15,7 @@ fun MainApp() {
     var showSplash by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
-        delay(4000)
+        delay(3600)
         showSplash = false
     }
 
