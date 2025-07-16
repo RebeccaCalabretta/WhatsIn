@@ -15,7 +15,7 @@ fun SplashLogoAnimated(
     scale: Float
 ) {
     Image(
-        painter = painterResource(id = R.drawable.splash_logo),
+        painter = painterResource(id = R.drawable.splash_logo_2),
         contentDescription = null,
         modifier = Modifier
             .size(120.dp)
