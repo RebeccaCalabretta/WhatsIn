@@ -2,7 +2,8 @@
 
 
 # WhatsIn  
-**Scanne. Erkenne. Entscheide bewusst.**
+
+![App Logo](img/whatsin_readme_header.png)
 
 *WhatsIn* ist eine App, mit der per einfachem Barcode-Scan sofort erkennbar wird, was wirklich in Lebensmitteln und Kosmetikprodukten steckt – von Inhaltsstoffen über Allergene bis hin zur Konzernzugehörigkeit.
 Sie ist für alle gedacht, die beim Einkaufen genauer hinsehen – ob aus gesundheitlichen Gründen, aufgrund ihrer Ernährungsweise oder aus Überzeugung.
