@@ -29,7 +29,7 @@ class SettingsViewModel(
     private val _selectedLanguage = MutableStateFlow("de")
     val selectedLanguage: StateFlow<String> = _selectedLanguage
 
-    private val _appColorScheme = MutableStateFlow(AppColorScheme.Orange)
+    private val _appColorScheme = MutableStateFlow(AppColorScheme.Mint)
     val appColorScheme: StateFlow<AppColorScheme> = _appColorScheme
 
     private val _isColorSchemeLoaded = MutableStateFlow(false)
@@ -48,7 +48,7 @@ class SettingsViewModel(
         }
         viewModelScope.launch {
             context.dataStore.data
-                .map { prefs -> prefs[COLOR_SCHEME_KEY] ?: AppColorScheme.Orange.name }
+                .map { prefs -> prefs[COLOR_SCHEME_KEY] ?: AppColorScheme.Mint.name }
                 .collect { value ->
                     _appColorScheme.value = AppColorScheme.valueOf(value)
                     _isColorSchemeLoaded.value = true
