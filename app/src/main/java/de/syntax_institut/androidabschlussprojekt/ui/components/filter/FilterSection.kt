@@ -2,6 +2,7 @@ package de.syntax_institut.androidabschlussprojekt.ui.components.filter
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -53,9 +54,13 @@ fun FilterSection(
                     onClick = { onToggleItem(item) },
                     label = { Text(labelMapper(item)) },
                     colors = FilterChipDefaults.filterChipColors(
-                        containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-                        labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
-                    )
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    border = if (!isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null
+
                 )
             }
         }
