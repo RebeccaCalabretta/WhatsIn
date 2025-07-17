@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
 
 lateinit var ButtonGradient: Brush
 
@@ -27,7 +28,7 @@ val DarkOrangeColorScheme = darkColorScheme(
     primary = Orange80,
     primaryContainer = OrangeContainerDark,
     secondaryContainer = SecondaryContainerDark,
-    surface = SurfaceDark,
+    surface = SecondaryContainerDark,
     surfaceVariant = SecondaryContainerDark,
     background = Color.Black,
     onPrimary = Color.Black,
@@ -140,14 +141,6 @@ val DarkPurpleColorScheme = darkColorScheme(
     onBackground = OnBackgroundDark
 )
 
-enum class AppColorScheme(val displayName: String) {
-    Mint("Mint Breeze"),
-    Pistachio("Pistachio Calm"),
-    Blue("Ocean Sky"),
-    Lilac("Lilac Mood"),
-    Orange("Orange Glow")
-}
-
 @Composable
 fun AndroidAbschlussprojektTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -162,7 +155,7 @@ fun AndroidAbschlussprojektTheme(
         }
         else -> when (appColorScheme) {
             AppColorScheme.Mint -> if (darkTheme) DarkMintColorScheme else LightMintColorScheme
-            AppColorScheme.Pistachio -> if (darkTheme) DarkPistachioColorScheme else LightPistachioColorScheme
+            AppColorScheme.Green -> if (darkTheme) DarkPistachioColorScheme else LightPistachioColorScheme
             AppColorScheme.Blue -> if (darkTheme) DarkBlueColorScheme else LightBlueColorScheme
             AppColorScheme.Lilac -> if (darkTheme) DarkPurpleColorScheme else LightPurpleColorScheme
             AppColorScheme.Orange -> if (darkTheme) DarkOrangeColorScheme else LightOrangeColorScheme
@@ -172,7 +165,7 @@ fun AndroidAbschlussprojektTheme(
 
     ButtonGradient = when (appColorScheme) {
         AppColorScheme.Mint -> if (darkTheme) MintButtonGradientDark else MintButtonGradientLight
-        AppColorScheme.Pistachio -> if (darkTheme) PistachioButtonGradientDark else PistachioButtonGradientLight
+        AppColorScheme.Green -> if (darkTheme) PistachioButtonGradientDark else PistachioButtonGradientLight
         AppColorScheme.Blue -> if (darkTheme) BlueButtonGradientDark else BlueButtonGradientLight
         AppColorScheme.Lilac -> if (darkTheme) PurpleButtonGradientDark else PurpleButtonGradientLight
         AppColorScheme.Orange -> if (darkTheme) OrangeButtonGradientDark else OrangeButtonGradientLight

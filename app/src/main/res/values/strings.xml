@@ -1,4 +1,5 @@
 <resources>
+    <string name="active">Ausgewählt</string>
     <string name="add_favorite">Zu Favoriten hinzufügen</string>
     <string name="additives">Zusatzstoffe</string>
     <string name="all">Alle</string>
@@ -100,11 +101,11 @@
     <string name="save">Speichern</string>
     <string name="scan">Scannen</string>
     <string name="scan_preview_subtitle">Halte den Barcode vor die Kamera</string>
-    <string name="scheme_blue">Ocean Sky</string>
+    <string name="scheme_blue">Blue Sky</string>
     <string name="scheme_lilac">Lilac Mood</string>
     <string name="scheme_mint">Mint Breeze</string>
     <string name="scheme_orange">Orange Glow</string>
-    <string name="scheme_pistachio">Pistachio Calm</string>
+    <string name="scheme_green">Nature Calm</string>
     <string name="search">Suche</string>
     <string name="select">Auswählen</string>
     <string name="select_color_scheme">Farbschema wählen</string>

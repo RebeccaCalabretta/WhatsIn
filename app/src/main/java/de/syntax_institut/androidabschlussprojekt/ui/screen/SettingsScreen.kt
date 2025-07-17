@@ -38,7 +38,7 @@ import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
 import de.syntax_institut.androidabschlussprojekt.ui.components.settings.LanguageDropdown
 import de.syntax_institut.androidabschlussprojekt.ui.components.settings.SelectColorSchemeDialog
-import de.syntax_institut.androidabschlussprojekt.ui.theme.AppColorScheme
+import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
 import de.syntax_institut.androidabschlussprojekt.ui.theme.BlueButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.OrangeButtonGradientLight
@@ -120,7 +120,7 @@ fun SettingsScreen(
                     brush = when (appColorScheme) {
                         AppColorScheme.Orange -> OrangeButtonGradientLight
                         AppColorScheme.Mint -> MintButtonGradientLight
-                        AppColorScheme.Pistachio -> PistachioButtonGradientLight
+                        AppColorScheme.Green -> PistachioButtonGradientLight
                         AppColorScheme.Blue -> BlueButtonGradientLight
                         AppColorScheme.Lilac -> PurpleButtonGradientLight
                     }

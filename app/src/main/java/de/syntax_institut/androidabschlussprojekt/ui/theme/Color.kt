@@ -26,8 +26,8 @@ val BackgroundLight = Color(0xFFFFFCF8)
 val SurfaceLight = Color.White
 val SurfaceDark = Color(0xFF121212)
 
-val OnSurfaceLight = Color(0xFF5C5C5C)
-val OnSurfaceDark = Color(0xFFDBDBDB)
+val OnSurfaceLight = Color(0xFF797979)
+val OnSurfaceDark = Color(0xFFC9C9C9)
 val OnBackgroundLight = Color(0xFF1C1B1F)
 val OnBackgroundDark = Color.White
 

@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.syntax_institut.androidabschlussprojekt.ui.theme.AppColorScheme
+import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
 import de.syntax_institut.androidabschlussprojekt.utils.dataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

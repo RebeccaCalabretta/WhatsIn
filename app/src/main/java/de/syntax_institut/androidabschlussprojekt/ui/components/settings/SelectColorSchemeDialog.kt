@@ -23,11 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
-import de.syntax_institut.androidabschlussprojekt.ui.theme.AppColorScheme
+import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
+import de.syntax_institut.androidabschlussprojekt.helper.getSchemeLabel
 import de.syntax_institut.androidabschlussprojekt.ui.theme.BlueButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.OrangeButtonGradientLight
@@ -40,15 +40,6 @@ fun SelectColorSchemeDialog(
     onDismiss: () -> Unit,
     onSelect: (AppColorScheme) -> Unit
 ) {
-    val context = LocalContext.current
-    val schemeNames = mapOf(
-        AppColorScheme.Orange to stringResource(R.string.scheme_orange),
-        AppColorScheme.Mint to stringResource(R.string.scheme_mint),
-        AppColorScheme.Pistachio to stringResource(R.string.scheme_pistachio),
-        AppColorScheme.Blue to stringResource(R.string.scheme_blue),
-        AppColorScheme.Lilac to stringResource(R.string.scheme_lilac)
-    )
-
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.select_color_scheme)) },
@@ -72,7 +63,7 @@ fun SelectColorSchemeDialog(
                                 brush = when (scheme) {
                                     AppColorScheme.Orange -> OrangeButtonGradientLight
                                     AppColorScheme.Mint -> MintButtonGradientLight
-                                    AppColorScheme.Pistachio -> PistachioButtonGradientLight
+                                    AppColorScheme.Green -> PistachioButtonGradientLight
                                     AppColorScheme.Blue -> BlueButtonGradientLight
                                     AppColorScheme.Lilac -> PurpleButtonGradientLight
                                 }
@@ -80,14 +71,15 @@ fun SelectColorSchemeDialog(
                         }
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = schemeNames[scheme] ?: scheme.name,
+                            text = getSchemeLabel(
+                                scheme),
                             style = MaterialTheme.typography.bodyLarge
                         )
                         if (scheme == current) {
                             Spacer(modifier = Modifier.weight(1f))
                             Icon(
                                 imageVector = Icons.Default.Check,
-                                contentDescription = "Aktiv",
+                                contentDescription = stringResource(R.string.active),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
