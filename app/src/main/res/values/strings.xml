@@ -44,6 +44,7 @@
     <string name="filter_info">Filter-Info</string>
     <string name="filter_options">Filter Optionen</string>
     <string name="filters">Filter</string>
+    <string name="finish">Fertig</string>
     <string name="food_collection">Lebensmittel Sammlung</string>
     <string name="history">Verlauf</string>
     <string name="ingredients">Inhaltsstoffe</string>
@@ -53,6 +54,7 @@
     <string name="language_english">English</string>
     <string name="language_german">Deutsch</string>
     <string name="loading">Laden…</string>
+    <string name="next">Weiter</string>
     <string name="no">Nein</string>
     <string name="no_data">Keine Angaben</string>
     <string name="no_image">Kein Bild</string>
@@ -70,6 +72,16 @@
     <string name="nutrient_saturated_fat">Gesättigte Fette: %1$s g</string>
     <string name="nutrient_sugar">Zucker: %1$s g</string>
     <string name="nutriments_per_100g">Nährwerte (pro 100g)</string>
+    <string name="onboarding_title_1">Willkommen bei WhatsIn</string>
+    <string name="onboarding_description_1">Scanne. Erkenne. Entscheide bewusst.</string>
+    <string name="onboarding_title_2">Sofortiger Produktcheck</string>
+    <string name="onboarding_description_2">Scanne den Barcode und sieh direkt, was wirklich drin ist – bei Lebensmitteln und Kosmetik.</string>
+    <string name="onboarding_title_3">Deine persönlichen Filter</string>
+    <string name="onboarding_description_3">Definiere deine Kriterien. WhatsIn prüft automatisch und warnt dich, falls etwas nicht passt.</string>
+    <string name="onboarding_title_4">Transparenz &amp; Konzerne</string>
+    <string name="onboarding_description_4">Erkenne auf einen Blick, zu welchem Konzern ein Produkt gehört – für bewusste Kaufentscheidungen.</string>
+    <string name="onboarding_title_5">Datenschutz garantiert</string>
+    <string name="onboarding_description_5">Keine Registrierung nötig. Deine Daten bleiben privat auf deinem Gerät.</string>
     <string name="ok">OK</string>
     <string name="permission_dialog_cancel">Abbrechen</string>
     <string name="permission_dialog_confirm">Einstellungen</string>
@@ -97,6 +109,7 @@
     <string name="select">Auswählen</string>
     <string name="select_color_scheme">Farbschema wählen</string>
     <string name="settings">Einstellungen</string>
+    <string name="skip">Überspringen</string>
     <string name="sort_alphabetical_asc">Alphabetisch (A-Z)</string>
     <string name="sort_alphabetical_desc">Alphabetisch (Z-A)</string>
     <string name="sort_by">Sortieren nach</string>

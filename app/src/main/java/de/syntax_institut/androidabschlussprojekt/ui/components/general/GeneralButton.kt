@@ -11,15 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.syntax_institut.androidabschlussprojekt.ui.theme.ButtonGradient
 
 @Composable
 fun GeneralButton(
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    enabled: Boolean = true
 ) {
     Box(
         modifier = modifier
@@ -29,6 +31,7 @@ fun GeneralButton(
     ) {
         Button(
             onClick = onClick,
+            enabled = enabled,
             shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             contentPadding = PaddingValues(0.dp),
@@ -38,7 +41,10 @@ fun GeneralButton(
                 text = text,
                 fontSize = 16.sp,
                 color = Color.White,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 4.dp)
             )
         }
     }

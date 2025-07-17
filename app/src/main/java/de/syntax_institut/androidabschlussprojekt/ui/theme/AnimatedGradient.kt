@@ -13,20 +13,31 @@ import kotlin.math.PI
 import kotlin.math.sin
 
 @Composable
-fun AnimatedOnboardingGradient(): Brush {
+fun animatedGradient(): Brush {
     val infiniteTransition = rememberInfiniteTransition(label = "onboarding_gradient")
-    val anim = infiniteTransition.animateFloat(
+
+    val animX = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2 * PI.toFloat(),
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 6000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+            repeatMode = RepeatMode.Reverse
         ),
-        label = "wave_offset"
+        label = "wave_offset_x"
     ).value
 
-    val waveY = 350f * sin(anim)
-    val waveX = 180f * sin(anim * 0.7f + 1f)
+    val animY = infiniteTransition.animateFloat(
+        initialValue = PI.toFloat(),
+        targetValue = 3 * PI.toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 6000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "wave_offset_y"
+    ).value
+
+    val waveY = 350f * sin(animY)
+    val waveX = 180f * sin(animX * 0.7f + 1f)
 
     return Brush.linearGradient(
         colors = listOf(Mint80, Blue80),

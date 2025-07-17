@@ -1,17 +1,161 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import de.syntax_institut.androidabschlussprojekt.ui.theme.AnimatedOnboardingGradient
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
+import de.syntax_institut.androidabschlussprojekt.ui.theme.animatedGradient
+import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint20
+import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint60
+import kotlinx.coroutines.launch
+
+data class OnboardingSlide(
+    val title: String,
+    val description: String
+)
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    onFinish: () -> Unit,
+    isColorSchemeLoaded: Boolean
+) {
+
+    val slides = listOf(
+        OnboardingSlide(
+            title = stringResource(id = R.string.onboarding_title_1),
+            description = stringResource(id = R.string.onboarding_description_1)
+        ),
+        OnboardingSlide(
+            title = stringResource(id = R.string.onboarding_title_2),
+            description = stringResource(id = R.string.onboarding_description_2)
+        ),
+        OnboardingSlide(
+            title = stringResource(id = R.string.onboarding_title_3),
+            description = stringResource(id = R.string.onboarding_description_3)
+        ),
+        OnboardingSlide(
+            title = stringResource(id = R.string.onboarding_title_4),
+            description = stringResource(id = R.string.onboarding_description_4)
+        ),
+        OnboardingSlide(
+            title = stringResource(id = R.string.onboarding_title_5),
+            description = stringResource(id = R.string.onboarding_description_5)
+        )
+    )
+
+    val pagerState = rememberPagerState(pageCount = { slides.size })
+    val scope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(AnimatedOnboardingGradient())
-    )
+            .background(animatedGradient())
+
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 32.dp, vertical = 64.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.weight(1f)
+            ) { page ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = slides[page].title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    Text(
+                        text = slides[page].description,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        modifier = Modifier.padding(bottom = 32.dp)
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(slides.size) { index ->
+                    val isSelected = pagerState.currentPage == index
+                    Box(
+                        modifier = Modifier
+                            .size(if (isSelected) 18.dp else 12.dp)
+                            .padding(2.dp)
+                            .background(
+                                if (isSelected) Mint60 else Color.White,
+                                shape = CircleShape
+                            )
+                    )
+                }
+            }
+
+            GeneralButton(
+                text = if (pagerState.currentPage == slides.lastIndex)
+                    stringResource(R.string.finish)
+                else
+                    stringResource(R.string.next),
+                onClick = {
+                    if (pagerState.currentPage < slides.lastIndex) {
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    } else {
+                        onFinish()
+                    }
+                },
+                enabled = pagerState.currentPage < slides.lastIndex || isColorSchemeLoaded,
+                modifier = Modifier.fillMaxWidth(0.5f)
+            )
+        }
+
+        TextButton(
+            onClick = { onFinish() },
+            enabled = true,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 60.dp, end = 24.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.skip),
+                style = MaterialTheme.typography.titleMedium,
+                color = Mint20
+            )
+        }
+    }
 }
