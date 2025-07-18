@@ -78,7 +78,7 @@ fun AppStart(
         val currentDestination = currentEntry?.destination?.route
 
         val showBottomBar = currentDestination != FilterRoute::class.qualifiedName
-        val showFab = selectedTab != TabItem.Scan && showBottomBar
+        val showFab = currentDestination != ScanRoute::class.qualifiedName && showBottomBar
 
         val snackbarHostState = remember { SnackbarHostState() }
 
