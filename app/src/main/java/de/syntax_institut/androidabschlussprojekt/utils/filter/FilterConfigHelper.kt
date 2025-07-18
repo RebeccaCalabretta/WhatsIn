@@ -58,18 +58,25 @@ fun prepareMappedItems(
     searchValue: String,
     mapper: (String) -> String,
     reverseMapper: (String) -> String?,
-    onUpdate: (List<String>) -> Unit
+    onUpdate: (List<String>) -> Unit,
+    sortSelectedFirst: Boolean = true
 ): Pair<List<String>, (String) -> Unit> {
 
     val itemsMapped = rawItems.map { tag -> mapper(tag) to tag }
 
-    val filteredSortedItems = itemsMapped
+    val filteredItems = itemsMapped
         .filter { (label, _) -> label.lowercase().contains(searchValue) }
-        .sortedWith(
+
+    val sortedItems = if (sortSelectedFirst) {
+        filteredItems.sortedWith(
             compareByDescending<Pair<String, String>> { it.second in selectedTags }
                 .thenBy { it.first }
         )
-        .map { it.first }
+    } else {
+        filteredItems
+    }
+
+    val visibleItems = sortedItems.map { it.first }
 
     val toggle: (String) -> Unit = { clickedLabel ->
         val clickedTag = reverseMapper(clickedLabel)
@@ -83,5 +90,5 @@ fun prepareMappedItems(
         }
     }
 
-    return Pair(filteredSortedItems, toggle)
+    return Pair(visibleItems, toggle)
 }

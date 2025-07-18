@@ -5,5 +5,6 @@ data class FilterConfig(
     val items: List<String>,
     val selectedItems: List<String>,
     val onToggleItem: (String) -> Unit,
-    val labelMapper: (String) -> String = { it }
+    val labelMapper: (String) -> String = { it },
+    val sortSelectedFirst: Boolean = true
 )
