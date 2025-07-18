@@ -155,7 +155,7 @@ val DarkPurpleColorScheme = darkColorScheme(
 fun AndroidAbschlussprojektTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
-    appColorScheme: AppColorScheme = AppColorScheme.Lilac,
+    appColorScheme: AppColorScheme = AppColorScheme.Mint,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

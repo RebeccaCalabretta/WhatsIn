@@ -81,6 +81,7 @@ fun AppStart(
         val showFab = selectedTab != TabItem.Scan && showBottomBar
 
         val snackbarHostState = remember { SnackbarHostState() }
+
         SetSystemBarsColor(isDarkMode)
 
         Scaffold(

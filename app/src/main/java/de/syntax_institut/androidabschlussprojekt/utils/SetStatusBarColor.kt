@@ -8,6 +8,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 
 @Composable
+
+
 fun SetSystemBarsColor(isDarkMode: Boolean) {
 
     val view = LocalView.current
