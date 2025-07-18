@@ -76,11 +76,11 @@ class FilterConfigUseCase {
 
         val (nutri, nutriToggle) = prepareMappedItems(
             StaticFilterValues.nutriScore,
-            active.allowedNutriScore,
+            active.allowedNutriScore.map { it.lowercase() },
             searchValue,
-            { NutriScoreMapper.map(it) },
-            { NutriScoreMapper.getReverseMap()[it] }
-        ) { onUpdateFilter(active.copy(allowedNutriScore = it)) }
+            { NutriScoreMapper.map(it) ?: it },
+            { NutriScoreMapper.getReverseMap()[it.uppercase()] ?: it }
+        ) { onUpdateFilter(active.copy(allowedNutriScore = it.map { score -> score.lowercase() })) }
 
         val (corporations, corpToggle) = prepareMappedItems(
             StaticFilterValues.corporations,
@@ -130,7 +130,7 @@ class FilterConfigUseCase {
             FilterConfig(
                 R.string.choose_nutriscore,
                 nutri,
-                active.allowedNutriScore.map { NutriScoreMapper.map(it) },
+                active.allowedNutriScore.map { it.lowercase() },
                 nutriToggle
             ),
             FilterConfig(

@@ -105,6 +105,7 @@ fun DetailScreen(
                 additivesTags = product.additivesTags,
                 allergensTags = product.allergensTags,
                 nutriScore = product.nutriScore,
+                labelsTags = product.labelsTags,
                 selectedLanguage = selectedLanguage
             )
         }

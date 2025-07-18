@@ -117,7 +117,9 @@ fun CriteriaStatusSection(
 
                         FilterType.NUTRISCORE -> violation.value
                             ?.split(",")
-                            ?.joinToString(", ") { NutriScoreMapper.map(it.trim()) }
+                            ?.joinToString(", ") {
+                                NutriScoreMapper.map(it.trim())?.uppercase() ?: "?"
+                            }
 
                         FilterType.CORPORATIONS -> violation.value
                             ?.split(",")
