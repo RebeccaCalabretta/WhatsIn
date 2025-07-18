@@ -37,6 +37,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.screen.ScanScreen
 import de.syntax_institut.androidabschlussprojekt.ui.screen.SettingsScreen
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
+import de.syntax_institut.androidabschlussprojekt.utils.SetSystemBarsColor
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -80,6 +81,7 @@ fun AppStart(
         val showFab = selectedTab != TabItem.Scan && showBottomBar
 
         val snackbarHostState = remember { SnackbarHostState() }
+        SetSystemBarsColor(isDarkMode)
 
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
