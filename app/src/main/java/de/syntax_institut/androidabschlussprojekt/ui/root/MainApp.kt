@@ -21,14 +21,16 @@ fun MainApp(
     var showSplash by rememberSaveable { mutableStateOf(true) }
     val onboardingCompleted by settingsViewModel.onboardingCompleted.collectAsState()
     val isColorSchemeLoaded by settingsViewModel.isColorSchemeLoaded.collectAsState()
+    val isDarkMode by settingsViewModel.isDarkmode.collectAsState()
 
     LaunchedEffect(Unit) {
         delay(3600)
         showSplash = false
     }
     when {
-        showSplash -> SplashScreen()
+        showSplash -> SplashScreen(isDarkMode)
         !onboardingCompleted -> OnboardingScreen(
+            isDarkMode= isDarkMode,
             onFinish = {
                 settingsViewModel.setOnboardingCompleted(true)
             },

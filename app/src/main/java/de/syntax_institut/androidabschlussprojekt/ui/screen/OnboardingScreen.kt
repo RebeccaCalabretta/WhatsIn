@@ -32,6 +32,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.theme.MichromaFont
 import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint20
 import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint60
 import de.syntax_institut.androidabschlussprojekt.ui.theme.animatedGradient
+import de.syntax_institut.androidabschlussprojekt.utils.SetSystemBarsColor
 import kotlinx.coroutines.launch
 
 data class OnboardingSlide(
@@ -42,9 +43,11 @@ data class OnboardingSlide(
 
 @Composable
 fun OnboardingScreen(
+    isDarkMode: Boolean,
     onFinish: () -> Unit,
     isColorSchemeLoaded: Boolean
 ) {
+    SetSystemBarsColor(isDarkMode, transparent = true)
 
     val slides = listOf(
         OnboardingSlide(

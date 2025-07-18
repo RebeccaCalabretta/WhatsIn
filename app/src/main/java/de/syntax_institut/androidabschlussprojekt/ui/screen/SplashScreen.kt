@@ -16,10 +16,13 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.splash.SplashLog
 import de.syntax_institut.androidabschlussprojekt.ui.components.splash.SplashText
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
+import de.syntax_institut.androidabschlussprojekt.utils.SetSystemBarsColor
 import kotlinx.coroutines.launch
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(isDarkmode: Boolean) {
+    SetSystemBarsColor(isDarkmode, transparent = true)
+
     val alpha = remember { Animatable(0f) }
     val scale = remember { Animatable(1f) }
 
@@ -56,6 +59,6 @@ fun SplashScreen() {
 @Composable
 fun SplashScreenPreview() {
     AndroidAbschlussprojektTheme {
-        SplashScreen()
+        SplashScreen(isDarkmode = false)
     }
 }

@@ -8,16 +8,20 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 
 @Composable
-
-fun SetSystemBarsColor(isDarkMode: Boolean) {
-
+fun SetSystemBarsColor(
+    isDarkMode: Boolean,
+    transparent: Boolean = false
+) {
     val view = LocalView.current
-    val color = MaterialTheme.colorScheme.background.toArgb()
+    val color = if (transparent)
+        android.graphics.Color.TRANSPARENT
+    else
+        MaterialTheme.colorScheme.background.toArgb()
     SideEffect {
         val window = (view.context as? android.app.Activity)?.window ?: return@SideEffect
         window.statusBarColor = color
-        WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = !isDarkMode
         window.navigationBarColor = color
+        WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = !isDarkMode
         WindowInsetsControllerCompat(window, view).isAppearanceLightNavigationBars = !isDarkMode
     }
 }
