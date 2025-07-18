@@ -21,11 +21,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.BrandMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.CorporationMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.CountryMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.IngredientMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
+import de.syntax_institut.androidabschlussprojekt.data.mapping.NutriScoreMapper
+import de.syntax_institut.androidabschlussprojekt.helper.FilterType
 import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.ExpandableCard
 
 @Composable
-fun CriteriaStatusSection(filterViolations: List<FilterViolation>) {
+fun CriteriaStatusSection(
+    filterViolations: List<FilterViolation>,
+    selectedLanguage: String
+) {
     if (filterViolations.isEmpty()) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -41,7 +53,10 @@ fun CriteriaStatusSection(filterViolations: List<FilterViolation>) {
                     tint = Color(0xFF4CAF50)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(stringResource(R.string.criteria_met), style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    stringResource(R.string.criteria_met),
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
     } else {
@@ -54,18 +69,65 @@ fun CriteriaStatusSection(filterViolations: List<FilterViolation>) {
                         tint = Color(0xFFF44336)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(stringResource(R.string.criteria_not_met), style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        stringResource(R.string.criteria_not_met),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             },
             modifier = Modifier.fillMaxWidth(),
             cardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column {
-                filterViolations.forEach {
+                filterViolations.forEach { violation ->
+                    val mappedValue = when (violation.type) {
+                        FilterType.LABELS -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") {
+                                LabelMapper.map(it.trim(), selectedLanguage) ?: it.trim()
+                            }
+
+                        FilterType.COUNTRIES -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") {
+                                CountryMapper.map(it.trim(), selectedLanguage)
+                            }
+
+                        FilterType.ALLERGENS -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") {
+                                AllergenMapper.map(it.trim(), selectedLanguage)
+                            }
+
+                        FilterType.INGREDIENTS -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") {
+                                IngredientMapper.map(it.trim(), selectedLanguage)
+                            }
+
+                        FilterType.ADDITIVES -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") {
+                                AdditiveMapper.map(it.trim(), selectedLanguage)
+                            }
+
+                        FilterType.BRANDS -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") { BrandMapper.map(it.trim()) }
+
+                        FilterType.NUTRISCORE -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") { NutriScoreMapper.map(it.trim()) }
+
+                        FilterType.CORPORATIONS -> violation.value
+                            ?.split(",")
+                            ?.joinToString(", ") { CorporationMapper.map(it.trim()) ?: it.trim() }
+                    }
                     Text(
-                        text = "• " + stringResource(it.resId, it.value ?: ""),
+                        text = "• " + stringResource(violation.resId, mappedValue ?: ""),
                         style = MaterialTheme.typography.bodySmall
-                    )                }
+                    )
+                }
             }
         }
     }

@@ -119,13 +119,13 @@
     <string name="unselect">Unselect</string>
     <string name="unknown">Unknown</string>
     <string name="undo">Undo</string>
-    <string name="violation_additives">Contains excluded additives: %1$s</string>
-    <string name="violation_allergens">Contains excluded allergens: %1$s</string>
-    <string name="violation_brands">Contains excluded brands: %1$s</string>
-    <string name="violation_corporations">Contains excluded corporations: %1$s</string>
+    <string name="violation_additives">Contained additives: %1$s</string>
+    <string name="violation_allergens">Contained allergens: %1$s</string>
+    <string name="violation_brands">Brand: %1$s</string>
+    <string name="violation_corporations">Corporation: %1$s</string>
     <string name="violation_countries">Not available in: %1$s</string>
-    <string name="violation_ingredients">Contains excluded ingredients: %1$s</string>
-    <string name="violation_labels">Required labels missing: %1$s</string>
-    <string name="violation_nutriscore">Nutri-Score not allowed: %1$s</string>
+    <string name="violation_ingredients">Contained ingredients: %1$s</string>
+    <string name="violation_labels">Labels missing: %1$s</string>
+    <string name="violation_nutriscore">Nutri-Score: %1$s</string>
     <string name="yes">Yes</string>
 </resources>

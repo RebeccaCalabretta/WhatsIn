@@ -95,7 +95,8 @@ fun DetailScreen(
                 filterViolations = filterViolations,
                 isFavorite = product.isFavorite,
                 onToggleFavorite = { productViewModel.toggleFavorite() },
-                labels = displayLabels
+                labels = displayLabels,
+                selectedLanguage = selectedLanguage
             )
 
             ProductDetailContent(

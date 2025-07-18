@@ -119,13 +119,13 @@
     <string name="unselect">Abwählen</string>
     <string name="unknown">Unbekannt</string>
     <string name="undo">Rückgängig</string>
-    <string name="violation_additives">Beinhaltet ausgeschlossene Zusatzstoffe: %1$s</string>
-    <string name="violation_allergens">Beinhaltet ausgeschlossene Allergene: %1$s</string>
-    <string name="violation_brands">Beinhaltet ausgeschlossene Marken: %1$s</string>
-    <string name="violation_corporations">Beinhaltet ausgeschlossene Konzerne: %1$s</string>
-    <string name="violation_countries">Nicht verfügbar in: %1$s</string>
-    <string name="violation_ingredients">Beinhaltet ausgeschlossene Zutaten: %1$s</string>
-    <string name="violation_labels">Erforderliche Labels fehlen: %1$s</string>
-    <string name="violation_nutriscore">Nicht erlaubter Nutri-Score: %1$s</string>
+    <string name="violation_additives">Enthaltene Zusatzstoffe: %1$s</string>
+    <string name="violation_allergens">Enthaltene Allergene: %1$s</string>
+    <string name="violation_brands">Marke: %1$s</string>
+    <string name="violation_corporations">Konzernzugehörigkeit: %1$s</string>
+    <string name="violation_countries">Nicht erhältlich in: %1$s</string>
+    <string name="violation_ingredients">Enthaltene Inhaltsstoffe: %1$s</string>
+    <string name="violation_labels">Labels fehlen: %1$s</string>
+    <string name="violation_nutriscore">Nutri-Score: %1$s</string>
     <string name="yes">Ja</string>
 </resources>

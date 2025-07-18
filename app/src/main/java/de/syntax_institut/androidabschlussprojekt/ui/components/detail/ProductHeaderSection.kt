@@ -26,6 +26,7 @@ fun ProductHeaderSection(
     isFavorite: Boolean,
     onToggleFavorite: () -> Unit,
     filterViolations: List<FilterViolation>,
+    selectedLanguage: String,
     labels: List<String>,
 ) {
     var showImageDialog by remember { mutableStateOf(false) }
@@ -59,7 +60,10 @@ fun ProductHeaderSection(
 
         CorporationInfo(corporation = corporation)
 
-        CriteriaStatusSection(filterViolations)
+        CriteriaStatusSection(
+            filterViolations = filterViolations,
+            selectedLanguage = selectedLanguage
+        )
 
         ProductLabelSection(labels = labels)
     }
