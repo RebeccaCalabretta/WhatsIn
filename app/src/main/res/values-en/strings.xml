@@ -45,7 +45,6 @@
     <string name="filter_info">Filter info</string>
     <string name="filter_options">Filter options</string>
     <string name="filters">Filters</string>
-    <string name="finish">Done</string>
     <string name="food_collection">Food collection</string>
     <string name="history">History</string>
     <string name="ingredients">Ingredients</string>
@@ -58,6 +57,7 @@
     <string name="next">Next</string>
     <string name="no">No</string>
     <string name="no_data">No data</string>
+    <string name="no_details_available">No details available</string>
     <string name="no_image">No image</string>
     <string name="no_products">No products available</string>
     <string name="no_products_saved">No products saved</string>

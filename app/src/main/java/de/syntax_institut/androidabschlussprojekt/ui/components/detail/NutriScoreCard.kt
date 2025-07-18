@@ -17,6 +17,8 @@ fun NutriScoreCard(nutriScore: String?, labelsTags: List<String>?) {
     val context = LocalContext.current
     val displayNutriScore = DetailDisplayHelper.getDisplayNutriScore(nutriScore, labelsTags, context)
 
+    if (nutriScore.isNullOrBlank() || displayNutriScore == context.getString(R.string.no_data)) return
+
     DetailCard {
         Row(
             modifier = Modifier.fillMaxWidth(),
