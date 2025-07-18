@@ -61,9 +61,10 @@ class DefaultProductRepository(
 
                 val product = productDto.toProduct(finalType)
                 Log.d(
-                    "ProductRepository",
-                    "Produkt geladen über ${finalType.name}: ${product.name}"
+                    "NutrimentsCheck",
+                    "energy=${product.nutriments.energyKcal}, fat=${product.nutriments.fat}, carbs=${product.nutriments.carbohydrates}, sugars=${product.nutriments.sugars}, salt=${product.nutriments.salt}, proteins=${product.nutriments.proteins}"
                 )
+                Log.d("ProductRepository", "Product mit Nutriments: ${product.nutriments}")
                 product
             }
 

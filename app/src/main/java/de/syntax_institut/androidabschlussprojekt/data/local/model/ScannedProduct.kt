@@ -31,6 +31,15 @@ data class ScannedProduct(
     val allergensText: String? = null,
     val allergensTextEn: String? = null,
 
+    val energyKcal: Double? = null,
+    val fat: Double? = null,
+    val saturatedFat: Double? = null,
+    val carbohydrates: Double? = null,
+    val fiber: Double? = null,
+    val proteins: Double? = null,
+    val salt: Double? = null,
+    val sugars: Double? = null,
+
     val labels: String? = null,
     val countries: String? = null,
     val nutriScore: String? = null,
@@ -75,7 +84,16 @@ fun ScannedProduct.toProduct(): Product {
         countriesTags = countries?.split(";")?.filter { it.isNotBlank() } ?: emptyList(),
 
         nutriScore = nutriScore,
-        nutriments = Nutriments(),
+        nutriments = Nutriments(
+            energyKcal = energyKcal,
+            fat = fat,
+            saturatedFat = saturatedFat,
+            carbohydrates = carbohydrates,
+            fiber = fiber,
+            proteins = proteins,
+            salt = salt,
+            sugars = sugars
+        ),
 
         isFavorite = isFavorite,
         timestamp = timestamp

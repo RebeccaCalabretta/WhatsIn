@@ -55,6 +55,15 @@ fun Product.toScannedProduct(): ScannedProduct {
         countries = countriesTags.joinToString(";"),
         nutriScore = nutriScore,
 
+        energyKcal = nutriments.energyKcal,
+        fat = nutriments.fat,
+        saturatedFat = nutriments.saturatedFat,
+        carbohydrates = nutriments.carbohydrates,
+        fiber = nutriments.fiber,
+        proteins = nutriments.proteins,
+        salt = nutriments.salt,
+        sugars = nutriments.sugars,
+
         isFavorite = isFavorite,
         timestamp = timestamp
     )

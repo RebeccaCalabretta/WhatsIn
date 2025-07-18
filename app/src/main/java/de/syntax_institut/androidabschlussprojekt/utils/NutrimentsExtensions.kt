@@ -1,21 +1,19 @@
 package de.syntax_institut.androidabschlussprojekt.utils
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import android.content.Context
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
 
-@Composable
-fun Nutriments.formatNutriments(): List<String> {
+fun Nutriments.formatNutriments(context: Context): List<String> {
     return listOf(
-        stringResource(R.string.nutrient_energy, energyKcal?.toString() ?: "-"),
-        stringResource(R.string.nutrient_fat, fat?.toString() ?: "-"),
-        stringResource(R.string.nutrient_saturated_fat, saturatedFat?.toString() ?: "-"),
-        stringResource(R.string.nutrient_carbs, carbohydrates?.toString() ?: "-"),
-        stringResource(R.string.nutrient_fiber, fiber?.toString() ?: "-"),
-        stringResource(R.string.nutrient_proteins, proteins?.toString() ?: "-"),
-        stringResource(R.string.nutrient_salt, salt?.toString() ?: "-"),
-        stringResource(R.string.nutrient_sugar, sugars?.toString() ?: "-")
+        context.getString(R.string.nutrient_energy, energyKcal?.toString() ?: "-"),
+        context.getString(R.string.nutrient_fat, fat?.toString() ?: "-"),
+        context.getString(R.string.nutrient_saturated_fat, saturatedFat?.toString() ?: "-"),
+        context.getString(R.string.nutrient_carbs, carbohydrates?.toString() ?: "-"),
+        context.getString(R.string.nutrient_fiber, fiber?.toString() ?: "-"),
+        context.getString(R.string.nutrient_proteins, proteins?.toString() ?: "-"),
+        context.getString(R.string.nutrient_salt, salt?.toString() ?: "-"),
+        context.getString(R.string.nutrient_sugar, sugars?.toString() ?: "-")
     )
 }
 
