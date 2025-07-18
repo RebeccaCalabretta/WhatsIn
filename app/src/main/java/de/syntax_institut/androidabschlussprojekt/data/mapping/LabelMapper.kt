@@ -58,11 +58,11 @@ object LabelMapper {
         "en:carbon-neutral" to "Carbon Neutral"
     )
 
-    fun map(tag: String, selectedLanguage: String): String =
+    fun map(tag: String, selectedLanguage: String): String? =
         when (selectedLanguage) {
-            "de" -> labelMapDe[tag] ?: tag.removePrefix("en:")
-            "en" -> labelMapEn[tag] ?: tag.removePrefix("en:")
-            else -> labelMapEn[tag] ?: tag.removePrefix("en:")
+            "de" -> labelMapDe[tag]
+            "en" -> labelMapEn[tag]
+            else -> labelMapEn[tag]
         }
 
     fun getReverseMap(selectedLanguage: String): Map<String, String> = when (selectedLanguage) {

@@ -14,17 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussprojektTheme
 
 @Composable
 fun ProductLabelSection(
-    tags: List<String>,
-    selectedLanguage: String
+    labels: List<String>
 ) {
-    val mappedLabels = tags.mapNotNull { LabelMapper.map(it, selectedLanguage) }
-
-    if (mappedLabels.isNotEmpty()) {
+    if (labels.isNotEmpty()) {
         Column(
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
@@ -32,7 +28,7 @@ fun ProductLabelSection(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                mappedLabels.forEach { label ->
+                labels.forEach { label ->
                     LabelItem(text = label)
                 }
             }
@@ -64,8 +60,6 @@ fun LabelItem(text: String) {
 fun ProductLabelSectionPreview() {
     AndroidAbschlussprojektTheme {
         ProductLabelSection(
-            tags = listOf("en:vegan", "en:organic", "en:fair-trade"),
-            selectedLanguage = "de"
-        )
+            labels = listOf("en:vegan", "en:organic", "en:fair-trade"))
     }
 }

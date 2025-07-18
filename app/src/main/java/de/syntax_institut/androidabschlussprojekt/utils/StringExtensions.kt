@@ -4,7 +4,7 @@ import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 
 fun String.formatTag(): String =
-    removePrefix("en:")
+    removePrefix("en:").removePrefix("de:")
         .replace("-", " ")
         .replaceFirstChar { it.uppercaseChar() }
 

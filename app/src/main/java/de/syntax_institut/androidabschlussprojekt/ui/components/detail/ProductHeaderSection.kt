@@ -27,7 +27,6 @@ fun ProductHeaderSection(
     onToggleFavorite: () -> Unit,
     filterViolations: List<FilterViolation>,
     labels: List<String>,
-    selectedLanguage: String
 ) {
     var showImageDialog by remember { mutableStateOf(false) }
 
@@ -62,7 +61,7 @@ fun ProductHeaderSection(
 
         CriteriaStatusSection(filterViolations)
 
-        ProductLabelSection(labels, selectedLanguage)
+        ProductLabelSection(labels = labels)
     }
 
     ProductImagePreview(

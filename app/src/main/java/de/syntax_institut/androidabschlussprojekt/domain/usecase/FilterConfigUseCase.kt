@@ -54,7 +54,7 @@ class FilterConfigUseCase {
             StaticFilterValues.labels,
             active.allowedLabels,
             searchValue,
-            { LabelMapper.map(it, language) },
+            { LabelMapper.map(it, language) ?: "" },
             { LabelMapper.getReverseMap(language)[it] }
         ) { onUpdateFilter(active.copy(allowedLabels = it)) }
 
@@ -112,7 +112,7 @@ class FilterConfigUseCase {
             FilterConfig(
                 R.string.choose_labels,
                 labels,
-                active.allowedLabels.map { LabelMapper.map(it, language) },
+                active.allowedLabels.mapNotNull { LabelMapper.map(it, language) },
                 labelsToggle
             ),
             FilterConfig(

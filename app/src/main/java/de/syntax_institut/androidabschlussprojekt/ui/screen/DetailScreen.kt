@@ -20,13 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import de.syntax_institut.androidabschlussprojekt.R
-import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductDetailContent
 import de.syntax_institut.androidabschlussprojekt.ui.components.detail.ProductHeaderSection
+import de.syntax_institut.androidabschlussprojekt.utils.detail.DetailDisplayHelper
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
-
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -85,7 +84,7 @@ fun DetailScreen(
             )
         }
 
-        val mappedLabels = product.labelsTags.mapNotNull { LabelMapper.map(it, selectedLanguage) }
+        val displayLabels = DetailDisplayHelper.getDisplayLabels(product.labelsTags, selectedLanguage)
 
         Column(modifier = Modifier.fillMaxSize()) {
             ProductHeaderSection(
@@ -96,8 +95,7 @@ fun DetailScreen(
                 filterViolations = filterViolations,
                 isFavorite = product.isFavorite,
                 onToggleFavorite = { productViewModel.toggleFavorite() },
-                labels = mappedLabels,
-                selectedLanguage = selectedLanguage
+                labels = displayLabels
             )
 
             ProductDetailContent(
