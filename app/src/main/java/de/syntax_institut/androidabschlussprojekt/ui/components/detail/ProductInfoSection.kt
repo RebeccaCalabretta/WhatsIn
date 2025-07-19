@@ -31,8 +31,7 @@ fun ProductInfoSection(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-
-        Column {
+        Column(modifier = Modifier.padding(end = 32.dp)) {
             Text(
                 text = name ?: stringResource(R.string.unknown),
                 style = MaterialTheme.typography.titleMedium,
@@ -49,7 +48,6 @@ fun ProductInfoSection(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .size(28.dp)
-                .padding(4.dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Favorite,
