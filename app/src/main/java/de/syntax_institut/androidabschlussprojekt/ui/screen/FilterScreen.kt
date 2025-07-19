@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
@@ -39,9 +40,9 @@ fun FilterScreen(
 
     var showSearch by remember { mutableStateOf(false) }
 
-
+    val allFiltersChip = stringResource(R.string.all)
     val configs = remember(activeFilter, searchText, language) {
-        filterViewModel.buildFilterConfigs(searchText, language)
+        filterViewModel.buildFilterConfigs(searchText, language, allFiltersChip)
     }
 
     if (isLoading) {

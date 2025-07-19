@@ -13,18 +13,18 @@ import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
 import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareFilterItems
 import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareMappedItems
-import kotlinx.coroutines.flow.StateFlow
 
 class FilterConfigUseCase {
 
     operator fun invoke(
         active: ActiveFilter,
-        searchText: StateFlow<String>,
+        searchText: String,
         language: String,
-        onUpdateFilter: (ActiveFilter) -> Unit
+        allFiltersChip: String,
+        onUpdateFilter: (ActiveFilter) -> Unit,
     ): List<FilterConfig> {
 
-        val searchValue = searchText.value.lowercase()
+        val searchValue = searchText.lowercase()
 
         val (allergens, allergensToggle) = prepareMappedItems(
             rawItems = StaticFilterValues.allergens,
@@ -45,12 +45,12 @@ class FilterConfigUseCase {
             onUpdate = { onUpdateFilter(active.copy(excludedIngredients = it)) },
             sortSelectedFirst = true
         )
-        val allLabelAdditives = "All"
+
         val (additives, additivesToggle) = prepareFilterItems(
             rawItems = StaticFilterValues.additives,
             selected = active.excludedAdditives,
             update = { onUpdateFilter(active.copy(excludedAdditives = it)) },
-            allLabel = allLabelAdditives,
+            allLabel = allFiltersChip,
             searchValue = searchValue,
             map = { AdditiveMapper.map(it, language) }
         )
@@ -95,12 +95,11 @@ class FilterConfigUseCase {
             sortSelectedFirst = false
         )
 
-        val allLabelCorporations = "All"
         val (corporations, corpToggle) = prepareFilterItems(
             rawItems = StaticFilterValues.corporations,
             selected = active.excludedCorporations,
             update = { onUpdateFilter(active.copy(excludedCorporations = it)) },
-            allLabel = allLabelCorporations,
+            allLabel = allFiltersChip,
             searchValue = searchValue,
             map = { it }
         )
@@ -159,7 +158,7 @@ class FilterConfigUseCase {
                 titleRes = R.string.exclude_corporations,
                 items = corporations,
                 selectedItems = active.excludedCorporations +
-                        (if (active.excludedCorporations.size == StaticFilterValues.corporations.size) listOf(allLabelCorporations) else emptyList()),
+                        (if (active.excludedCorporations.size == StaticFilterValues.corporations.size) listOf(allFiltersChip) else emptyList()),
                 onToggleItem = corpToggle,
                 sortSelectedFirst = true
             )

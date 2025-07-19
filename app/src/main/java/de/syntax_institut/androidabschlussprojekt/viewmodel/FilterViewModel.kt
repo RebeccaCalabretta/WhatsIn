@@ -50,31 +50,39 @@ class FilterViewModel(
         }
     }
 
-    fun buildFilterConfigs(searchText: String, selectedLanguage: String): List<FilterConfig> {
+    fun buildFilterConfigs(
+        searchText: String,
+        selectedLanguage: String,
+        allFiltersChip: String
+    ): List<FilterConfig> {
         val active = activeFilter.value
-        Log.d("FilterDebug", "buildFilterConfigs called with searchText='$searchText', language='$selectedLanguage', activeFilter=$active")
-        val result = filterConfigUseCase(active, this.searchText, selectedLanguage) { updatedFilter ->
-            Log.d("FilterDebug", "buildFilterConfigs onUpdateFilter: $updatedFilter")
-            updateFilter(updatedFilter)
-        }
-        Log.d("FilterDebug", "buildFilterConfigs returns FilterConfigs: $result")
-        return result
+        return filterConfigUseCase(
+            active,
+            searchText,
+            selectedLanguage,
+            allFiltersChip,
+            onUpdateFilter = { updateFilter(it) }
+        )
     }
 
-    fun validateProduct(product: Product, selectedLanguage: String) {
-        val filter = _activeFilter.value
-        Log.d("FilterDebug", "validateProduct called with product=$product, filter=$filter, lang=$selectedLanguage")
-        _filterViolations.value = filterCheckUseCase(product, filter, selectedLanguage)
-        Log.d("FilterDebug", "validateProduct filterViolations=${_filterViolations.value}")
-    }
 
-    fun resetAllFilters() {
-        Log.d("FilterDebug", "resetAllFilters called.")
-        _activeFilter.value = ActiveFilter()
-        _searchText.value = ""
-        viewModelScope.launch {
-            filterRepository.saveActiveFilter(_activeFilter.value)
-            Log.d("FilterDebug", "ActiveFilter reset and saved: ${_activeFilter.value}")
-        }
+fun validateProduct(product: Product, selectedLanguage: String) {
+    val filter = _activeFilter.value
+    Log.d(
+        "FilterDebug",
+        "validateProduct called with product=$product, filter=$filter, lang=$selectedLanguage"
+    )
+    _filterViolations.value = filterCheckUseCase(product, filter, selectedLanguage)
+    Log.d("FilterDebug", "validateProduct filterViolations=${_filterViolations.value}")
+}
+
+fun resetAllFilters() {
+    Log.d("FilterDebug", "resetAllFilters called.")
+    _activeFilter.value = ActiveFilter()
+    _searchText.value = ""
+    viewModelScope.launch {
+        filterRepository.saveActiveFilter(_activeFilter.value)
+        Log.d("FilterDebug", "ActiveFilter reset and saved: ${_activeFilter.value}")
     }
+}
 }
