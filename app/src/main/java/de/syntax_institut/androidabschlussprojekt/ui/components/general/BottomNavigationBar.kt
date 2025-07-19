@@ -18,7 +18,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.theme.AndroidAbschlussproje
 
 @Composable
 fun BottomNavigationBar(
-    selectedTabItem: TabItem,
+    selectedTabItem: TabItem?,
     onSelectedTabItem: (TabItem) -> Unit
 ) {
     NavigationBar(

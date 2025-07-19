@@ -12,10 +12,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -72,10 +69,14 @@ fun AppStart(
         appColorScheme = appColorScheme
     ) {
         val navController = rememberNavController()
-        var selectedTab by rememberSaveable { mutableStateOf(TabItem.Scan) }
-
         val currentEntry by navController.currentBackStackEntryAsState()
         val currentDestination = currentEntry?.destination?.route
+
+        var selectedTab: TabItem? = when (currentDestination) {
+            FoodRoute::class.qualifiedName -> TabItem.Food
+            BeautyRoute::class.qualifiedName -> TabItem.Beauty
+            else -> null
+        }
 
         val showBottomBar = currentDestination != FilterRoute::class.qualifiedName
         val showFab = currentDestination != ScanRoute::class.qualifiedName && showBottomBar
@@ -89,13 +90,16 @@ fun AppStart(
             topBar = { TopBar(navController) },
             bottomBar = {
                 if (showBottomBar) {
-                    BottomNavigationBar(
-                        selectedTabItem = selectedTab,
-                        onSelectedTabItem = {
-                            selectedTab = it
-                            navController.navigate(it.route)
-                        }
-                    )
+                        BottomNavigationBar(
+                            selectedTabItem = selectedTab,
+                            onSelectedTabItem = {
+                                navController.navigate(it.route) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+
+
                 }
             },
             floatingActionButton = {
