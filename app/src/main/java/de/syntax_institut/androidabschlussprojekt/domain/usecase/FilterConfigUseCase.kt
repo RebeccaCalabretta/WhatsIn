@@ -5,7 +5,6 @@ import de.syntax_institut.androidabschlussprojekt.data.filter.StaticFilterValues
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.BrandMapper
-import de.syntax_institut.androidabschlussprojekt.data.mapping.CorporationMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.CountryMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.IngredientMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
@@ -103,7 +102,7 @@ class FilterConfigUseCase {
             update = { onUpdateFilter(active.copy(excludedCorporations = it)) },
             allLabel = allLabelCorporations,
             searchValue = searchValue,
-            map = { CorporationMapper.map(it) ?: it }
+            map = { it }
         )
 
         return listOf(
@@ -159,7 +158,7 @@ class FilterConfigUseCase {
             FilterConfig(
                 titleRes = R.string.exclude_corporations,
                 items = corporations,
-                selectedItems = active.excludedCorporations.mapNotNull { CorporationMapper.map(it) } +
+                selectedItems = active.excludedCorporations +
                         (if (active.excludedCorporations.size == StaticFilterValues.corporations.size) listOf(allLabelCorporations) else emptyList()),
                 onToggleItem = corpToggle,
                 sortSelectedFirst = true

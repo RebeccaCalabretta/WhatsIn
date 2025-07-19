@@ -9,18 +9,20 @@ fun prepareFilterItems(
     map: (String) -> String = { it }
 ): Pair<List<String>, (String) -> Unit> {
     val cleanItems = rawItems.filter { it.isNotBlank() }
+
     val filteredItems = if (searchValue.isNotBlank()) {
         cleanItems.filter { map(it).contains(searchValue, ignoreCase = true) }
     } else cleanItems
 
-    val chips = if (allLabel != null)
-        listOf(allLabel) + filteredItems.sortedBy { map(it).lowercase() }
-    else
-        filteredItems.sortedBy { map(it).lowercase() }
+    // "Selected First" Logik
+    val selectedSorted = selected.intersect(filteredItems).sortedBy { map(it).lowercase() }
+    val restSorted = filteredItems.minus(selected).sortedBy { map(it).lowercase() }
 
+    // ALLE immer vorne!
+    val chips = listOfNotNull(allLabel) + selectedSorted + restSorted
     val visibleItems = chips.map { map(it) }
-    val filteredSelected = selected.filter { it != allLabel }
 
+    val filteredSelected = selected.filter { it != allLabel }
     val onToggle: (String) -> Unit = { clicked ->
         val tag = cleanItems.find { map(it) == clicked } ?: clicked
         val allVisibleSelected = filteredItems.all { it in filteredSelected }
@@ -36,6 +38,7 @@ fun prepareFilterItems(
             current
         update(finalSelection)
     }
+
     return visibleItems to onToggle
 }
 
