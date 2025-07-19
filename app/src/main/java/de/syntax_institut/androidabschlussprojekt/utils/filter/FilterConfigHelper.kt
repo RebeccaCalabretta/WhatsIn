@@ -8,47 +8,34 @@ fun prepareFilterItems(
     searchValue: String = "",
     map: (String) -> String = { it }
 ): Pair<List<String>, (String) -> Unit> {
-    val cleanItems = rawItems.filter { it.isNotBlank() }.distinct()
+    val cleanItems = rawItems.filter { it.isNotBlank() }
+    val filteredItems = if (searchValue.isNotBlank()) {
+        cleanItems.filter { map(it).contains(searchValue, ignoreCase = true) }
+    } else cleanItems
 
-    val sortedItems = buildList {
-        if (searchValue.isBlank()) {
-            allLabel?.let { add(it) }
-        }
-        val selectedSorted = selected.intersect(cleanItems).sortedBy { map(it).lowercase() }
-        val restSorted = cleanItems.minus(selected).sortedBy { map(it).lowercase() }
-        addAll(selectedSorted)
-        addAll(restSorted)
-    }
+    val chips = if (allLabel != null)
+        listOf(allLabel) + filteredItems.sortedBy { map(it).lowercase() }
+    else
+        filteredItems.sortedBy { map(it).lowercase() }
 
-    val visibleItems = sortedItems.map { map(it) }
+    val visibleItems = chips.map { map(it) }
+    val filteredSelected = selected.filter { it != allLabel }
 
     val onToggle: (String) -> Unit = { clicked ->
         val tag = cleanItems.find { map(it) == clicked } ?: clicked
-        val current = selected.toMutableList()
-
-        when {
-            clicked == allLabel -> {
-                if (allLabel !in current) {
-                    current.clear()
-                    current.add(allLabel)
-                    current.addAll(cleanItems)
-                } else {
-                    current.clear()
-                }
-            }
-            tag in current -> {
-                current.remove(tag)
-                allLabel?.let { current.remove(it) }
-            }
-            else -> {
-                current.add(tag)
-                allLabel?.let { current.remove(it) }
-            }
+        val allVisibleSelected = filteredItems.all { it in filteredSelected }
+        val current = when {
+            clicked == allLabel && allVisibleSelected -> emptyList()
+            clicked == allLabel -> filteredItems
+            tag in filteredSelected -> filteredSelected - tag
+            else -> filteredSelected + tag
         }
-
-        update(current)
+        val finalSelection = if (allLabel != null && current.containsAll(filteredItems) && filteredItems.isNotEmpty())
+            listOf(allLabel) + current
+        else
+            current
+        update(finalSelection)
     }
-
     return visibleItems to onToggle
 }
 

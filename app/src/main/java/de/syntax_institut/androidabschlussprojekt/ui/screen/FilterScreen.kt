@@ -62,7 +62,7 @@ fun FilterScreen(
                 Log.d("FilterDebug", "FilterScreen rendering: titleRes=${config.titleRes}, items=${config.items}, selectedItems=${config.selectedItems}")
                 FilterSection(
                     title = stringResource(config.titleRes),
-                    items = if (config.sortSelectedFirst) config.items.sortedByDescending { it in config.selectedItems } else config.items,
+                    items = config.items,
                     selectedItems = config.selectedItems,
                     onToggleItem = config.onToggleItem,
                     labelMapper = config.labelMapper

@@ -12,6 +12,7 @@ import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.NutriScoreMapper
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.utils.filter.FilterConfig
+import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareFilterItems
 import de.syntax_institut.androidabschlussprojekt.utils.filter.prepareMappedItems
 import kotlinx.coroutines.flow.StateFlow
 
@@ -45,15 +46,14 @@ class FilterConfigUseCase {
             onUpdate = { onUpdateFilter(active.copy(excludedIngredients = it)) },
             sortSelectedFirst = true
         )
-
-        val (additives, additivesToggle) = prepareMappedItems(
+        val allLabelAdditives = "All"
+        val (additives, additivesToggle) = prepareFilterItems(
             rawItems = StaticFilterValues.additives,
-            selectedTags = active.excludedAdditives,
+            selected = active.excludedAdditives,
+            update = { onUpdateFilter(active.copy(excludedAdditives = it)) },
+            allLabel = allLabelAdditives,
             searchValue = searchValue,
-            mapper = { AdditiveMapper.map(it, language) },
-            reverseMapper = { AdditiveMapper.getReverseMap(language)[it] },
-            onUpdate = { onUpdateFilter(active.copy(excludedAdditives = it)) },
-            sortSelectedFirst = true
+            map = { AdditiveMapper.map(it, language) }
         )
 
         val (labels, labelsToggle) = prepareMappedItems(
@@ -96,14 +96,14 @@ class FilterConfigUseCase {
             sortSelectedFirst = false
         )
 
-        val (corporations, corpToggle) = prepareMappedItems(
+        val allLabelCorporations = "All"
+        val (corporations, corpToggle) = prepareFilterItems(
             rawItems = StaticFilterValues.corporations,
-            selectedTags = active.excludedCorporations,
+            selected = active.excludedCorporations,
+            update = { onUpdateFilter(active.copy(excludedCorporations = it)) },
+            allLabel = allLabelCorporations,
             searchValue = searchValue,
-            mapper = { CorporationMapper.map(it) ?: it },
-            reverseMapper = { CorporationMapper.getReverseMap()[it] },
-            onUpdate = { onUpdateFilter(active.copy(excludedCorporations = it)) },
-            sortSelectedFirst = true
+            map = { CorporationMapper.map(it) ?: it }
         )
 
         return listOf(
@@ -159,7 +159,8 @@ class FilterConfigUseCase {
             FilterConfig(
                 titleRes = R.string.exclude_corporations,
                 items = corporations,
-                selectedItems = active.excludedCorporations.mapNotNull { CorporationMapper.map(it) },
+                selectedItems = active.excludedCorporations.mapNotNull { CorporationMapper.map(it) } +
+                        (if (active.excludedCorporations.size == StaticFilterValues.corporations.size) listOf(allLabelCorporations) else emptyList()),
                 onToggleItem = corpToggle,
                 sortSelectedFirst = true
             )
