@@ -1,4 +1,4 @@
-package de.syntax_institut.androidabschlussprojekt.ui.components.collection
+package de.syntax_institut.androidabschlussprojekt.ui.components.general
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

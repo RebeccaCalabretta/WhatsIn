@@ -68,8 +68,13 @@ class FilterViewModel(
         Log.d("FilterDebug", "validateProduct filterViolations=${_filterViolations.value}")
     }
 
-    fun updateSearchText(newText: String) {
-        Log.d("FilterDebug", "updateSearchText: $newText")
-        _searchText.value = newText
+    fun resetAllFilters() {
+        Log.d("FilterDebug", "resetAllFilters called.")
+        _activeFilter.value = ActiveFilter()
+        _searchText.value = ""
+        viewModelScope.launch {
+            filterRepository.saveActiveFilter(_activeFilter.value)
+            Log.d("FilterDebug", "ActiveFilter reset and saved: ${_activeFilter.value}")
+        }
     }
 }

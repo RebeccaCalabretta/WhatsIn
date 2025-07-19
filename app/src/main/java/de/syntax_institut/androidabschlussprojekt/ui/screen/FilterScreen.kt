@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,13 +11,16 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.syntax_institut.androidabschlussprojekt.ui.components.collection.SearchBar
+import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
+import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -26,13 +28,17 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FilterScreen(
     filterViewModel: FilterViewModel = koinViewModel(),
-    settingsViewModel: SettingsViewModel = koinViewModel()
+    settingsViewModel: SettingsViewModel = koinViewModel(),
+    collectionViewModel: CollectionViewModel = koinViewModel()
 ) {
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
 
     val searchText by filterViewModel.searchText.collectAsState()
     val language = settingsViewModel.selectedLanguage.collectAsState().value
+
+    var showSearch by remember { mutableStateOf(false) }
+
 
     val configs = remember(activeFilter, searchText, language) {
         filterViewModel.buildFilterConfigs(searchText, language)
@@ -52,14 +58,20 @@ fun FilterScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            SearchBar(
+            FilterHeader(
                 searchText = searchText,
-                onSearchTextChange = { filterViewModel.updateSearchText(it) },
-                modifier = Modifier.fillMaxWidth()
+                onSearchTextChange = { collectionViewModel.updateSearchText(it) },
+                showSearch = showSearch,
+                onToggleSearch = { showSearch = !showSearch },
+                onResetFilters = { filterViewModel.resetAllFilters() }
+
             )
 
             configs.forEach { config ->
-                Log.d("FilterDebug", "FilterScreen rendering: titleRes=${config.titleRes}, items=${config.items}, selectedItems=${config.selectedItems}")
+                Log.d(
+                    "FilterDebug",
+                    "FilterScreen rendering: titleRes=${config.titleRes}, items=${config.items}, selectedItems=${config.selectedItems}"
+                )
                 FilterSection(
                     title = stringResource(config.titleRes),
                     items = config.items,

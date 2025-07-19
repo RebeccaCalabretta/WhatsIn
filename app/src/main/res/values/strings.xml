@@ -98,6 +98,7 @@
     <string name="product_restored">Produkt wiederhergestellt</string>
     <string name="remove">Entfernen</string>
     <string name="remove_favorite">Aus Favoriten entfernen</string>
+    <string name="reset_filters">Filter zurücksetzen</string>
     <string name="retry">Erneut versuchen</string>
     <string name="save">Speichern</string>
     <string name="scan">Scannen</string>

@@ -98,6 +98,7 @@
     <string name="product_restored">Product restored</string>
     <string name="remove">Remove</string>
     <string name="remove_favorite">Remove from favorites</string>
+    <string name="reset_filters">Reset Filters</string>
     <string name="retry">Retry</string>
     <string name="save">Save</string>
     <string name="scan">Scan</string>
