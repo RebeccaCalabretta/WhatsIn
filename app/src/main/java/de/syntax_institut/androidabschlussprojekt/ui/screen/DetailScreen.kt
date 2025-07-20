@@ -43,6 +43,7 @@ fun DetailScreen(
 ) {
     Log.d("AppFlow", "DetailScreen geladen mit Barcode $barcode")
 
+
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value
     val filterViolations by filterViewModel.filterViolations.collectAsState()

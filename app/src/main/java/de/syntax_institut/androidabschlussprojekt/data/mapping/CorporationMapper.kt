@@ -1,7 +1,8 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
 object CorporationMapper {
-    private val brandToCorporation = mapOf(
+
+    val brandToCorporation = mapOf(
         "100 grand" to "Nestlé",
         "100 grand bar" to "Nestlé",
         "7up" to "PepsiCo",
@@ -602,13 +603,15 @@ object CorporationMapper {
         "zucosos" to "Nestlé",
         "åhusglass" to "Nestlé",
         "żywiec zdrój" to "Danone",
+        "dm" to "Nestlé",
+        "dmBio" to "Nestlé",
+        "vemondo" to "Nestlé"
     )
 
-    fun getCorporationForBrand(brand: String): String? {
+    fun getCorporationForBrand(brand: String?): String? {
+        if (brand.isNullOrBlank()) return null
         return brandToCorporation[brand.trim().lowercase()]
     }
-    fun map(tag: String): String? = getCorporationForBrand(tag)
 
-    fun getReverseMap(): Map<String, String> =
-        brandToCorporation.entries.associate { (tag, label) -> label to tag }
+    fun map(tag: String): String? = getCorporationForBrand(tag)
 }

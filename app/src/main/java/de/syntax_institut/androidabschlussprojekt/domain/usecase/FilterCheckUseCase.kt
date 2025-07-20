@@ -15,6 +15,8 @@ class FilterCheckUseCase {
         filter: ActiveFilter,
         selectedLanguage: String
     ): List<FilterViolation> {
+        Log.d("FilterCheck", "Check Corporation: ${product.corporation}")
+
         val violations = mutableListOf<FilterViolation>()
 
         product.ingredientsTags
@@ -56,41 +58,31 @@ class FilterCheckUseCase {
                 )
             }
 
-        product.brand?.takeIf { it in filter.excludedBrands }
-            ?.let {
-                violations.add(
-                    FilterViolation(
-                        R.string.violation_brands,
-                        it,
-                        FilterType.BRANDS
-                    )
-                )
-            }
+        val corporation = product.corporation
+        Log.d("DEBUG", "Corporation (aus Product): $corporation")
+        Log.d("DEBUG", "Excluded corporations: ${filter.excludedCorporations}")
 
-        product.corporation?.takeIf { it in filter.excludedCorporations }
-            ?.let {
-                violations.add(
-                    FilterViolation(
-                        R.string.violation_corporations,
-                        it,
-                        FilterType.CORPORATIONS
-                    )
+        if (corporation != null && corporation in filter.excludedCorporations) {
+            Log.d("DEBUG", "CORPORATION MATCHED/EXCLUDED: $corporation")
+            violations.add(
+                FilterViolation(
+                    R.string.violation_corporations,
+                    corporation,
+                    FilterType.CORPORATIONS
                 )
-            }
+            )
+        }
 
         if (filter.allowedLabels.isNotEmpty()) {
-            // Log die Ausgangswerte
             Log.d("FilterCheck", "product.labelsTags: ${product.labelsTags}")
             Log.d("FilterCheck", "filter.allowedLabels: ${filter.allowedLabels}")
 
-            // Robust: Nimm NUR Mapperwerte, ignoriere null/""/unbekannt
             val matchedLabels = product.labelsTags
                 .mapNotNull { LabelMapper.map(it, selectedLanguage) }
             val requiredLabels = filter.allowedLabels
                 .mapNotNull { LabelMapper.map(it, selectedLanguage) }
             val missing = requiredLabels.filter { it.isNotBlank() && it !in matchedLabels }
 
-            // Log das Ergebnis nach dem Mapping
             Log.d("FilterCheck", "matchedLabels: $matchedLabels")
             Log.d("FilterCheck", "requiredLabels: $requiredLabels")
             Log.d("FilterCheck", "missing: $missing")
@@ -121,8 +113,10 @@ class FilterCheckUseCase {
         }
 
         if (filter.allowedCountry.isNotEmpty()) {
-            val matchedCountries = product.countriesTags.map { CountryMapper.map(it, selectedLanguage) }
-            val requiredCountries = filter.allowedCountry.map { CountryMapper.map(it, selectedLanguage) }
+            val matchedCountries =
+                product.countriesTags.map { CountryMapper.map(it, selectedLanguage) }
+            val requiredCountries =
+                filter.allowedCountry.map { CountryMapper.map(it, selectedLanguage) }
             val common = matchedCountries.intersect(requiredCountries.toSet())
             if (common.isEmpty()) {
                 violations.add(

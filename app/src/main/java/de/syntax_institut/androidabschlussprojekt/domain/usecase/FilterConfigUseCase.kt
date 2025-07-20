@@ -4,7 +4,6 @@ import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.filter.StaticFilterValues
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AdditiveMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.AllergenMapper
-import de.syntax_institut.androidabschlussprojekt.data.mapping.BrandMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.CountryMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.IngredientMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
@@ -75,16 +74,6 @@ class FilterConfigUseCase {
             sortSelectedFirst = true
         )
 
-        val (brands, brandsToggle) = prepareMappedItems(
-            rawItems = StaticFilterValues.brands,
-            selectedTags = active.excludedBrands,
-            searchValue = searchValue,
-            mapper = { BrandMapper.map(it) },
-            reverseMapper = { BrandMapper.getReverseMap()[it] },
-            onUpdate = { onUpdateFilter(active.copy(excludedBrands = it)) },
-            sortSelectedFirst = true
-        )
-
         val (nutri, nutriToggle) = prepareMappedItems(
             rawItems = StaticFilterValues.nutriScore,
             selectedTags = active.allowedNutriScore.map { it.lowercase() },
@@ -138,13 +127,6 @@ class FilterConfigUseCase {
                 items = countries,
                 selectedItems = active.allowedCountry.map { CountryMapper.map(it, language) },
                 onToggleItem = countriesToggle,
-                sortSelectedFirst = true
-            ),
-            FilterConfig(
-                titleRes = R.string.exclude_brands,
-                items = brands,
-                selectedItems = active.excludedBrands.map { BrandMapper.map(it) },
-                onToggleItem = brandsToggle,
                 sortSelectedFirst = true
             ),
             FilterConfig(

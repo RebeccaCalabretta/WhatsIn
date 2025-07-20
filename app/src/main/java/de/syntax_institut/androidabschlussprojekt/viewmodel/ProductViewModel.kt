@@ -1,5 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
@@ -50,6 +51,8 @@ class ProductViewModel(
         viewModelScope.launch {
             try {
                 val product = repository.fetchProductByBarcode(barcode)
+                Log.d("ProductViewModel", "Geladenes Produkt: ${product.name}, Corporation: ${product.corporation}")
+
                 _selectedProduct.value = product
                 clearProductError()
                 repository.saveScannedProduct(product)

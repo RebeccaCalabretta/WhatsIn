@@ -113,7 +113,7 @@ fun CriteriaStatusSection(
 
                         FilterType.BRANDS -> violation.value
                             ?.split(",")
-                            ?.joinToString(", ") { BrandMapper.map(it.trim()) }
+                            ?.joinToString(", ") { BrandMapper.map(it.trim()) ?: it.trim() }
 
                         FilterType.NUTRISCORE -> violation.value
                             ?.split(",")

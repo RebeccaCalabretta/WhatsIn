@@ -60,12 +60,8 @@ class DefaultProductRepository(
                 )
 
                 val product = productDto.toProduct(finalType)
-                Log.d(
-                    "NutrimentsCheck",
-                    "energy=${product.nutriments.energyKcal}, fat=${product.nutriments.fat}, carbs=${product.nutriments.carbohydrates}, sugars=${product.nutriments.sugars}, salt=${product.nutriments.salt}, proteins=${product.nutriments.proteins}"
-                )
-                Log.d("ProductRepository", "Product mit Nutriments: ${product.nutriments}")
-                product
+                Log.d("Repository", "GELADEN aus API: ${product.name}, Corporation=${product.corporation}")
+                return product
             }
 
         } catch (e: HttpException) {
@@ -89,11 +85,6 @@ class DefaultProductRepository(
             val merged = product.copy(
                 isFavorite = existing?.isFavorite ?: false,
                 timestamp = System.currentTimeMillis()
-            )
-
-            Log.d(
-                "ProductRepository",
-                "Speichere ${merged.name} mit Favorit=${merged.isFavorite} und Timestamp=${merged.timestamp}"
             )
 
             dao.insert(merged.toScannedProduct())

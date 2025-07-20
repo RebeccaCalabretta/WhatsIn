@@ -49,7 +49,7 @@ data class ScannedProduct(
 )
 
 fun ScannedProduct.toProduct(): Product {
-    Log.d("ScannedProduct", "Lese aus DB: barcode=$barcode mit Typ-String='$productType'")
+    Log.d("Room", "AUS DB GELESEN: ${this.name}, Corporation=${this.corporation}")
 
     return Product(
         barcode = barcode,

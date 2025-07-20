@@ -68,7 +68,7 @@ fun FilterHeader(
 }
 
 @Preview(name = "FilterHeader – Light", showBackground = true)
-@Preview(name = "FilterHeader – Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "FilterHeader – Dark",  uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun FilterHeaderPreview() {
     AndroidAbschlussprojektTheme {
