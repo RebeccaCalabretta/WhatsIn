@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
-import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -29,8 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FilterScreen(
     filterViewModel: FilterViewModel = koinViewModel(),
-    settingsViewModel: SettingsViewModel = koinViewModel(),
-    collectionViewModel: CollectionViewModel = koinViewModel()
+    settingsViewModel: SettingsViewModel = koinViewModel()
 ) {
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
@@ -61,7 +59,7 @@ fun FilterScreen(
         ) {
             FilterHeader(
                 searchText = searchText,
-                onSearchTextChange = { collectionViewModel.updateSearchText(it) },
+                onSearchTextChange = { filterViewModel.updateSearchText(it) },
                 showSearch = showSearch,
                 onToggleSearch = { showSearch = !showSearch },
                 onResetFilters = { filterViewModel.resetAllFilters() }

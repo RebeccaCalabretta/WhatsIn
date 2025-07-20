@@ -3,12 +3,17 @@ package de.syntax_institut.androidabschlussprojekt.navigation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -86,18 +91,39 @@ fun AppStart(
         SetSystemBarsColor(isDarkMode)
 
         Scaffold(
-            snackbarHost = { SnackbarHost(snackbarHostState) },
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    snackbar = { data ->
+                        Snackbar(
+                            action = {
+                                data.visuals.actionLabel?.let { actionLabel ->
+                                    TextButton(onClick = { data.performAction() }) {
+                                        Text(actionLabel)
+                                    }
+                                }
+                            },
+                            shape = RoundedCornerShape(16.dp)
+                        ) {
+                            Text(data.visuals.message)
+                        }
+                    }
+                )
+            },
             topBar = { TopBar(navController) },
             bottomBar = {
                 if (showBottomBar) {
-                        BottomNavigationBar(
-                            selectedTabItem = selectedTab,
-                            onSelectedTabItem = {
-                                navController.navigate(it.route) {
-                                    launchSingleTop = true
-                                }
+                    BottomNavigationBar(
+                        selectedTabItem = selectedTab,
+                        onSelectedTabItem = {
+                            navController.navigate(it.route) {
+                                launchSingleTop = true
                             }
-                        )
+                        }
+                    )
 
 
                 }
