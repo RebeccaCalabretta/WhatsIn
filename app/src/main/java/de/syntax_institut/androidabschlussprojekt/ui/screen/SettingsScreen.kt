@@ -2,19 +2,13 @@ package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import android.app.Activity
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Icon
@@ -27,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -35,10 +28,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
 import de.syntax_institut.androidabschlussprojekt.navigation.FilterRoute
 import de.syntax_institut.androidabschlussprojekt.ui.components.settings.LanguageDropdown
 import de.syntax_institut.androidabschlussprojekt.ui.components.settings.SelectColorSchemeDialog
-import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
+import de.syntax_institut.androidabschlussprojekt.ui.components.settings.SettingsRow
 import de.syntax_institut.androidabschlussprojekt.ui.theme.BlueButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.MintButtonGradientLight
 import de.syntax_institut.androidabschlussprojekt.ui.theme.OrangeButtonGradientLight
@@ -65,37 +59,21 @@ fun SettingsScreen(
         "en" to stringResource(R.string.language_english)
     )
 
-    val rowHeight = 56.dp
-    val cornerRadius = 16.dp
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(rowHeight)
-                .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(cornerRadius))
-                .clickable { navController.navigate(FilterRoute) }
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+        SettingsRow(
+            onClick = { navController.navigate(FilterRoute) }
         ) {
             Text(stringResource(R.string.filter_options), style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null)
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(rowHeight)
-                .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(cornerRadius))
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        SettingsRow {
             Text(stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             Switch(
@@ -104,18 +82,14 @@ fun SettingsScreen(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(rowHeight)
-                .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(cornerRadius))
-                .clickable { showColorDialog = true }
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+        SettingsRow(
+            onClick = { showColorDialog = true }
         ) {
             Text(stringResource(R.string.color_scheme), style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
-            Canvas(modifier = Modifier.size(24.dp).clip(CircleShape)) {
+            Canvas(
+                modifier = Modifier.size(24.dp).clip(CircleShape)
+            ) {
                 drawCircle(
                     brush = when (appColorScheme) {
                         AppColorScheme.Orange -> OrangeButtonGradientLight
@@ -133,9 +107,7 @@ fun SettingsScreen(
             languages = languages,
             onSelectLanguage = { langCode ->
                 activity?.let { settingsViewModel.setLanguage(langCode, it) }
-            },
-            rowHeight = rowHeight,
-            cornerRadius = cornerRadius
+            }
         )
     }
 

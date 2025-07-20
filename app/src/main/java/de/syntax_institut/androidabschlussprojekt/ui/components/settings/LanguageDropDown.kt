@@ -2,17 +2,15 @@ package de.syntax_institut.androidabschlussprojekt.ui.components.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,28 +22,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.CustomDropdownMenu
 
 @Composable
 fun LanguageDropdown(
     selectedLanguage: String,
     languages: List<Pair<String, String>>,
     onSelectLanguage: (String) -> Unit,
-    rowHeight: Dp = 56.dp,
-    cornerRadius: Dp = 16.dp
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(rowHeight)
+            .height(48.dp)
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(cornerRadius)
+                shape = RoundedCornerShape(16.dp)
             )
+            .clickable { expanded = !expanded }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -53,38 +51,26 @@ fun LanguageDropdown(
             text = stringResource(R.string.language),
             style = MaterialTheme.typography.bodyLarge
         )
-        Spacer(modifier = Modifier.weight(1f))
-
-        Box {
-            Row(
-                modifier = Modifier
-                    .clickable { expanded = true }
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = languages.firstOrNull { it.first == selectedLanguage }?.second ?: languages[0].second,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = null
-                )
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                languages.forEach { (langCode, langName) ->
-                    DropdownMenuItem(
-                        text = { Text(langName) },
-                        onClick = {
-                            expanded = false
-                            onSelectLanguage(langCode)
-                        }
-                    )
-                }
-            }
-        }
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = languages.firstOrNull { it.first == selectedLanguage }?.second ?: languages[0].second,
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Icon(
+            imageVector = Icons.Default.ArrowDropDown,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
+        )
     }
+
+    CustomDropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        options = languages,
+        selectedOption = languages.firstOrNull { it.first == selectedLanguage },
+        optionLabel = { Text(it.second) },
+        onOptionSelected = { onSelectLanguage(it.first) },
+        menuWidth = 200.dp,
+        offsetY = 216.dp
+    )
 }
