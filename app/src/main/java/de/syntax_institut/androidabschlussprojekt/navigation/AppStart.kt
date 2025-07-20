@@ -190,7 +190,10 @@ fun AppStart(
                         SettingsScreen(navController = navController)
                     }
                     composable<FilterRoute> {
-                        FilterScreen()
+                        FilterScreen(
+                            snackbarHostState = snackbarHostState
+
+                            )
                     }
                 }
             }

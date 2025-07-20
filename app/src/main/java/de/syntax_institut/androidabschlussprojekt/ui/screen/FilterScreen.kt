@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,14 +29,15 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FilterScreen(
+    snackbarHostState: SnackbarHostState,
     filterViewModel: FilterViewModel = koinViewModel(),
     settingsViewModel: SettingsViewModel = koinViewModel()
 ) {
     val isLoading by filterViewModel.isLoading.collectAsState()
     val activeFilter by filterViewModel.activeFilter.collectAsState()
-
     val searchText by filterViewModel.searchText.collectAsState()
-    val language = settingsViewModel.selectedLanguage.collectAsState().value
+    val filterError by filterViewModel.filterError.collectAsState()
+    val language by settingsViewModel.selectedLanguage.collectAsState()
 
     var showSearch by remember { mutableStateOf(false) }
 
@@ -43,42 +46,52 @@ fun FilterScreen(
         filterViewModel.buildFilterConfigs(searchText, language, allFiltersChip)
     }
 
-    if (isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+    val errorMessage = filterError?.let { stringResource(it.messageRes) }
+
+    if (errorMessage != null) {
+        LaunchedEffect(errorMessage) {
+            snackbarHostState.showSnackbar(errorMessage)
+            filterViewModel.clearFilterError()
         }
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
-        ) {
-            FilterHeader(
-                searchText = searchText,
-                onSearchTextChange = { filterViewModel.updateSearchText(it) },
-                showSearch = showSearch,
-                onToggleSearch = { showSearch = !showSearch },
-                onResetFilters = { filterViewModel.resetAllFilters() }
+    }
 
-            )
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
+            ) {
+                FilterHeader(
+                    searchText = searchText,
+                    onSearchTextChange = { filterViewModel.updateSearchText(it) },
+                    showSearch = showSearch,
+                    onToggleSearch = { showSearch = !showSearch },
+                    onResetFilters = { filterViewModel.resetAllFilters() }
+                )
 
-            configs.forEach { config ->
-                Log.d(
-                    "FilterDebug",
-                    "FilterScreen rendering: titleRes=${config.titleRes}, items=${config.items}, selectedItems=${config.selectedItems}"
-                )
-                FilterSection(
-                    title = stringResource(config.titleRes),
-                    items = config.items,
-                    selectedItems = config.selectedItems,
-                    onToggleItem = config.onToggleItem,
-                    labelMapper = config.labelMapper
-                )
+                configs.forEach { config ->
+                    FilterSection(
+                        title = stringResource(config.titleRes),
+                        items = config.items,
+                        selectedItems = config.selectedItems,
+                        onToggleItem = config.onToggleItem,
+                        labelMapper = config.labelMapper
+                    )
+                }
             }
         }
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
