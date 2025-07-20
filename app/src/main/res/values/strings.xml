@@ -29,6 +29,8 @@
     <string name="details">Details</string>
     <string name="error">Fehler</string>
     <string name="error_database">Das Produkt konnte nicht gespeichert werden</string>
+    <string name="error_filter_load">Filtereinstellungen konnten nicht geladen werden.</string>
+    <string name="error_filter_save">Filtereinstellungen konnten nicht gespeichert werden.</string>
     <string name="error_network">Kein Netz – bitte überprüfe deine Internetverbindung</string>
     <string name="error_not_found">Produkt nicht gefunden</string>
     <string name="error_unknown">Ein unbekannter Fehler ist aufgetreten</string>

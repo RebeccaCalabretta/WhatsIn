@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterCheckUseCase
 import de.syntax_institut.androidabschlussprojekt.domain.usecase.FilterConfigUseCase
+import de.syntax_institut.androidabschlussprojekt.error.FilterError
+import de.syntax_institut.androidabschlussprojekt.error.FilterException
 import de.syntax_institut.androidabschlussprojekt.model.ActiveFilter
 import de.syntax_institut.androidabschlussprojekt.model.FilterViolation
 import de.syntax_institut.androidabschlussprojekt.model.Product
@@ -32,12 +34,18 @@ class FilterViewModel(
     private val _searchText = MutableStateFlow("")
     val searchText: StateFlow<String> = _searchText
 
+    private val _filterError = MutableStateFlow<FilterError?>(null)
+    val filterError: StateFlow<FilterError?> = _filterError
+
     init {
         Log.d("FilterDebug", "FilterViewModel init – Filter wird vorbereitet")
         viewModelScope.launch {
-            _activeFilter.value = filterRepository.getActiveFilter()
+            try {
+                _activeFilter.value = filterRepository.getActiveFilter()
+            } catch (e: FilterException) {
+                _filterError.value = e.error
+            }
             _isLoading.value = false
-            Log.d("FilterDebug", "Initial activeFilter: ${_activeFilter.value}")
         }
     }
 
@@ -45,8 +53,11 @@ class FilterViewModel(
         Log.d("FilterDebug", "updateFilter called. New filter: $newFilter")
         _activeFilter.value = newFilter
         viewModelScope.launch {
-            filterRepository.saveActiveFilter(newFilter)
-            Log.d("FilterDebug", "Filter saved to repository: $newFilter")
+            try {
+                filterRepository.saveActiveFilter(newFilter)
+            } catch (e: FilterException) {
+                _filterError.value = e.error
+            }
         }
     }
 
@@ -88,5 +99,9 @@ class FilterViewModel(
 
     fun updateSearchText(newText: String) {
         _searchText.value = newText
+    }
+
+    fun clearFilterError() {
+        _filterError.value = null
     }
 }
