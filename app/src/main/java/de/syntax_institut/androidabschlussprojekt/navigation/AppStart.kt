@@ -153,6 +153,7 @@ fun AppStart(
                 ) {
                     composable<ScanRoute> {
                         ScanScreen(
+                            snackbarHostState = snackbarHostState,
                             onNavigateToDetail = { barcode ->
                                 navController.navigate(
                                     DetailRoute(

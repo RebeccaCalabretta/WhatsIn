@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -67,12 +66,6 @@ fun <DropdownItem> CustomDropdownMenu(
                                 onOptionSelected(item)
                                 onDismissRequest()
                             }
-                            .background(
-                                if (selectedOption != null && item == selectedOption)
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.07f)
-                                else
-                                    Color.Transparent
-                            )
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {

@@ -13,6 +13,7 @@ import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
@@ -60,7 +61,10 @@ class DefaultProductRepository(
                 )
 
                 val product = productDto.toProduct(finalType)
-                Log.d("Repository", "GELADEN aus API: ${product.name}, Corporation=${product.corporation}")
+                Log.d(
+                    "Repository",
+                    "GELADEN aus API: ${product.name}, Corporation=${product.corporation}"
+                )
                 return product
             }
 
@@ -72,6 +76,9 @@ class DefaultProductRepository(
                 Log.e("ProductRepository", "${type.name} API: Netzwerkfehler ${e.code()}")
                 throw ProductException(ProductError.NETWORK)
             }
+        } catch (e: IOException) {
+            Log.e("ProductRepository", "${type.name} API: Netzwerkfehler (IO): ${e.message}")
+            throw ProductException(ProductError.NETWORK)
         } catch (e: Exception) {
             Log.e("ProductRepository", "${type.name} API: Unbekannter Fehler: ${e.message}")
             throw ProductException(ProductError.UNKNOWN)

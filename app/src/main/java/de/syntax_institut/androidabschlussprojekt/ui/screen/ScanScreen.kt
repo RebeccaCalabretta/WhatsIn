@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.view.PreviewView
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -19,17 +20,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.PermissionSettingsDialog
 import de.syntax_institut.androidabschlussprojekt.ui.components.scan.ScanScreenContent
 import de.syntax_institut.androidabschlussprojekt.utils.scan.checkCameraPermission
 import de.syntax_institut.androidabschlussprojekt.utils.scan.observeCameraLifecycle
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ScanViewModel
+import de.syntax_institut.androidabschlussprojekt.utils.scan.hasInternet
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ScanScreen(
+    snackbarHostState: SnackbarHostState,
     productViewModel: ProductViewModel = koinViewModel(),
     scanViewModel: ScanViewModel = koinViewModel(),
     onNavigateToDetail: (String) -> Unit
@@ -62,6 +66,12 @@ fun ScanScreen(
 
     var hasRequestedCameraPermission by rememberSaveable { mutableStateOf(false) }
     var showSettingsDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!hasInternet(context)) {
+            snackbarHostState.showSnackbar(context.getString(R.string.error_network))
+        }
+    }
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->

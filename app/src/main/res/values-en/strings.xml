@@ -31,7 +31,7 @@
     <string name="error_database">The product could not be saved</string>
     <string name="error_filter_load">Could not load filter settings.</string>
     <string name="error_filter_save">Could not save filter settings.</string>
-    <string name="error_network">No network – please check your internet connection</string>
+    <string name="error_network">No internet connection</string>
     <string name="error_not_found">Product not found</string>
     <string name="error_unknown">An unknown error occurred</string>
     <string name="exclude_additives">Exclude additives</string>
