@@ -134,7 +134,8 @@ class FilterConfigUseCase {
                 items = nutri,
                 selectedItems = active.allowedNutriScore.map { it.lowercase() },
                 onToggleItem = nutriToggle,
-                sortSelectedFirst = false
+                sortSelectedFirst = false,
+                labelMapper = { it.uppercase() }
             ),
             FilterConfig(
                 titleRes = R.string.exclude_corporations,

@@ -38,7 +38,7 @@ val Mint70 = Color(0xFF7FE2CE)
 val Mint60 = Color(0xFFA9EBDD)
 val Mint40 = Color(0xFFD0F6EE)
 val Mint20 = Color(0xFFE9FAF7)
-val Mint10 = Color(0xFFF1FDFC)
+val Mint10 = Color(0xFFF7FFFE)
 
 val MintContainerDark = Mint90
 val MintSecondaryContainerDark = Color(0xFF004D40)

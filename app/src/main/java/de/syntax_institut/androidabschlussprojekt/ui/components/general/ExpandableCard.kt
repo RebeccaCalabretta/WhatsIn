@@ -1,6 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.general
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -31,18 +30,23 @@ import de.syntax_institut.androidabschlussprojekt.R
 fun ExpandableCard(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    cardColors: CardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     content: @Composable () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+
+    val collapsedColor = MaterialTheme.colorScheme.surfaceVariant
+    val expandedColor = MaterialTheme.colorScheme.secondaryContainer
+
+    val containerColor by animateColorAsState(
+        if (expanded) expandedColor else collapsedColor
+    )
 
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { expanded = !expanded },
-        colors = cardColors,
-        elevation = elevation
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp) // immer gleich!
     ) {
         Column {
             Row(

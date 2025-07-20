@@ -10,7 +10,8 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.general.Expandab
 
 @Composable
 fun AdditivesCard(additivesTags: List<String>, selectedLanguage: String) {
-    if (additivesTags.isEmpty() || additivesTags.all { it.isBlank() }) return
+    if (additivesTags.all { it.isBlank() }) return
+
     ExpandableCard(
         title = { Text(stringResource(R.string.additives), style = MaterialTheme.typography.titleMedium) }
     ) {

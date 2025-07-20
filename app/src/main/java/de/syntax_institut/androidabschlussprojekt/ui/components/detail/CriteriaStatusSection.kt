@@ -75,8 +75,7 @@ fun CriteriaStatusSection(
                     )
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
-            cardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column {
                 filterViolations.forEach { violation ->

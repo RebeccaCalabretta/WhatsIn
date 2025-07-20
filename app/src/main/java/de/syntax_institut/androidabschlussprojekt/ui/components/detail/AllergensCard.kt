@@ -11,7 +11,7 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.general.Expandab
 
 @Composable
 fun AllergensCard(allergensTags: List<String>, selectedLanguage: String) {
-    if (allergensTags.isEmpty() || allergensTags.all { it.isBlank() }) return
+    if (allergensTags.all { it.isBlank() }) return
     ExpandableCard(
         title = { Text(stringResource(R.string.allergens), style = MaterialTheme.typography.titleMedium) }
     ) {
