@@ -12,7 +12,17 @@ So hilft die App, informierte Entscheidungen direkt vor Ort zu treffen – schne
 
 ## 🎨 Design
 
-*Screenshots*
+#### 🔍 SplashScreen
+<img src="img/readme_splashscreen.png" alt="SplashScreen showing app logo" width="280"/>
+
+#### 🍏 DetailScreen
+<img src="img/readme_detailscreen.png" alt="Detail screen showing product information" width="280"/>
+
+#### 🍏 FoodCollection
+<img src="img/readme_food_collection.png" alt="Saved food products in a scrollable list" width="280"/>
+
+#### ⚙️ Filteroptionen
+<img src="img/readme_filteroptions.png" alt="Filter screen with chips for ingredients and labels" width="280"/>
 
 ## ✅ Features
 
