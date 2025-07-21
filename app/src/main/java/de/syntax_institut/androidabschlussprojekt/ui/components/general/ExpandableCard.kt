@@ -34,8 +34,8 @@ fun ExpandableCard(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    val collapsedColor = MaterialTheme.colorScheme.surfaceVariant
-    val expandedColor = MaterialTheme.colorScheme.secondaryContainer
+    val collapsedColor = MaterialTheme.colorScheme.secondaryContainer
+    val expandedColor = MaterialTheme.colorScheme.primaryContainer
 
     val containerColor by animateColorAsState(
         if (expanded) expandedColor else collapsedColor

@@ -11,34 +11,6 @@ import de.syntax_institut.androidabschlussprojekt.helper.AppColorScheme
 
 lateinit var ButtonGradient: Brush
 
-val LightOrangeColorScheme = lightColorScheme(
-    primary = Orange80,
-    primaryContainer = Orange40,
-    secondary = Orange60,
-    secondaryContainer = Orange20,
-    surface = SurfaceLight,
-    surfaceVariant = Orange10,
-    background = BackgroundLight,
-    onPrimary = Color.White,
-    onPrimaryContainer = OnOrangeContainerLight,
-    onSurface = OnSurfaceLight,
-    onBackground = OnBackgroundLight
-)
-
-val DarkOrangeColorScheme = darkColorScheme(
-    primary = Orange80,
-    primaryContainer = OrangeContainerDark,
-    secondary = Orange90,
-    secondaryContainer = SecondaryContainerDark,
-    surface = SecondaryContainerDark,
-    surfaceVariant = SecondaryContainerDark,
-    background = Color.Black,
-    onPrimary = Color.White,
-    onPrimaryContainer = OnOrangeContainerDark,
-    onSurface = OnSurfaceDark,
-    onBackground = OnBackgroundDark
-)
-
 val LightMintColorScheme = lightColorScheme(
     primary = Mint80,
     primaryContainer = Mint40,
@@ -49,20 +21,24 @@ val LightMintColorScheme = lightColorScheme(
     background = BackgroundLight,
     onPrimary = Color.White,
     onPrimaryContainer = OnMintContainerLight,
+    onSecondary = OnBackgroundLight,
+    onSecondaryContainer = OnBackgroundLight,
     onSurface = OnSurfaceLight,
     onBackground = OnBackgroundLight
 )
 
 val DarkMintColorScheme = darkColorScheme(
     primary = Mint80,
-    primaryContainer = MintContainerDark,
+    primaryContainer = MintPrimaryContainerDark,
     secondary = Mint90,
-    secondaryContainer = MintSecondaryContainerDark,
+    secondaryContainer = Mint90,
     surface = SurfaceDark,
-    surfaceVariant = MintSecondaryContainerDark,
+    surfaceVariant = Mint90,
     background = Color.Black,
     onPrimary = Color.White,
     onPrimaryContainer = OnMintContainerDark,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
     onSurface = OnSurfaceDark,
     onBackground = OnBackgroundDark
 )
@@ -77,20 +53,24 @@ val LightPistachioColorScheme = lightColorScheme(
     background = BackgroundLight,
     onPrimary = Color.White,
     onPrimaryContainer = OnPistachioContainerLight,
+    onSecondary = OnBackgroundLight,
+    onSecondaryContainer = OnBackgroundLight,
     onSurface = OnSurfaceLight,
     onBackground = OnBackgroundLight
 )
 
 val DarkPistachioColorScheme = darkColorScheme(
     primary = Pistachio80,
-    primaryContainer = PistachioContainerDark,
+    primaryContainer = PistachioPrimaryContainerDark,
     secondary = Pistachio90,
-    secondaryContainer = PistachioSecondaryContainerDark,
+    secondaryContainer = Pistachio90,
     surface = SurfaceDark,
-    surfaceVariant = PistachioSecondaryContainerDark,
+    surfaceVariant = Pistachio90,
     background = Color.Black,
     onPrimary = Color.White,
     onPrimaryContainer = OnPistachioContainerDark,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
     onSurface = OnSurfaceDark,
     onBackground = OnBackgroundDark
 )
@@ -105,20 +85,24 @@ val LightBlueColorScheme = lightColorScheme(
     background = BackgroundLight,
     onPrimary = Color.White,
     onPrimaryContainer = OnBlueContainerLight,
+    onSecondary = OnBackgroundLight,
+    onSecondaryContainer = OnBackgroundLight,
     onSurface = OnSurfaceLight,
     onBackground = OnBackgroundLight
 )
 
 val DarkBlueColorScheme = darkColorScheme(
     primary = Blue80,
-    primaryContainer = BlueContainerDark,
+    primaryContainer = BluePrimaryContainerDark,
     secondary = Blue90,
-    secondaryContainer = BlueSecondaryContainerDark,
+    secondaryContainer = Blue90,
     surface = SurfaceDark,
-    surfaceVariant = BlueSecondaryContainerDark,
+    surfaceVariant = Blue90,
     background = Color.Black,
     onPrimary = Color.White,
     onPrimaryContainer = OnBlueContainerDark,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
     onSurface = OnSurfaceDark,
     onBackground = OnBackgroundDark
 )
@@ -133,20 +117,56 @@ val LightPurpleColorScheme = lightColorScheme(
     background = BackgroundLight,
     onPrimary = Color.White,
     onPrimaryContainer = OnPurpleContainerLight,
+    onSecondary = OnBackgroundLight,
+    onSecondaryContainer = OnBackgroundLight,
     onSurface = OnSurfaceLight,
     onBackground = OnBackgroundLight
 )
 
 val DarkPurpleColorScheme = darkColorScheme(
     primary = Purple80,
-    primaryContainer = PurpleContainerDark,
+    primaryContainer = PurplePrimaryContainerDark,
     secondary = Purple90,
-    secondaryContainer = PurpleSecondaryContainerDark,
+    secondaryContainer = Purple90,
     surface = SurfaceDark,
-    surfaceVariant = PurpleSecondaryContainerDark,
+    surfaceVariant = Purple90,
     background = Color.Black,
     onPrimary = Color.White,
     onPrimaryContainer = OnPurpleContainerDark,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
+    onSurface = OnSurfaceDark,
+    onBackground = OnBackgroundDark
+)
+
+val LightOrangeColorScheme = lightColorScheme(
+    primary = Orange80,
+    primaryContainer = Orange40,
+    secondary = Orange60,
+    secondaryContainer = Orange20,
+    surface = SurfaceLight,
+    surfaceVariant = Orange10,
+    background = BackgroundLight,
+    onPrimary = Color.White,
+    onPrimaryContainer = OnOrangeContainerLight,
+    onSecondary = OnBackgroundLight,
+    onSecondaryContainer = OnBackgroundLight,
+    onSurface = OnSurfaceLight,
+    onBackground = OnBackgroundLight
+)
+
+val DarkOrangeColorScheme = darkColorScheme(
+    primary = Orange80,
+    primaryContainer = OrangePrimaryContainerDark,
+    secondary = Orange90,
+    secondaryContainer = Orange90,
+    surface = SurfaceDark,
+    surfaceVariant = Orange90,
+    background = Color.Black,
+    onPrimary = Color.White,
+    onPrimaryContainer = OnOrangeContainerDark,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
     onSurface = OnSurfaceDark,
     onBackground = OnBackgroundDark
 )
