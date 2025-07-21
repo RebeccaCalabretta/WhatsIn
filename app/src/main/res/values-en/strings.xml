@@ -81,9 +81,8 @@
     <string name="onboarding_description_2">One barcode is all it takes – WhatsIn instantly shows you what\'s really inside.</string>
     <string name="onboarding_title_3">Detect</string>
     <string name="onboarding_description_3">Ingredients, additives, corporations and more – all at a glance.</string>
-    <string name="onboarding_title_4">Decide consciously</string>
-    <string name="onboarding_description_4">Use filters – and detect during scanning whether a product matches your criteria.</string>
-    <string name="onboarding_title_5">Ready?</string>
+    <string name="onboarding_title_4">Decide</string>
+    <string name="onboarding_description_4">Use filters – instantly see if a product meets your criteria.</string>    <string name="onboarding_title_5">Ready?</string>
     <string name="onboarding_description_5">Start your first scan.</string>
     <string name="onboarding_button_finish">Let’s go</string>
     <string name="ok">OK</string>

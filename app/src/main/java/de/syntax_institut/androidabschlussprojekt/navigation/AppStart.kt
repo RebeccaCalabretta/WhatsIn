@@ -2,8 +2,11 @@ package de.syntax_institut.androidabschlussprojekt.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,15 +56,27 @@ fun AppStart(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(brush = MintButtonGradientLight),
-            contentAlignment = Alignment.Center
+                .background(brush = MintButtonGradientLight)
         ) {
-            SplashLogoAnimated(
-                alpha = 1f,
-                scale = 1f
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 32.dp)
+            ) {
+                Spacer(modifier = Modifier.weight(0.4f))
 
-            SplashText()
+                SplashLogoAnimated(
+                    alpha = 1f,
+                    scale = 1f
+                )
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                SplashText()
+
+                Spacer(modifier = Modifier.weight(0.4f))
+            }
         }
         return
     }
@@ -194,7 +209,7 @@ fun AppStart(
                         FilterScreen(
                             snackbarHostState = snackbarHostState
 
-                            )
+                        )
                     }
                 }
             }

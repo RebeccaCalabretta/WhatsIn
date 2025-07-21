@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,12 +20,6 @@ import de.syntax_institut.androidabschlussprojekt.ui.components.onboarding.onboa
 import de.syntax_institut.androidabschlussprojekt.ui.theme.animatedGradient
 import de.syntax_institut.androidabschlussprojekt.utils.SetSystemBarsColor
 import kotlinx.coroutines.launch
-
-data class OnboardingSlide(
-    val title: String,
-    val description: String? = null,
-    @DrawableRes val imageResId: Int? = null
-)
 
 @Composable
 fun OnboardingScreen(
@@ -54,7 +47,8 @@ fun OnboardingScreen(
         ) {
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                pageSpacing = 32.dp
             ) { page ->
                 SlideContent(slide = slides[page])
             }

@@ -81,8 +81,8 @@
     <string name="onboarding_description_2">Ein Barcode genügt – WhatsIn zeigt dir sofort, was wirklich drin ist.</string>
     <string name="onboarding_title_3">Erkenne</string>
     <string name="onboarding_description_3">Zutaten, Zusatzstoffe, Konzerne und mehr – alles auf einen Blick.</string>
-    <string name="onboarding_title_4">Entscheide bewusst</string>
-    <string name="onboarding_description_4">Nutze Filter – und erkenne beim Scannen, ob ein Produkt deinen Kriterien entspricht.</string>
+    <string name="onboarding_title_4">Entscheide</string>
+    <string name="onboarding_description_4">Nutze Filter – erkenne sofort, ob ein Produkt deinen Kriterien entspricht.</string>
     <string name="onboarding_title_5">Bereit?</string>
     <string name="onboarding_description_5">Starte deinen ersten Scan.</string>
     <string name="onboarding_button_finish">Los geht’s</string>
