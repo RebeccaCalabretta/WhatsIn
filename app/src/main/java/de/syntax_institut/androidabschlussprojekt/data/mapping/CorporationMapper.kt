@@ -603,9 +603,7 @@ object CorporationMapper {
         "zucosos" to "Nestlé",
         "åhusglass" to "Nestlé",
         "żywiec zdrój" to "Danone",
-        "dm" to "Nestlé",
-        "dmBio" to "Nestlé",
-        "vemondo" to "Nestlé"
+        "k-bio" to "Nestlé"
     )
 
     fun getCorporationForBrand(brand: String?): String? {

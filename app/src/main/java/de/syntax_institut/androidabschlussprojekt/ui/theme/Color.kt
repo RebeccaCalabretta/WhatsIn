@@ -22,7 +22,7 @@ val Mint40 = Color(0xFFD0F6EE)
 val Mint20 = Color(0xFFE9FAF7)
 val Mint10 = Color(0xFFF7FFFE)
 
-val MintPrimaryContainerDark = Color(0xFF3AA781)
+val MintSecondaryContainerDark = Color(0xFF3AA781)
 val OnMintContainerLight = Color(0xFF00332C)
 val OnMintContainerDark = Color.White
 
@@ -38,7 +38,7 @@ val Pistachio40 = Color(0xFFDEEDD2)
 val Pistachio20 = Color(0xFFF2F7EC)
 val Pistachio10 = Color(0xFFFAFDF8)
 
-val PistachioPrimaryContainerDark = Color(0xFF66A254)
+val PistachioSecondaryContainerDark = Color(0xFF66A254)
 val OnPistachioContainerLight = Color(0xFF223300)
 val OnPistachioContainerDark = Color.White
 
@@ -54,7 +54,7 @@ val Blue40 = Color(0xFFD6EBFD)
 val Blue20 = Color(0xFFEFF7FE)
 val Blue10 = Color(0xFFF6FBFF)
 
-val BluePrimaryContainerDark = Color(0xFF3D7ED1)
+val BlueSecondaryContainerDark = Color(0xFF3D7ED1)
 val OnBlueContainerLight = Color(0xFF003066)
 val OnBlueContainerDark = Color.White
 
@@ -70,7 +70,7 @@ val Purple40 = Color(0xFFF1D9F5)
 val Purple20 = Color(0xFFF8ECFA)
 val Purple10 = Color(0xFFFBF4FD)
 
-val PurplePrimaryContainerDark = Color(0xFFAC5BBC)
+val PurpleSecondaryContainerDark = Color(0xFFAC5BBC)
 val OnPurpleContainerLight = Color(0xFF330044)
 val OnPurpleContainerDark = Color.White
 
@@ -78,7 +78,7 @@ val PurpleButtonGradientLight = verticalGradient(colors = listOf(Purple60, Purpl
 val PurpleButtonGradientDark = verticalGradient(colors = listOf(Purple70, Purple90))
 
 // Orange Glow
-val Orange90 = Color(0xFFBA5A13)
+val Orange90 = Color(0xFF93440C)
 val Orange80 = Color(0xFFF78C2A)
 val Orange70 = Color(0xFFFFB06F)
 val Orange60 = Color(0xFFFFD1A3)
@@ -86,7 +86,7 @@ val Orange40 = Color(0xFFFAD4B0)
 val Orange20 = Color(0xFFFBECDE)
 val Orange10 = Color(0xFFFFF3E0)
 
-val OrangePrimaryContainerDark = Color(0xFFE17F36)
+val OrangeSecondaryContainerDark = Color(0xFFE17F36)
 val OnOrangeContainerLight = Color(0xFF3B2200)
 val OnOrangeContainerDark = Color.White
 

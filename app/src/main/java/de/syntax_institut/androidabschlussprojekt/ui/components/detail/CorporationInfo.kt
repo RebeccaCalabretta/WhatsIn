@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 
@@ -24,7 +25,8 @@ fun CorporationInfo(
             if (corporation.isNotBlank()) {
                 Text(
                     stringResource(R.string.belongs_to, corporation),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
