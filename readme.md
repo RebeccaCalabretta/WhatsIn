@@ -13,7 +13,6 @@ So hilft die App, informierte Entscheidungen direkt vor Ort zu treffen – schne
 ## 🎨 Design
 
 <p align="center">
-  <img src="img/readme_splashscreen.png" width="220" alt="Splash Screen" style="margin-right: 8px;"/>
   <img src="img/readme_detailscreen.png" width="220" alt="Detail Screen" style="margin-right: 8px;"/>
   <img src="img/readme_food_collection.png" width="220" alt="Food Collection" style="margin-right: 8px;"/>
   <img src="img/readme_filteroptions.png" width="220" alt="Filter Options"/>
