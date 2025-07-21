@@ -1,36 +1,21 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.GeneralButton
-import de.syntax_institut.androidabschlussprojekt.ui.theme.MichromaFont
+import de.syntax_institut.androidabschlussprojekt.ui.components.onboarding.PagerIndicator
+import de.syntax_institut.androidabschlussprojekt.ui.components.onboarding.SlideContent
 import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint20
-import de.syntax_institut.androidabschlussprojekt.ui.theme.Mint60
 import de.syntax_institut.androidabschlussprojekt.ui.theme.animatedGradient
 import de.syntax_institut.androidabschlussprojekt.utils.SetSystemBarsColor
 import kotlinx.coroutines.launch
@@ -79,8 +64,7 @@ fun OnboardingScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(animatedGradient())
-
+            .background(brush = animatedGradient())
     ) {
         Column(
             modifier = Modifier
@@ -93,62 +77,13 @@ fun OnboardingScreen(
                 state = pagerState,
                 modifier = Modifier.weight(1f)
             ) { page ->
-                val slide = slides[page]
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = slides[page].title,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontFamily = MichromaFont,
-                        textAlign = TextAlign.Center,
-                        color = Color.White,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-
-                    slide.imageResId?.let { resId ->
-                        Image(
-                            painter = painterResource(id = resId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(bottom = 24.dp)
-                        )
-                    }
-
-                    slide.description?.takeIf { it.isNotBlank() }?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Center,
-                            color = Color.White,
-                            modifier = Modifier.padding(bottom = 32.dp)
-                        )
-                    }
-                }
+                SlideContent(slide = slides[page])
             }
 
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                repeat(slides.size) { index ->
-                    val isSelected = pagerState.currentPage == index
-                    Box(
-                        modifier = Modifier
-                            .size(if (isSelected) 16.dp else 10.dp)
-                            .padding(2.dp)
-                            .background(
-                                if (isSelected) Mint60 else Color.White,
-                                shape = CircleShape
-                            )
-                    )
-                }
-            }
+            PagerIndicator(
+                pageCount = slides.size,
+                currentPage = pagerState.currentPage
+            )
 
             GeneralButton(
                 text = if (pagerState.currentPage == slides.lastIndex)
