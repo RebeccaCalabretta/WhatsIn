@@ -13,7 +13,7 @@ lateinit var ButtonGradient: Brush
 
 val LightMintColorScheme = lightColorScheme(
     primary = Mint80,
-    primaryContainer = Mint40,
+    primaryContainer = Mint20,
     secondary = Mint60,
     secondaryContainer = Mint20,
     surface = SurfaceLight,

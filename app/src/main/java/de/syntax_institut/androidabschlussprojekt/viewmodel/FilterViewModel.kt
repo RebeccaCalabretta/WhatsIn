@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.repository.FilterRepository
@@ -38,7 +37,6 @@ class FilterViewModel(
     val filterError: StateFlow<FilterError?> = _filterError
 
     init {
-        Log.d("FilterDebug", "FilterViewModel init – Filter wird vorbereitet")
         viewModelScope.launch {
             try {
                 _activeFilter.value = filterRepository.getActiveFilter()
@@ -50,7 +48,6 @@ class FilterViewModel(
     }
 
     fun updateFilter(newFilter: ActiveFilter) {
-        Log.d("FilterDebug", "updateFilter called. New filter: $newFilter")
         _activeFilter.value = newFilter
         viewModelScope.launch {
             try {
@@ -79,21 +76,14 @@ class FilterViewModel(
 
     fun validateProduct(product: Product, selectedLanguage: String) {
         val filter = _activeFilter.value
-        Log.d(
-            "FilterDebug",
-            "validateProduct called with product=$product, filter=$filter, lang=$selectedLanguage"
-        )
         _filterViolations.value = filterCheckUseCase(product, filter, selectedLanguage)
-        Log.d("FilterDebug", "validateProduct filterViolations=${_filterViolations.value}")
     }
 
     fun resetAllFilters() {
-        Log.d("FilterDebug", "resetAllFilters called.")
         _activeFilter.value = ActiveFilter()
         _searchText.value = ""
         viewModelScope.launch {
             filterRepository.saveActiveFilter(_activeFilter.value)
-            Log.d("FilterDebug", "ActiveFilter reset and saved: ${_activeFilter.value}")
         }
     }
 

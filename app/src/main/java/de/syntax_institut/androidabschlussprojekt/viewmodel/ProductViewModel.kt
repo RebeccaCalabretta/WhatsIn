@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.androidabschlussprojekt.data.repository.DefaultProductRepository
@@ -14,8 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 sealed class SnackEvent {
-    object ProductRemoved : SnackEvent()
-    object ProductRestored : SnackEvent()
+    data object ProductRemoved : SnackEvent()
+    data object ProductRestored : SnackEvent()
 }
 
 class ProductViewModel(
@@ -31,7 +30,7 @@ class ProductViewModel(
     private val _snackbarEvent = MutableSharedFlow<SnackEvent>()
     val snackbarEvent = _snackbarEvent.asSharedFlow()
 
-    var recentlyDeletedProduct: Product? = null
+    private var recentlyDeletedProduct: Product? = null
         private set
 
     fun clearSelectedProduct() {
@@ -47,18 +46,17 @@ class ProductViewModel(
         _productError.value = null
     }
 
-    fun getProductByBarcode(barcode: String) {
+    private fun getProductByBarcode(barcode: String) {
         viewModelScope.launch {
             try {
                 val product = repository.fetchProductByBarcode(barcode)
-                Log.d("ProductViewModel", "Geladenes Produkt: ${product.name}, Corporation: ${product.corporation}")
 
                 _selectedProduct.value = product
                 clearProductError()
                 repository.saveScannedProduct(product)
             } catch (e: ProductException) {
                 _selectedProduct.value = null
-                handleError(e.error, e.message ?: "Fehler beim Laden des Produkts")
+                handleError(e.error)
             }
         }
     }
@@ -70,7 +68,7 @@ class ProductViewModel(
         }
     }
 
-    private fun handleError(error: ProductError, message: String) {
+    private fun handleError(error: ProductError) {
         _productError.value = error
     }
 

@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.data.remote.model
 
-import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.mapping.CorporationMapper
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Nutriments
@@ -14,7 +13,6 @@ fun ProductDto.toProduct(productType: ProductType): Product {
         .mapNotNull { CorporationMapper.getCorporationForBrand(it) }
         .firstOrNull()
 
-    Log.d("ProductDto", "Alle Marken geprüft: $allBrands → Corporation gefunden: $corporation")
 
     return Product(
         barcode = barcode,

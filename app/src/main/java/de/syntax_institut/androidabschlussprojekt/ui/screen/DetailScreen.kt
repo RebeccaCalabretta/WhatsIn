@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -29,8 +28,6 @@ fun DetailScreen(
     barcode: String,
     fromScan: Boolean
 ) {
-    Log.d("AppFlow", "DetailScreen geladen mit Barcode $barcode")
-
 
     val productState = productViewModel.selectedProduct.collectAsState()
     val product = productState.value

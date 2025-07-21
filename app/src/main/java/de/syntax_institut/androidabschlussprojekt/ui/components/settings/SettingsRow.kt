@@ -28,7 +28,7 @@ fun SettingsRow(
         .height(48.dp)
         .clip(shape)
         .background(
-            color = MaterialTheme.colorScheme.surfaceVariant,
+            color = MaterialTheme.colorScheme.primaryContainer,
             shape = shape
         )
         .run {

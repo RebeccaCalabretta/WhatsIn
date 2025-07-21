@@ -1,7 +1,6 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.filter
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,19 +46,18 @@ fun FilterSection(
             items(items) { item ->
                 val isSelected = item in selectedItems
 
-                Log.d("FilterDebug", "Item='$item' | isSelected=$isSelected | selectedItems=$selectedItems")
 
                 FilterChip(
                     selected = isSelected,
                     onClick = { onToggleItem(item) },
                     label = { Text(labelMapper(item)) },
                     colors = FilterChipDefaults.filterChipColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
                         selectedContainerColor = MaterialTheme.colorScheme.primary,
                         labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
                         selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    border = if (!isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null
+                    border = if (!isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
 
                 )
             }

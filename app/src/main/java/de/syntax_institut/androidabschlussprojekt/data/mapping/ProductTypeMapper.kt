@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.data.mapping
 
-import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 
 object ProductTypeMapper {
@@ -70,11 +69,8 @@ object ProductTypeMapper {
         brand: String?
     ): ProductType {
         if (categoryTags.isNullOrEmpty() && brand.isNullOrBlank()) return fallback
-        Log.d("ProductTypeMapper", "Erhaltene Kategorie-Tags: $categoryTags")
 
         if (!categoryTags.isNullOrEmpty() && categoryTags.any { it in beautyCategories }) {
-            val match = categoryTags.firstOrNull { it in beautyCategories }
-            Log.d("ProductTypeMapper", "Beauty-Kategorie erkannt: $match")
             return ProductType.BEAUTY
         }
 
@@ -82,7 +78,6 @@ object ProductTypeMapper {
         if (!brandName.isNullOrBlank()) {
             val brandMatch = knownBeautyBrands.firstOrNull { brandName.contains(it) }
             if (brandMatch != null) {
-                Log.d("ProductTypeMapper", "Beauty-Marke erkannt: $brandMatch in $brand")
                 return ProductType.BEAUTY
             }
         }

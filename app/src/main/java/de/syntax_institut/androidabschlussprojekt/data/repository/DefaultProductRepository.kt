@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.data.repository
 
-import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProductDao
 import de.syntax_institut.androidabschlussprojekt.data.local.model.toProduct
@@ -13,9 +12,9 @@ import de.syntax_institut.androidabschlussprojekt.error.ProductException
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.model.Product
 import de.syntax_institut.androidabschlussprojekt.model.toScannedProduct
-import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
+import java.io.IOException
 
 class DefaultProductRepository(
     private val foodApi: FoodApiService,
@@ -24,7 +23,6 @@ class DefaultProductRepository(
 ) : ProductRepository {
 
     override suspend fun fetchProductByBarcode(barcode: String): Product {
-        Log.d("ProductRepository", "fetchProductByBarcode() aufgerufen mit Barcode: $barcode")
 
         val foodResult = tryLoadProduct(barcode, foodApi, ProductType.FOOD)
         if (foodResult != null) return foodResult
@@ -41,8 +39,6 @@ class DefaultProductRepository(
         type: ProductType
     ): Product? {
         return try {
-            Log.d("ProductRepository", "Versuche Barcode $barcode über ${type.name}")
-
             val response = when (api) {
                 is FoodApiService -> api.getProductByBarcode(barcode)
                 is BeautyApiService -> api.getProductByBarcode(barcode)
@@ -51,7 +47,6 @@ class DefaultProductRepository(
 
             val productDto = response.product
             if (productDto == null) {
-                Log.w("ProductRepository", "Produkt war null (${type.name})")
                 null
             } else {
                 val finalType = ProductTypeMapper.determineProductType(
@@ -61,26 +56,19 @@ class DefaultProductRepository(
                 )
 
                 val product = productDto.toProduct(finalType)
-                Log.d(
-                    "Repository",
-                    "GELADEN aus API: ${product.name}, Corporation=${product.corporation}"
-                )
+
                 return product
             }
 
         } catch (e: HttpException) {
             if (e.code() == 404) {
-                Log.e("ProductRepository", "${type.name} API: Produkt nicht gefunden (404)")
                 null
             } else {
-                Log.e("ProductRepository", "${type.name} API: Netzwerkfehler ${e.code()}")
                 throw ProductException(ProductError.NETWORK)
             }
         } catch (e: IOException) {
-            Log.e("ProductRepository", "${type.name} API: Netzwerkfehler (IO): ${e.message}")
             throw ProductException(ProductError.NETWORK)
         } catch (e: Exception) {
-            Log.e("ProductRepository", "${type.name} API: Unbekannter Fehler: ${e.message}")
             throw ProductException(ProductError.UNKNOWN)
         }
     }
@@ -97,7 +85,6 @@ class DefaultProductRepository(
             dao.insert(merged.toScannedProduct())
 
         } catch (e: Exception) {
-            Log.e("ProductRepository", "Fehler beim Speichern: ${e.message}")
             throw ProductException(ProductError.DATABASE)
         }
     }

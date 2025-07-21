@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.domain.usecase
 
-import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.data.mapping.CountryMapper
 import de.syntax_institut.androidabschlussprojekt.data.mapping.LabelMapper
@@ -15,8 +14,6 @@ class FilterCheckUseCase {
         filter: ActiveFilter,
         selectedLanguage: String
     ): List<FilterViolation> {
-        Log.d("FilterCheck", "Check Corporation: ${product.corporation}")
-
         val violations = mutableListOf<FilterViolation>()
 
         product.ingredientsTags
@@ -59,11 +56,8 @@ class FilterCheckUseCase {
             }
 
         val corporation = product.corporation
-        Log.d("DEBUG", "Corporation (aus Product): $corporation")
-        Log.d("DEBUG", "Excluded corporations: ${filter.excludedCorporations}")
 
         if (corporation != null && corporation in filter.excludedCorporations) {
-            Log.d("DEBUG", "CORPORATION MATCHED/EXCLUDED: $corporation")
             violations.add(
                 FilterViolation(
                     R.string.violation_corporations,
@@ -74,18 +68,12 @@ class FilterCheckUseCase {
         }
 
         if (filter.allowedLabels.isNotEmpty()) {
-            Log.d("FilterCheck", "product.labelsTags: ${product.labelsTags}")
-            Log.d("FilterCheck", "filter.allowedLabels: ${filter.allowedLabels}")
 
             val matchedLabels = product.labelsTags
                 .mapNotNull { LabelMapper.map(it, selectedLanguage) }
             val requiredLabels = filter.allowedLabels
                 .mapNotNull { LabelMapper.map(it, selectedLanguage) }
             val missing = requiredLabels.filter { it.isNotBlank() && it !in matchedLabels }
-
-            Log.d("FilterCheck", "matchedLabels: $matchedLabels")
-            Log.d("FilterCheck", "requiredLabels: $requiredLabels")
-            Log.d("FilterCheck", "missing: $missing")
 
             if (missing.isNotEmpty()) {
                 violations.add(

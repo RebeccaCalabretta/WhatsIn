@@ -43,7 +43,7 @@ fun LanguageDropdown(
             .fillMaxWidth()
             .height(48.dp)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceVariant, shape)
+            .background(MaterialTheme.colorScheme.primaryContainer, shape)
             .clickable { expanded = !expanded }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically

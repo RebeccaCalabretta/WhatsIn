@@ -1,6 +1,5 @@
 package de.syntax_institut.androidabschlussprojekt.model
 
-import android.util.Log
 import de.syntax_institut.androidabschlussprojekt.data.local.model.ScannedProduct
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 
@@ -26,7 +25,6 @@ data class Product(
 )
 
 fun Product.toScannedProduct(): ScannedProduct {
-    Log.d("ProductModel", "Konvertiere zu ScannedProduct mit Typ: ${productType.name.lowercase()}")
 
     return ScannedProduct(
         barcode = barcode,

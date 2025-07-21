@@ -1,9 +1,11 @@
 package de.syntax_institut.androidabschlussprojekt.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.OptIn
-import androidx.camera.core.*
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -22,11 +24,10 @@ class ScanViewModel : ViewModel() {
     private var lastScanned: String? = null
     private var isCameraRunning = false
 
-    fun onBarcodeScanned(barcode: String) {
+    private fun onBarcodeScanned(barcode: String) {
         if (barcode != lastScanned) {
             lastScanned = barcode
             _scannedBarcode.value = barcode
-            Log.d("ScanViewModel", "Barcode erkannt: $barcode")
         }
     }
 
@@ -48,7 +49,7 @@ class ScanViewModel : ViewModel() {
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build().apply {
-                setSurfaceProvider(previewView.surfaceProvider)
+                surfaceProvider = previewView.surfaceProvider
             }
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -68,7 +69,6 @@ class ScanViewModel : ViewModel() {
                         .addOnSuccessListener { barcodes ->
                             barcodes.firstOrNull()?.rawValue?.let { onBarcodeScanned(it) }
                         }
-                        .addOnFailureListener { Log.e("ScanViewModel", "Scanfehler", it) }
                         .addOnCompleteListener { imageProxy.close() }
                 } else {
                     imageProxy.close()
@@ -83,9 +83,8 @@ class ScanViewModel : ViewModel() {
                     preview,
                     imageAnalysis
                 )
-                Log.d("ScanViewModel", "Kamera gebunden")
             } catch (e: Exception) {
-                Log.e("ScanViewModel", "Fehler beim Binden", e)
+                // Fehler absichtlich ignoriert
             }
         }, ContextCompat.getMainExecutor(context))
     }
@@ -95,9 +94,8 @@ class ScanViewModel : ViewModel() {
             val cameraProvider = ProcessCameraProvider.getInstance(previewView.context).get()
             cameraProvider.unbindAll()
             isCameraRunning = false
-            Log.d("ScanViewModel", "Kamera gestoppt")
         } catch (e: Exception) {
-            Log.e("ScanViewModel", "Fehler beim Stoppen", e)
+            // Fehler absichtlich ignoriert
         }
     }
 }
