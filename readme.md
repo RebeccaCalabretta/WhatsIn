@@ -13,10 +13,10 @@ So hilft die App, informierte Entscheidungen direkt vor Ort zu treffen – schne
 ## 🎨 Design
 
 <p align="center">
-  <img src="img/readme_splashscreen.png" width="180" alt="Splash Screen" style="margin-right: 8px;"/>
-  <img src="img/readme_detail.png" width="180" alt="Detail Screen" style="margin-right: 8px;"/>
-  <img src="img/readme_food_collection.png" width="180" alt="Food Collection" style="margin-right: 8px;"/>
-  <img src="img/readme_filteroptions.png" width="180" alt="Filter Options"/>
+  <img src="img/readme_splashscreen.png" width="160" alt="Splash Screen" style="margin-right: 8px;"/>
+  <img src="img/readme_detailscreen.png" width="160" alt="Detail Screen" style="margin-right: 8px;"/>
+  <img src="img/readme_food_collection.png" width="160" alt="Food Collection" style="margin-right: 8px;"/>
+  <img src="img/readme_filteroptions.png" width="160" alt="Filter Options"/>
 </p>
 
 ## ✅ Features
