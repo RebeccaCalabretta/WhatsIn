@@ -8,7 +8,7 @@ val dummyProduct = Product(
     barcode = "4058172333378",
     name = "Gemüsebrühe",
     brand = "dmBio",
-    imageUrl = "https://images.openfoodfacts.org/images/products/405/817/233/3378/front_de.37.400.jpg",
+    imageUrl = "",
     ingredientsText = """
         Meersalz, Maisstärke*, Gemüse* 13,5 % (Zwiebel*, Karotten*, Sellerie*, Lauch*, Petersilie*),
         Hefeeextrakt*, Sonnenblumenöl*, Kurkuma*, Muskatnuss*, Liebstöckel*, schwarzer Pfeffer*.
