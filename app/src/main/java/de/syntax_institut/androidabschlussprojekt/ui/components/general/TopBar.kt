@@ -55,7 +55,9 @@ fun TopBar(navController: NavController) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back)                    )
+                        contentDescription = stringResource(R.string.back),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         },
@@ -64,7 +66,11 @@ fun TopBar(navController: NavController) {
                 IconButton(onClick = {
                     navController.navigate(SettingsRoute)
                 }) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(R.string.settings),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         },

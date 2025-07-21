@@ -3,6 +3,7 @@ package de.syntax_institut.androidabschlussprojekt.ui.components.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -45,13 +46,14 @@ fun NutrimentsCard(nutriments: Nutriments) {
                     Text(
                         text = label,
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.weight(1f)
                     )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
                     Text(
                         text = value,
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.End,
-                        modifier = Modifier.weight(1f)
                     )
                 }
             }
