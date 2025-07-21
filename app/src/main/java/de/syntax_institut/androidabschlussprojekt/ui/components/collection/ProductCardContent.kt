@@ -61,7 +61,7 @@ fun ProductCardContent(
                 tint = if (isFilterMatch)
                     Color(0xFF60BD65)
                 else
-                    Color(0xFFCD1313)
+                    Color(0xFFFFC107)
             )
 
             Spacer(modifier = Modifier.weight(1f))
