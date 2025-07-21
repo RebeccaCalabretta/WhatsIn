@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,11 +21,10 @@ import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.helper.ProductType
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.CollectionHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductCollection
+import de.syntax_institut.androidabschlussprojekt.ui.components.collection.ProductSnackbarHandler
 import de.syntax_institut.androidabschlussprojekt.viewmodel.CollectionViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.ProductViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
-import de.syntax_institut.androidabschlussprojekt.viewmodel.SnackEvent
-import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -88,24 +84,11 @@ fun FoodScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        productViewModel.snackbarEvent.collectLatest { event ->
-            when (event) {
-                is SnackEvent.ProductRemoved -> {
-                    val result = snackbarHostState.showSnackbar(
-                        message = productRemoved,
-                        actionLabel = undo,
-                        duration = SnackbarDuration.Short
-                    )
-                    if (result == SnackbarResult.ActionPerformed) {
-                        productViewModel.undoDelete()
-                    }
-                }
-                is SnackEvent.ProductRestored -> {
-                    snackbarHostState.showSnackbar(productRestored)
-                }
-            }
-        }
-    }
+    ProductSnackbarHandler(
+        snackbarHostState = snackbarHostState,
+        productViewModel = productViewModel,
+        productRemovedMessage = productRemoved,
+        productRestoredMessage = productRestored,
+        undoLabel = undo
+    )
 }
-
