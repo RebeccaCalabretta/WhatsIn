@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import de.syntax_institut.androidabschlussprojekt.R
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterHeader
 import de.syntax_institut.androidabschlussprojekt.ui.components.filter.FilterSection
+import de.syntax_institut.androidabschlussprojekt.ui.components.general.LoadingScreen
 import de.syntax_institut.androidabschlussprojekt.viewmodel.FilterViewModel
 import de.syntax_institut.androidabschlussprojekt.viewmodel.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -57,12 +57,8 @@ fun FilterScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingScreen()
+
         } else {
             Column(
                 modifier = Modifier
