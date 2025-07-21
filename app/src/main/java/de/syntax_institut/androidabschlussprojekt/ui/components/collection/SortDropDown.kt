@@ -2,10 +2,10 @@ package de.syntax_institut.androidabschlussprojekt.ui.components.collection
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +21,6 @@ import de.syntax_institut.androidabschlussprojekt.helper.SortOption
 import de.syntax_institut.androidabschlussprojekt.ui.components.general.CustomDropdownMenu
 import de.syntax_institut.androidabschlussprojekt.utils.collection.toUiLabel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortDropdown(
     currentOption: SortOption,
@@ -53,7 +52,16 @@ fun SortDropdown(
             }
         },
         trailingIcon = { Icon(Icons.Default.ArrowDropDown, contentDescription = null) },
-        modifier = Modifier.height(36.dp).padding(start = 2.dp)
+        modifier = if (labelOnly) {
+            Modifier
+                .width(38.dp)
+                .height(36.dp)
+                .padding(start = 2.dp)
+        } else {
+            Modifier
+                .height(36.dp)
+                .padding(start = 2.dp)
+        }
     )
 
     CustomDropdownMenu(
