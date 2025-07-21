@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -20,16 +21,19 @@ fun SettingsRow(
     onClick: (() -> Unit)? = null,
     content: @Composable RowScope.() -> Unit
 ) {
+    val shape = RoundedCornerShape(16.dp)
+
     val rowModifier = modifier
         .fillMaxWidth()
         .height(48.dp)
+        .clip(shape)
         .background(
-            MaterialTheme.colorScheme.secondaryContainer,
-            RoundedCornerShape(16.dp)
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            shape = shape
         )
-        .then(
-            if (onClick != null) Modifier.clickable { onClick() } else Modifier
-        )
+        .run {
+            if (onClick != null) clickable { onClick() } else this
+        }
         .padding(horizontal = 16.dp)
 
     Row(
