@@ -1,8 +1,7 @@
 package de.syntax_institut.androidabschlussprojekt.ui.components.scan
 
 import android.content.Context
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResultLauncher
 import androidx.camera.view.PreviewView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -19,28 +18,20 @@ fun CameraPermissionHandler(
     lifecycleOwner: LifecycleOwner,
     previewView: PreviewView,
     scanViewModel: ScanViewModel,
+    requestLauncher: ActivityResultLauncher<String>,
     hasCameraPermission: Boolean,
     hasRequestedCameraPermission: Boolean,
     onPermissionGranted: () -> Unit,
-    onRequestPermission: () -> Unit,
-    onShowSettingsDialog: () -> Unit
+    onShowSettingsDialog: () -> Unit,
+    onRequestPermission: () -> Unit
 ) {
-    val requestCameraPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            onPermissionGranted()
-            scanViewModel.setupCamera(context, lifecycleOwner, previewView)
-        }
-    }
-
-    DisposableEffect(lifecycleOwner) {
+    DisposableEffect(lifecycleOwner, hasRequestedCameraPermission) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 checkCameraPermission(
                     context = context,
                     hasRequestedBefore = hasRequestedCameraPermission,
-                    requestLauncher = requestCameraPermissionLauncher,
+                    requestLauncher = requestLauncher,
                     onPermissionGranted = {
                         onPermissionGranted()
                         scanViewModel.setupCamera(context, lifecycleOwner, previewView)
@@ -64,6 +55,7 @@ fun CameraPermissionHandler(
             scanViewModel = scanViewModel,
             hasPermission = hasCameraPermission
         )
+
         lifecycleOwner.lifecycle.addObserver(cameraObserver)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(cameraObserver)

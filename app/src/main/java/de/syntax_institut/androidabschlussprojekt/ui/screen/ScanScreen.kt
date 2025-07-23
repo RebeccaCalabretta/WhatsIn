@@ -2,6 +2,8 @@ package de.syntax_institut.androidabschlussprojekt.ui.screen
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.view.PreviewView
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -42,6 +44,7 @@ fun ScanScreen(
 
     var showSettingsDialog by remember { mutableStateOf(false) }
     var hasRequestedCameraPermission by rememberSaveable { mutableStateOf(false) }
+
     var hasCameraPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -49,6 +52,15 @@ fun ScanScreen(
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
         )
+    }
+
+    val requestCameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        hasCameraPermission = isGranted
+        if (isGranted) {
+            scanViewModel.setupCamera(context, lifecycleOwner, previewView)
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -62,6 +74,7 @@ fun ScanScreen(
         lifecycleOwner = lifecycleOwner,
         previewView = previewView,
         scanViewModel = scanViewModel,
+        requestLauncher = requestCameraPermissionLauncher,
         hasCameraPermission = hasCameraPermission,
         hasRequestedCameraPermission = hasRequestedCameraPermission,
         onPermissionGranted = { hasCameraPermission = true },
