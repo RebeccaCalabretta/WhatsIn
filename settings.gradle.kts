@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidAbschlussprojekt"
+rootProject.name = "WhatsIn"
 include(":app")
