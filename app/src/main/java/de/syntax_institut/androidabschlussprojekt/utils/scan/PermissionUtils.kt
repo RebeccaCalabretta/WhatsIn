@@ -29,10 +29,7 @@ fun checkCameraPermission(
     val activity = context as? Activity
 
     when {
-        ContextCompat.checkSelfPermission(
-            context,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED -> {
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED -> {
             onPermissionGranted()
         }
 
@@ -40,10 +37,7 @@ fun checkCameraPermission(
             requestLauncher.launch(permission)
         }
 
-        activity != null && ActivityCompat.shouldShowRequestPermissionRationale(
-            activity,
-            permission
-        ) -> {
+        activity != null && ActivityCompat.shouldShowRequestPermissionRationale(activity, permission) -> {
             requestLauncher.launch(permission)
         }
 
